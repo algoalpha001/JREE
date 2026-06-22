@@ -1,0 +1,115 @@
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,700;12..96,800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400;1,9..40,500&display=swap');
+
+:root {
+  --font-display: 'Bricolage Grotesque', system-ui, sans-serif;
+  --font-serif: 'DM Sans', system-ui, sans-serif;
+  --font-mono: 'DM Sans', system-ui, sans-serif;
+  --font-body: 'DM Sans', system-ui, sans-serif;
+
+  --bg: #0B090F;
+  --bg-2: #0F0C16;
+  --bg-3: #080610;
+  --surface-1: #131018;
+  --surface-2: #1D1826;
+  --surface-3: #241F30;
+
+  --violet: #6D56A4;
+  --violet-soft: rgba(109, 86, 164, 0.15);
+  --violet-border: rgba(109, 86, 164, 0.22);
+  --violet-border-hover: rgba(109, 86, 164, 0.40);
+
+  --lime: #C9DC53;
+  --lime-text: #C9DC53;
+  --lime-soft: rgba(201, 220, 83, 0.14);
+  --lime-border: rgba(201, 220, 83, 0.32);
+
+  --text-1: #F0EBFF;
+  --text-2: #BFB6D0;
+  --text-3: #948AAB;
+
+  --teal: #51C1B5;
+  --amber: #D97706;
+  --amber-soft: rgba(217, 119, 6, 0.14);
+  --amber-border: rgba(217, 119, 6, 0.35);
+  --slate: #64748B;
+  --danger: #F87171;
+
+  --hairline: rgba(240, 235, 255, 0.06);
+  --hairline-strong: rgba(240, 235, 255, 0.12);
+
+  /* Type scale — use these instead of inline font-size values */
+  --fs-eyebrow: 11px;
+  --fs-mono-xs: 10px;
+  --fs-mono-sm: 11px;
+  --fs-body-sm: 13px;
+  --fs-body: 15px;
+  --fs-body-lg: 16px;
+  --fs-h3: clamp(26px, 3.6vw, 36px);
+  --fs-h2: clamp(32px, 6vw, 56px);
+  --fs-quote: clamp(20px, 2.6vw, 26px);
+
+  /* Letter spacing — pick one per role, do not invent new values */
+  --ls-mono: 0.07em;       /* label eyebrows, tags, captions */
+  --ls-mono-tight: 0.05em; /* label inline pills */
+  --ls-display: -0.03em;   /* large headings */
+  --ls-display-sm: -0.02em;
+  --ls-display-xs: -0.01em;
+
+  /* Line heights */
+  --lh-tight: 1.05;
+  --lh-snug: 1.2;
+  --lh-body: 1.6;
+  --lh-loose: 1.7;
+  --lh-quote: 1.4;
+
+  /* Opacities for surface overlays */
+  --op-hairline: 0.06;
+  --op-hairline-strong: 0.12;
+}
+
+[data-theme="light"] {
+  --bg: #FAF7F0;
+  --bg-2: #F4F0E6;
+  --bg-3: #EFEAE0;
+  --surface-1: #FFFFFF;
+  --surface-2: #F8F5EC;
+  --surface-3: #EFEAE0;
+
+  --violet: #6D56A4;
+  --violet-soft: rgba(109, 86, 164, 0.12);
+  --violet-border: rgba(109, 86, 164, 0.28);
+  --violet-border-hover: rgba(109, 86, 164, 0.50);
+
+  --lime: #C9DC53;
+  --lime-text: #6E7B1F;
+  --lime-soft: rgba(201, 220, 83, 0.20);
+  --lime-border: rgba(201, 220, 83, 0.50);
+
+  --text-1: #1A1525;
+  --text-2: #463F54;
+  --text-3: #645C75;
+
+  --teal: #51C1B5;
+  --danger: #DC2626;
+
+  --hairline: rgba(26, 21, 37, 0.08);
+  --hairline-strong: rgba(26, 21, 37, 0.15);
+}
+
+html, body { background: var(--bg); color: var(--text-1); font-family: var(--font-body); transition: background-color 240ms ease, color 240ms ease; }
+
+.grain::before {
+  content: "";
+  position: absolute; inset: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.6 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/></svg>");
+  mix-blend-mode: overlay;
+  border-radius: inherit;
+}
+
+[data-theme="light"] .grain::before {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.6 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/></svg>");
+  mix-blend-mode: multiply;
+}
+
+/* Light-mode adjustments — keep simple, rely on token swaps for most of the work. */
