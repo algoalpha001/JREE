@@ -703,7 +703,7 @@ function StudentLens() {
               padding: "3px 9px",
               borderRadius: 100,
               background: "var(--lime)",
-              color: "var(--bg)",
+              color: "var(--on-lime)",
               fontFamily: "var(--font-display)",
               fontWeight: 700,
               fontSize: 12,
@@ -945,7 +945,7 @@ function SignalLens() {
                   width: 14, height: 14,
                   background: r.on ? "var(--lime)" : "transparent",
                   border: r.on ? "none" : "1px solid rgba(240,235,255,0.2)",
-                  color: "var(--bg)",
+                  color: "var(--on-lime)",
                   fontFamily: "var(--font-mono)", fontWeight: 700, fontSize: 12,
                 }}
               >
@@ -1425,7 +1425,7 @@ function ArtifactScore() {
               padding: "4px 11px",
               borderRadius: 100,
               background: "var(--lime)",
-              color: "var(--bg)",
+              color: "var(--on-lime)",
               fontFamily: "var(--font-display)",
               fontWeight: 700,
               fontSize: 12,
@@ -2550,8 +2550,8 @@ function ScoreThermometer({ bands }: { bands: any[] }) {
                   boxShadow: "0 12px 28px rgba(201,220,83,0.35)",
                 }}
               >
-                <span style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--bg)", letterSpacing: "0.02em", fontWeight: 700 }}>YOU</span>
-                <span style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 14, color: "var(--bg)", letterSpacing: "-0.02em" }}>
+                <span style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--on-lime)", letterSpacing: "0.02em", fontWeight: 700 }}>YOU</span>
+                <span style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 14, color: "var(--on-lime)", letterSpacing: "-0.02em" }}>
                   {YOUR_SCORE}
                 </span>
               </div>
@@ -2662,7 +2662,7 @@ function BandRow({ band, index, isYou }: { band: any; index: number; isYou: bool
                   padding: "2px 8px",
                   borderRadius: 100,
                   background: "var(--lime)",
-                  color: "var(--bg)",
+                  color: "var(--on-lime)",
                   letterSpacing: "0.02em",
                   fontWeight: 700,
                 }}
@@ -2791,7 +2791,7 @@ export function FinalCTA() {
               height: 56,
               padding: "0 28px",
               background: "var(--lime)",
-              color: "var(--bg)",
+              color: "var(--on-lime)",
               fontFamily: "var(--font-display)",
               fontWeight: 700,
               fontSize: 15,
@@ -2816,7 +2816,7 @@ export function Footer() {
   const cols = [
     { title: "Students", links: ["Take Free Test", "Sample Exam", "Score Bands", "FAQ", "Certificate Preview"] },
     { title: "Institutions", links: ["For Colleges", "For Employers", "Bulk Registration", "API", "Request Demo"] },
-    { title: "Company", links: ["About EduBridge", "Press", "Privacy Policy", "Terms", "Contact"] },
+    { title: "Company", links: ["About EduBridge", "Security Center", "Privacy Policy", "Terms and Conditions", "Help Center"] },
   ];
   return (
     <footer style={{ background: "#070509", borderTop: "1px solid rgba(109,86,164,0.12)" }} className="pt-14 md:pt-16 pb-8">
@@ -2912,7 +2912,7 @@ function LearnerLifecycle() {
           </div>
           <h2 className="mt-4" style={{
             fontFamily: "var(--font-display)", fontWeight: 800,
-            fontSize: "clamp(44px, 7vw, 72px)", color: "var(--text-1)",
+            fontSize: "clamp(44px, 7vw, 72px)", color: "var(--on-violet)",
             letterSpacing: "-0.04em", lineHeight: 0.95,
           }}>
             From blank page<br />
@@ -2941,20 +2941,20 @@ function LearnerLifecycle() {
       <ScrollCircuit nodes={nodes} inView={inView} />
 
       {/* ───────── MOBILE / TABLET STACK ───────── */}
-      <div className="lg:hidden px-5 sm:px-8 md:px-12">
-        <div className="relative max-w-[560px] mx-auto">
+      <div className="lg:hidden px-4 sm:px-8 md:px-12">
+        <div className="relative max-w-[680px] mx-auto">
           <div
             className="absolute pointer-events-none"
             style={{ left: 23, top: 8, bottom: 8, width: 2, background: "linear-gradient(180deg, rgba(109,86,164,0.5), rgba(109,86,164,0.85))" }}
           />
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-8 md:gap-10">
             {nodes.map((node, i) => (
               <motion.div
                 key={node.id}
                 initial={{ opacity: 0, x: -10 }}
                 animate={inView ? { opacity: 1, x: 0 } : {}}
                 transition={{ duration: 0.45, delay: 0.1 + i * 0.1, ease }}
-                className="relative flex items-start gap-4"
+                className="relative flex items-start gap-4 md:gap-6"
               >
                 <div className="shrink-0 flex flex-col items-center" style={{ width: 48 }}>
                   <div
@@ -3008,6 +3008,7 @@ function ConnectorLabel({ x, y, text, color, emphasize }: { x: number; y: number
 function NodeCard({ node, inView, delay, mobile, width, height }: { node: any; inView: boolean; delay: number; mobile?: boolean; width?: number; height?: number }) {
   const baseW = mobile ? "100%" : (width || 240);
   const baseH = mobile ? undefined : (height || 560);
+  const minH = mobile ? 400 : undefined;
 
   const titleByNode: Record<string, { title: string; sub: string; meta: string; window: string; highlights: string[] }> = {
     register: {
@@ -3050,6 +3051,7 @@ function NodeCard({ node, inView, delay, mobile, width, height }: { node: any; i
       style={{
         width: baseW,
         height: baseH,
+        minHeight: minH,
         borderRadius: 14,
         background: "var(--surface-1)",
         border: `1px solid ${node.border}`,
@@ -3078,7 +3080,7 @@ function NodeCard({ node, inView, delay, mobile, width, height }: { node: any; i
           style={{ padding: "4px 12px", background: "rgba(0,0,0,0.18)", border: "1px solid var(--hairline)" }}
         >
           <span className="rounded-full" style={{ width: 5, height: 5, background: node.chipColor }} />
-          <span style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--text-3)", letterSpacing: "0.04em" }}>
+          <span className="truncate max-w-[140px] sm:max-w-none" style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--text-3)", letterSpacing: "0.04em" }}>
             {t.window}
           </span>
         </div>
@@ -3086,7 +3088,7 @@ function NodeCard({ node, inView, delay, mobile, width, height }: { node: any; i
 
       {/* ── window body ── */}
       <span className="grain absolute inset-0 pointer-events-none" aria-hidden />
-      <div className="relative flex flex-col flex-1 min-h-0" style={{ padding: mobile ? 18 : 26 }}>
+      <div className="relative flex flex-col" style={{ padding: mobile ? 16 : 26, ...(mobile ? {} : { flex: 1 }) }}>
         {/* Top row */}
         <div className="flex items-center justify-between">
           <span
@@ -3115,10 +3117,10 @@ function NodeCard({ node, inView, delay, mobile, width, height }: { node: any; i
         <div className="mt-4" style={{ height: 1, background: node.border, opacity: 0.7 }} />
 
         {/* Body — switches by node */}
-        <div className="mt-4 flex-1 flex flex-col min-h-0">
+        <div className="mt-4 flex flex-col" style={mobile ? {} : { flex: 1 }}>
           {node.id === "register" && <RegisterMini inView={inView} delay={delay} />}
           {node.id === "exam"     && <ExamMini inView={inView} delay={delay} />}
-          {node.id === "score"    && <ScoreMini inView={inView} delay={delay} />}
+          {node.id === "score"    && <ScoreMini inView={inView} delay={delay} mobile={mobile} />}
           {node.id === "next" && (() => {
             const layers = [
               { k: "Cognitive", v: 79 },
@@ -3146,11 +3148,11 @@ function NodeCard({ node, inView, delay, mobile, width, height }: { node: any; i
             };
 
             return (
-              <div className="flex flex-col flex-1 gap-3">
+              <div className="flex flex-col gap-3">
 
                 {/* ── Headline ── */}
                 <motion.div initial={{ opacity: 0, y: 6 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.4, delay: baseD - 0.15, ease }}>
-                  <div style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: mobile ? 14 : 16, color: "var(--text-1)", letterSpacing: "-0.025em", lineHeight: 1.1, whiteSpace: "nowrap" }}>
+                  <div style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: mobile ? 13 : 16, color: "var(--text-1)", letterSpacing: "-0.022em", lineHeight: 1.15 }}>
                     One gap is keeping you in Band B.
                   </div>
                   <div className="mt-1.5" style={{ fontFamily: "var(--font-body)", fontSize: 12.5, color: "var(--text-2)", lineHeight: 1.5 }}>
@@ -3224,9 +3226,9 @@ function NodeCard({ node, inView, delay, mobile, width, height }: { node: any; i
                 </motion.div>
 
                 {/* ── Other layers ── */}
-                <div className="flex flex-col flex-1 justify-around">
+                <div className="flex flex-col">
                   {others.map((o, i) => (
-                    <motion.div key={o.k} className="flex items-center justify-between py-1"
+                    <motion.div key={o.k} className="flex items-center justify-between py-1.5"
                       style={{ borderTop: "1px solid var(--hairline)" }}
                       initial={{ opacity: 0 }} animate={inView ? { opacity: 1 } : {}}
                       transition={{ delay: baseD + 0.38 + i * 0.06, duration: 0.3 }}>
@@ -3348,7 +3350,7 @@ function ExamMini({ inView, delay }: { inView: boolean; delay: number }) {
   );
 }
 
-function ScoreMini({ inView, delay }: { inView: boolean; delay: number }) {
+function ScoreMini({ inView, delay, mobile }: { inView: boolean; delay: number; mobile?: boolean }) {
   const [n, setN] = useState(0);
   const [celebrate, setCelebrate] = useState(false);
   useEffect(() => {
@@ -3363,135 +3365,104 @@ function ScoreMini({ inView, delay }: { inView: boolean; delay: number }) {
     }, delay * 1000);
     return () => clearTimeout(t);
   }, [inView, delay]);
-  const r = 44, c = 2 * Math.PI * r;
-  const filled = c * (n / 100);
 
-  // celebratory burst rays around the ring
-  const rays = Array.from({ length: 12 }, (_, i) => i);
+  // ring — fixed compact size so content always fits the card
+  const SZ = 80, CX = 40, R = 32;
+  const C = 2 * Math.PI * R;
+  const filled = C * (n / 100);
+  const rays = Array.from({ length: 10 }, (_, i) => i);
   const rayColors = ["#C9DC53", "#6D56A4", "#51C1B5", "#C9DC53"];
 
-  // mini leaderboard — the student lands at #4 and is "climbing"
   const board = [
     { rank: 2, name: "Aarav M.", score: 81, you: false },
     { rank: 3, name: "Diya K.", score: 76, you: false },
-    { rank: 4, name: "You", score: 73, you: true },
+    { rank: 4, name: "You",     score: 73, you: true  },
     { rank: 5, name: "Rohan S.", score: 71, you: false },
   ];
 
   return (
-    <div className="flex-1 flex flex-col items-center justify-center">
-      <div className="relative">
-        {/* burst rays */}
+    <div className="flex-1 flex flex-col items-center min-w-0 w-full overflow-hidden" style={{ gap: 8 }}>
+
+      {/* ring */}
+      <div className="relative flex-shrink-0">
         {rays.map((i) => {
           const angle = (i / rays.length) * Math.PI * 2;
           return (
-            <motion.span
-              key={i}
-              className="absolute rounded-full pointer-events-none"
-              style={{
-                left: "50%", top: "50%",
-                width: 5, height: 5,
-                background: rayColors[i % rayColors.length],
-              }}
+            <motion.span key={i} className="absolute rounded-full pointer-events-none"
+              style={{ left: "50%", top: "50%", width: 4, height: 4, background: rayColors[i % rayColors.length] }}
               initial={{ x: 0, y: 0, opacity: 0, scale: 0 }}
-              animate={celebrate ? {
-                x: Math.cos(angle) * 72,
-                y: Math.sin(angle) * 72,
-                opacity: [0, 1, 0],
-                scale: [0, 1.2, 0.4],
-              } : {}}
-              transition={{ duration: 0.9, delay: 0.05 + (i % 4) * 0.04, ease: "easeOut" }}
+              animate={celebrate ? { x: Math.cos(angle) * 48, y: Math.sin(angle) * 48, opacity: [0, 1, 0], scale: [0, 1.2, 0.4] } : {}}
+              transition={{ duration: 0.8, delay: 0.04 * i, ease: "easeOut" }}
             />
           );
         })}
-        <motion.svg
-          width={108} height={108}
-          animate={celebrate ? { scale: [1, 1.08, 1] } : {}}
-          transition={{ duration: 0.5, ease: "easeOut" }}
-        >
+        <motion.svg width={SZ} height={SZ} viewBox={`0 0 ${SZ} ${SZ}`}
+          animate={celebrate ? { scale: [1, 1.07, 1] } : {}} transition={{ duration: 0.45 }}>
           <defs>
-            <linearGradient id="lc-score-arc" x1="0" y1="0" x2="1" y2="1">
+            <linearGradient id="lc-score-arc2" x1="0" y1="0" x2="1" y2="1">
               <stop offset="0%" stopColor="#6D56A4" />
               <stop offset="100%" stopColor="#C9DC53" />
             </linearGradient>
           </defs>
-          <circle cx={54} cy={54} r={r} fill="none" stroke="rgba(109,86,164,0.12)" strokeWidth={9} />
-          <circle cx={54} cy={54} r={r} fill="none" stroke="url(#lc-score-arc)" strokeWidth={9}
-            strokeDasharray={`${filled} ${c}`} strokeDashoffset={c * 0.25} strokeLinecap="round"
-            transform="rotate(-90 54 54)" />
-          <text x={54} y={58} textAnchor="middle" style={{ fontFamily: "var(--font-mono)", fontWeight: 700, fontSize: 28, fill: "var(--text-1)" }}>{n}</text>
-          <text x={54} y={74} textAnchor="middle" style={{ fontFamily: "var(--font-mono)", fontSize: 12, fill: "var(--text-3)", letterSpacing: "0.03em" }}>/ 100</text>
+          <circle cx={CX} cy={CX} r={R} fill="none" stroke="rgba(109,86,164,0.12)" strokeWidth={7} />
+          <circle cx={CX} cy={CX} r={R} fill="none" stroke="url(#lc-score-arc2)" strokeWidth={7}
+            strokeDasharray={`${filled} ${C}`} strokeDashoffset={C * 0.25} strokeLinecap="round"
+            transform={`rotate(-90 ${CX} ${CX})`} />
+          <text x={CX} y={CX + 7} textAnchor="middle"
+            style={{ fontFamily: "var(--font-mono)", fontWeight: 700, fontSize: 22, fill: "var(--text-1)" }}>{n}</text>
+          <text x={CX} y={CX + 19} textAnchor="middle"
+            style={{ fontFamily: "var(--font-mono)", fontSize: 9, fill: "var(--text-3)", letterSpacing: "0.03em" }}>/ 100</text>
         </motion.svg>
       </div>
 
-      <div className="mt-2 flex items-center gap-2">
-        <span className="inline-flex items-center rounded-full" style={{ padding: "4px 10px", background: "var(--violet-soft)", border: "1px solid var(--violet-border)" }}>
-          <span style={{ fontFamily: "var(--font-mono)", fontWeight: 700, fontSize: 12, color: "var(--text-1)", letterSpacing: "0.03em" }}>BAND B</span>
+      {/* band + percentile */}
+      <div className="flex items-center gap-2 flex-shrink-0">
+        <span className="inline-flex items-center rounded-full" style={{ padding: "3px 9px", background: "var(--violet-soft)", border: "1px solid var(--violet-border)" }}>
+          <span style={{ fontFamily: "var(--font-mono)", fontWeight: 700, fontSize: 11, color: "var(--text-1)", letterSpacing: "0.03em" }}>BAND B</span>
         </span>
-        <span style={{ fontFamily: "var(--font-mono)", fontWeight: 600, fontSize: 12, color: "var(--lime-text)" }}>
-          77<span style={{ fontSize: 10 }}>th</span> %ile
+        <span style={{ fontFamily: "var(--font-mono)", fontWeight: 600, fontSize: 11, color: "var(--lime-text)" }}>
+          77<span style={{ fontSize: 9 }}>th</span> %ile
         </span>
       </div>
 
-      {/* congratulating banner */}
-      <motion.div
-        className="mt-3 inline-flex items-center gap-1.5 rounded-full"
-        style={{ padding: "4px 11px", background: "var(--lime-soft)", border: "1px solid var(--lime-border)" }}
-        initial={{ opacity: 0, y: 6, scale: 0.9 }}
+      {/* celebrate banner */}
+      <motion.div className="inline-flex items-center gap-1 rounded-full flex-shrink-0"
+        style={{ padding: "3px 10px", background: "var(--lime-soft)", border: "1px solid var(--lime-border)" }}
+        initial={{ opacity: 0, y: 5, scale: 0.9 }}
         animate={celebrate ? { opacity: 1, y: 0, scale: 1 } : {}}
-        transition={{ duration: 0.4, ease: "easeOut" }}
-      >
-        <motion.span
-          style={{ fontSize: 13 }}
-          animate={celebrate ? { rotate: [0, -18, 14, 0] } : {}}
-          transition={{ duration: 0.6, delay: 0.1 }}
-        >🎉</motion.span>
-        <span style={{ fontFamily: "var(--font-mono)", fontWeight: 600, fontSize: 12, color: "var(--lime-text)", letterSpacing: "0.02em" }}>
-          You beat 3,711 students!
+        transition={{ duration: 0.35 }}>
+        <motion.span style={{ fontSize: 11 }}
+          animate={celebrate ? { rotate: [0, -16, 12, 0] } : {}} transition={{ duration: 0.5, delay: 0.1 }}>🎉</motion.span>
+        <span style={{ fontFamily: "var(--font-mono)", fontWeight: 600, fontSize: 10, color: "var(--lime-text)", letterSpacing: "0.02em" }}>
+          Beat 3,711 students!
         </span>
       </motion.div>
 
-      {/* mini leaderboard */}
-      <div className="mt-3 w-full rounded-xl overflow-hidden" style={{ background: "var(--surface-2)", border: "1px solid rgba(109,86,164,0.16)" }}>
-        <div className="flex items-center justify-between" style={{ padding: "7px 11px", borderBottom: "1px solid rgba(109,86,164,0.14)" }}>
-          <span style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--text-3)", letterSpacing: "0.07em" }}>LEADERBOARD</span>
-          <span className="inline-flex items-center gap-1" style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--lime-text)" }}>
-            <motion.span
-              animate={celebrate ? { y: [3, -2, 3] } : {}}
-              transition={{ duration: 1.2, repeat: Infinity, ease: "easeInOut" }}
-            >↑</motion.span>
+      {/* leaderboard */}
+      <div className="w-full rounded-xl overflow-hidden flex-shrink-0" style={{ background: "var(--surface-2)", border: "1px solid rgba(109,86,164,0.16)" }}>
+        <div className="flex items-center justify-between" style={{ padding: "5px 10px", borderBottom: "1px solid rgba(109,86,164,0.14)" }}>
+          <span style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "var(--text-3)", letterSpacing: "0.07em" }}>LEADERBOARD</span>
+          <span className="inline-flex items-center gap-1" style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "var(--lime-text)" }}>
+            <motion.span animate={celebrate ? { y: [2, -2, 2] } : {}} transition={{ duration: 1.2, repeat: Infinity, ease: "easeInOut" }}>↑</motion.span>
             climbing
           </span>
         </div>
-        <div className="flex flex-col" style={{ padding: "4px 0" }}>
+        <div className="flex flex-col">
           {board.map((row, i) => (
-            <motion.div
-              key={row.rank}
-              className="flex items-center gap-2.5"
-              style={{
-                padding: "5px 11px",
-                background: row.you ? "rgba(201,220,83,0.10)" : "transparent",
-              }}
-              initial={{ opacity: 0, x: row.you ? 12 : -8 }}
+            <motion.div key={row.rank} className="flex items-center gap-2"
+              style={{ padding: "4px 10px", background: row.you ? "rgba(201,220,83,0.10)" : "transparent" }}
+              initial={{ opacity: 0, x: row.you ? 10 : -6 }}
               animate={celebrate ? { opacity: 1, x: 0 } : {}}
-              transition={{ duration: 0.4, delay: 0.2 + i * 0.08, ease }}
-            >
-              <span
-                className="shrink-0 flex items-center justify-center rounded-md"
-                style={{
-                  width: 18, height: 18,
-                  background: row.you ? "var(--lime)" : "rgba(109,86,164,0.14)",
-                  fontFamily: "var(--font-mono)", fontWeight: 700, fontSize: 12,
-                  color: row.you ? "var(--bg)" : "var(--text-2)",
-                }}
-              >
+              transition={{ duration: 0.35, delay: 0.15 + i * 0.07, ease }}>
+              <span className="shrink-0 flex items-center justify-center rounded"
+                style={{ width: 16, height: 16, background: row.you ? "var(--lime)" : "rgba(109,86,164,0.14)", fontFamily: "var(--font-mono)", fontWeight: 700, fontSize: 10, color: row.you ? "var(--on-lime)" : "var(--text-2)" }}>
                 {row.rank}
               </span>
-              <span className="flex-1 min-w-0 truncate" style={{ fontFamily: "var(--font-body)", fontWeight: row.you ? 700 : 500, fontSize: 12.5, color: row.you ? "var(--text-1)" : "var(--text-2)" }}>
+              <span className="flex-1 min-w-0 truncate" style={{ fontFamily: "var(--font-body)", fontWeight: row.you ? 700 : 500, fontSize: 12, color: row.you ? "var(--text-1)" : "var(--text-2)" }}>
                 {row.name}
-                {row.you && <span className="ml-1.5" style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--lime-text)", letterSpacing: "0.05em" }}>+4 ▲</span>}
+                {row.you && <span className="ml-1" style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "var(--lime-text)" }}>+4 ▲</span>}
               </span>
-              <span style={{ fontFamily: "var(--font-mono)", fontWeight: 600, fontSize: 12, color: row.you ? "var(--lime-text)" : "var(--text-3)" }}>
+              <span style={{ fontFamily: "var(--font-mono)", fontWeight: 600, fontSize: 11, color: row.you ? "var(--lime-text)" : "var(--text-3)" }}>
                 {row.score}
               </span>
             </motion.div>
@@ -3499,7 +3470,8 @@ function ScoreMini({ inView, delay }: { inView: boolean; delay: number }) {
         </div>
       </div>
 
-      <div className="mt-2.5" style={{ fontFamily: "var(--font-body)", fontStyle: "italic", fontSize: 12, color: "var(--text-3)" }}>
+      {/* footer */}
+      <div style={{ fontFamily: "var(--font-body)", fontStyle: "italic", fontSize: 11, color: "var(--text-3)" }}>
         Top 23% of 4,820 students
       </div>
     </div>
@@ -3597,11 +3569,11 @@ function TrainMini() {
               <span style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--text-3)" }}>◌</span>
             ) : (
               <div className="rounded-full flex items-center justify-center" style={{ width: 18, height: 18, background: "var(--violet)" }}>
-                <span style={{ fontSize: 12, color: "var(--bg)" }}>▶</span>
+                <span style={{ fontSize: 12, color: "var(--on-lime)" }}>▶</span>
               </div>
             )}
             <div className="min-w-0 flex-1">
-              <div className="truncate" style={{ fontFamily: "var(--font-body)", fontWeight: 600, fontSize: 12.5, color: "var(--text-1)" }}>{c.title}</div>
+              <div className="truncate" style={{ fontFamily: "var(--font-body)", fontWeight: 600, fontSize: 12.5, color: "var(--on-violet)" }}>{c.title}</div>
               <div style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: c.locked ? "var(--text-3)" : "var(--lime-text)", letterSpacing: "0.04em" }}>{c.meta}</div>
             </div>
             {!c.locked && <span style={{ fontFamily: "var(--font-body)", fontWeight: 700, fontSize: 14, color: "var(--violet)" }}>→</span>}
@@ -3718,7 +3690,7 @@ function HiredMini({ inView, delay }: { inView: boolean; delay: number }) {
           onClick={() => { window.location.hash = "signup"; }}
           className="mt-2 w-full rounded-full"
           style={{
-            height: 30, background: "var(--lime)", color: "var(--bg)",
+            height: 30, background: "var(--lime)", color: "var(--on-lime)",
             fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 12,
             border: "none", letterSpacing: "-0.01em",
           }}
@@ -3819,7 +3791,7 @@ function ScrollCircuit({ nodes, inView }: { nodes: any[]; inView: boolean }) {
           </div>
           <h2 className="mt-4" style={{
             fontFamily: "var(--font-display)", fontWeight: 800,
-            fontSize: "clamp(36px, 4.6vw, 56px)", color: "var(--text-1)",
+            fontSize: "clamp(36px, 4.6vw, 56px)", color: "var(--on-violet)",
             letterSpacing: "-0.04em", lineHeight: 0.95,
           }}>
             From blank page<br />

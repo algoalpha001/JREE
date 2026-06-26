@@ -84,7 +84,7 @@ export function Hero() {
                   height: 52,
                   padding: "0 24px",
                   background: "var(--lime)",
-                  color: "var(--bg)",
+                  color: "var(--on-lime)",
                   fontFamily: "var(--font-display)",
                   fontWeight: 700,
                   fontSize: 15,
@@ -335,7 +335,7 @@ function ScoreCardHero() {
                 padding: "5px 11px",
                 borderRadius: 100,
                 background: "var(--lime)",
-                color: "var(--bg)",
+                color: "var(--on-lime)",
                 fontFamily: "var(--font-display)",
                 fontWeight: 700,
                 fontSize: 12,
@@ -443,7 +443,7 @@ function ScoreCardHero() {
       >
         <span
           className="inline-flex items-center justify-center rounded-full"
-          style={{ width: 22, height: 22, background: "var(--lime)", color: "var(--bg)", fontFamily: "var(--font-mono)", fontWeight: 700, fontSize: 12 }}
+          style={{ width: 22, height: 22, background: "var(--lime)", color: "var(--on-lime)", fontFamily: "var(--font-mono)", fontWeight: 700, fontSize: 12 }}
         >
           ↗
         </span>

@@ -111,7 +111,7 @@ function PrimaryButton({ children, disabled, onClick, loading, accent = "violet"
       style={{
         height: 54,
         background: isLime ? "var(--lime)" : "var(--violet)",
-        color: isLime ? "var(--bg)" : "var(--text-1)",
+        color: isLime ? "var(--on-lime)" : "var(--text-1)",
         fontFamily: "var(--font-display)",
         fontWeight: 700,
         fontSize: 15,
@@ -150,7 +150,7 @@ function ProgressDots({ step }: { step: number }) {
                 height: 26,
                 background: isDone ? "var(--lime)" : isCurrent ? "var(--violet)" : "transparent",
                 border: active ? "none" : "1px solid var(--text-3)",
-                color: isDone ? "var(--bg)" : isCurrent ? "var(--text-1)" : "var(--text-3)",
+                color: isDone ? "var(--on-lime)" : isCurrent ? "var(--text-1)" : "var(--text-3)",
                 fontFamily: "var(--font-mono)",
                 fontWeight: 600,
                 fontSize: 12,
@@ -915,7 +915,7 @@ function LivePass({
               fontFamily: "var(--font-display)",
               fontWeight: 800,
               fontSize: 22,
-              color: name ? "var(--bg)" : "var(--text-3)",
+              color: name ? "var(--on-lime)" : "var(--text-3)",
               letterSpacing: "-0.02em",
             }}
           >
@@ -1106,7 +1106,7 @@ function SuccessState() {
         className="mx-auto rounded-full flex items-center justify-center mb-7"
         style={{ width: 72, height: 72, background: "var(--teal)" }}
       >
-        <Check size={36} color="var(--bg)" strokeWidth={3} />
+        <Check size={36} color="var(--on-lime)" strokeWidth={3} />
       </motion.div>
       <div
         style={{
@@ -1144,7 +1144,7 @@ function SuccessState() {
         style={{
           height: 54,
           background: "var(--lime)",
-          color: "var(--bg)",
+          color: "var(--on-lime)",
           fontFamily: "var(--font-display)",
           fontWeight: 700,
           fontSize: 15,

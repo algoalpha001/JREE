@@ -168,7 +168,7 @@ function Dashboard() {
               onClick={() => go("exam/check")}
               className="w-full rounded-full transition-all hover:scale-[1.01] active:scale-[0.99]"
               style={{
-                height: 56, background: "var(--lime)", color: "var(--bg)",
+                height: 56, background: "var(--lime)", color: "var(--on-lime)",
                 fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 15,
                 boxShadow: "0 8px 32px rgba(201,220,83,0.22)",
               }}
@@ -396,7 +396,7 @@ function SystemCheck() {
             style={{
               height: 52,
               background: allDone ? "var(--lime)" : "var(--surface-2)",
-              color: allDone ? "var(--bg)" : "var(--text-3)",
+              color: allDone ? "var(--on-lime)" : "var(--text-3)",
               fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 15,
               boxShadow: allDone ? "0 8px 32px rgba(201,220,83,0.22)" : "none",
               cursor: allDone ? "pointer" : "not-allowed",
@@ -523,7 +523,7 @@ function ExamActive() {
               }}
               className="rounded-full flex items-center gap-2 px-6"
               style={{
-                height: 46, background: "var(--lime)", color: "var(--bg)",
+                height: 46, background: "var(--lime)", color: "var(--on-lime)",
                 fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "var(--fs-body)",
                 boxShadow: "0 6px 22px rgba(201,220,83,0.20)",
               }}
@@ -940,7 +940,7 @@ function PriyaInterview() {
                         width: 34, height: 34,
                         background: `linear-gradient(135deg, ${a.color} 0%, ${a.color === "var(--lime)" ? "#7AA838" : a.color === "var(--teal)" ? "#0F766E" : "#5B21B6"} 100%)`,
                       }}>
-                        <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontSize: 18, color: "var(--bg)" }}>{a.name[0]}</span>
+                        <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontSize: 18, color: "var(--on-lime)" }}>{a.name[0]}</span>
                       </span>
                       <div className="min-w-0">
                         <div style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: 14, color: "var(--text-1)", letterSpacing: "var(--ls-display-xs)" }}>{a.name}</div>
@@ -983,7 +983,7 @@ function PriyaInterview() {
               onClick={() => go("exam/processing")}
               className="rounded-full flex items-center gap-2 px-6"
               style={{
-                height: 46, background: "var(--lime)", color: "var(--bg)",
+                height: 46, background: "var(--lime)", color: "var(--on-lime)",
                 fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "var(--fs-body)",
                 boxShadow: "0 6px 22px rgba(201,220,83,0.20)",
               }}
@@ -1118,7 +1118,7 @@ function Processing() {
                     border: `1px solid ${done ? "var(--lime)" : active ? "var(--violet)" : "var(--hairline)"}`,
                   }}>
                     {done
-                      ? <Check size={11} color="var(--bg)" strokeWidth={3} />
+                      ? <Check size={11} color="var(--on-lime)" strokeWidth={3} />
                       : active
                         ? <motion.span animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: "linear" }} className="rounded-full" style={{ width: 10, height: 10, border: "1.5px solid var(--violet)", borderTopColor: "transparent" }} />
                         : null}
@@ -1152,7 +1152,7 @@ function Processing() {
                   onClick={() => go("results")}
                   className="relative rounded-full flex items-center gap-2 px-7 transition-transform hover:scale-[1.02] active:scale-[0.98]"
                   style={{
-                    height: 54, background: "var(--lime)", color: "var(--bg)",
+                    height: 54, background: "var(--lime)", color: "var(--on-lime)",
                     fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 15,
                     boxShadow: "0 10px 40px rgba(201,220,83,0.32)",
                   }}
@@ -1397,7 +1397,7 @@ function Results() {
         {/* CTAs — only Download Certificate is filled lime; the 3 share actions are ghost */}
         <div className="mt-10 flex flex-wrap items-center gap-3">
           <button className="rounded-full px-6 flex items-center gap-2 transition-transform hover:scale-[1.02] active:scale-[0.98]" style={{
-            height: 52, background: "var(--lime)", color: "var(--bg)",
+            height: 52, background: "var(--lime)", color: "var(--on-lime)",
             fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 15,
             boxShadow: "0 8px 32px rgba(201,220,83,0.22)",
           }}>Download certificate <ArrowRight size={16} /></button>
@@ -1671,7 +1671,7 @@ function ResultsPlan() {
           </div>
         </div>
         <button className="rounded-full" style={{
-          height: 36, padding: "0 18px", background: "var(--lime)", color: "var(--bg)",
+          height: 36, padding: "0 18px", background: "var(--lime)", color: "var(--on-lime)",
           fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 13, border: "none",
         }}>Today's 5-question drill →</button>
       </div>
@@ -1685,7 +1685,7 @@ function ResultsPlan() {
               background: "var(--surface-1)", border: "1px solid var(--violet-border)", borderLeft: `3px solid ${it.priority}`,
             }}>
               <button onClick={() => setOpen(isOpen ? null : idx)} className="w-full flex items-center gap-4 text-left" style={{ padding: "20px 24px" }}>
-                <div className="rounded-full flex items-center justify-center shrink-0" style={{ width: 28, height: 28, background: it.priority, color: "var(--bg)", fontFamily: "var(--font-mono)", fontWeight: 700, fontSize: 13 }}>
+                <div className="rounded-full flex items-center justify-center shrink-0" style={{ width: 28, height: 28, background: it.priority, color: "var(--on-lime)", fontFamily: "var(--font-mono)", fontWeight: 700, fontSize: 13 }}>
                   {it.n}
                 </div>
                 <div className="flex-1 min-w-0">
@@ -1712,7 +1712,7 @@ function ResultsPlan() {
                     ].map((m, mi) => (
                       <div key={mi} className="rounded-xl" style={{ background: "var(--surface-2)", border: "1px solid var(--violet-border)", padding: 16, opacity: m.lock ? 0.55 : 1 }}>
                         <div className="flex items-center gap-2">
-                          <span className="inline-flex items-center rounded-full" style={{ padding: "2px 8px", background: "var(--lime)", color: "var(--bg)", fontFamily: "var(--font-mono)", fontWeight: 600, fontSize: 11 }}>{m.d}</span>
+                          <span className="inline-flex items-center rounded-full" style={{ padding: "2px 8px", background: "var(--lime)", color: "var(--on-lime)", fontFamily: "var(--font-mono)", fontWeight: 600, fontSize: 11 }}>{m.d}</span>
                           <span style={{ fontFamily: "var(--font-mono)", fontWeight: 600, fontSize: 13, color: "var(--teal)" }}>{m.g}</span>
                         </div>
                         <div className="mt-2" style={{ fontFamily: "var(--font-body)", fontWeight: 600, fontSize: 13, color: "var(--text-1)" }}>{m.t}</div>
@@ -1817,7 +1817,7 @@ function ResultsCertificate() {
       {/* Actions */}
       <div className="mt-8 flex flex-wrap items-center gap-3 justify-center">
         <button className="rounded-full flex items-center gap-2" style={{
-          height: 44, padding: "0 28px", background: "var(--lime)", color: "var(--bg)",
+          height: 44, padding: "0 28px", background: "var(--lime)", color: "var(--on-lime)",
           fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 14, border: "none",
         }}>↓ Download PDF</button>
         <button className="rounded-full" style={{
@@ -1857,7 +1857,7 @@ function ResultsCertificate() {
             color: "var(--text-1)", fontFamily: "var(--font-mono)", fontSize: 14,
           }} />
           <button className="rounded-xl" style={{
-            height: 44, padding: "0 22px", background: "var(--violet)", color: "var(--text-1)",
+            height: 44, padding: "0 22px", background: "var(--violet)", color: "var(--on-violet)",
             fontFamily: "var(--font-body)", fontWeight: 600, fontSize: 14, border: "none",
           }}>Verify →</button>
         </div>

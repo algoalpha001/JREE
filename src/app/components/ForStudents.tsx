@@ -120,7 +120,7 @@ export function ForStudents() {
                     fontSize: 10,
                     letterSpacing: "0.05em",
                     background: "var(--lime)",
-                    color: "var(--bg)",
+                    color: "var(--on-lime)",
                     fontWeight: 600,
                     textTransform: "uppercase",
                   }}
@@ -165,7 +165,7 @@ export function ForStudents() {
                 height: 52,
                 padding: "0 24px",
                 background: "var(--lime)",
-                color: "var(--bg)",
+                color: "var(--on-lime)",
                 fontFamily: "var(--font-display)",
                 fontWeight: 700,
                 fontSize: 15,

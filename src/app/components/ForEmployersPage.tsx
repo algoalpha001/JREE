@@ -86,7 +86,7 @@ function SampleCandidateCard() {
             style={{
               padding: "4px 10px",
               background: "var(--lime)",
-              color: "var(--bg)",
+              color: "var(--on-lime)",
               fontFamily: "var(--font-mono)",
               fontWeight: 700,
               fontSize: 11,
@@ -243,7 +243,7 @@ function PricingPlan({
         style={{
           height: 44,
           background: accent ? "var(--lime)" : "transparent",
-          color: accent ? "var(--bg)" : "var(--text-1)",
+          color: accent ? "var(--on-lime)" : "var(--text-1)",
           border: accent ? "1px solid var(--lime)" : "1px solid var(--violet)",
           fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 14, letterSpacing: "-0.01em",
           textDecoration: "none",
@@ -314,7 +314,7 @@ export function ForEmployersPage() {
                   href="#signup"
                   className="inline-flex items-center justify-center rounded-full transition-all hover:scale-[1.02] active:scale-[0.98]"
                   style={{
-                    height: 52, padding: "0 26px", background: "var(--lime)", color: "var(--bg)",
+                    height: 52, padding: "0 26px", background: "var(--lime)", color: "var(--on-lime)",
                     fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 15, letterSpacing: "-0.01em",
                     boxShadow: "0 8px 32px rgba(201,220,83,0.22)", textDecoration: "none",
                   }}
@@ -587,7 +587,7 @@ export function ForEmployersPage() {
                 href="#signup"
                 className="inline-flex items-center justify-center rounded-full transition-all hover:scale-[1.02] active:scale-[0.98]"
                 style={{
-                  height: 52, padding: "0 26px", background: "var(--lime)", color: "var(--bg)",
+                  height: 52, padding: "0 26px", background: "var(--lime)", color: "var(--on-lime)",
                   fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 15, letterSpacing: "-0.01em",
                   boxShadow: "0 8px 32px rgba(201,220,83,0.22)", textDecoration: "none",
                 }}

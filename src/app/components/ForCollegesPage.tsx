@@ -743,7 +743,7 @@ function CallbackForm() {
           type="submit"
           className="inline-flex items-center justify-center rounded-full transition-all hover:scale-[1.02] active:scale-[0.98]"
           style={{
-            height: 50, padding: "0 26px", background: "var(--lime)", color: "var(--bg)",
+            height: 50, padding: "0 26px", background: "var(--lime)", color: "var(--on-lime)",
             fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 14, letterSpacing: "-0.01em",
             border: "none", cursor: "pointer",
             boxShadow: "0 8px 32px rgba(201,220,83,0.22)",
@@ -826,7 +826,7 @@ export function ForCollegesPage() {
                   href="#colleges-cta"
                   className="inline-flex items-center justify-center rounded-full transition-all hover:scale-[1.02] active:scale-[0.98]"
                   style={{
-                    height: 52, padding: "0 26px", background: "var(--lime)", color: "var(--bg)",
+                    height: 52, padding: "0 26px", background: "var(--lime)", color: "var(--on-lime)",
                     fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 15, letterSpacing: "-0.01em",
                     boxShadow: "0 8px 32px rgba(201,220,83,0.22)", textDecoration: "none",
                   }}
@@ -1199,7 +1199,7 @@ export function ForCollegesPage() {
               href="#colleges-cta"
               className="inline-flex items-center justify-center rounded-full transition-all hover:scale-[1.02] active:scale-[0.98]"
               style={{
-                height: 50, padding: "0 24px", background: "var(--lime)", color: "var(--bg)",
+                height: 50, padding: "0 24px", background: "var(--lime)", color: "var(--on-lime)",
                 fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 14, letterSpacing: "-0.01em",
                 boxShadow: "0 8px 32px rgba(201,220,83,0.22)", textDecoration: "none",
               }}

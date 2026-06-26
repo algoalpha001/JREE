@@ -1,103 +1,159 @@
 @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,700;12..96,800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400;1,9..40,500&display=swap');
 
+/* ─── Theme-invariant tokens ─── */
 :root {
   --font-display: 'Bricolage Grotesque', system-ui, sans-serif;
-  --font-serif: 'DM Sans', system-ui, sans-serif;
-  --font-mono: 'DM Sans', system-ui, sans-serif;
-  --font-body: 'DM Sans', system-ui, sans-serif;
+  --font-serif:   'DM Sans', system-ui, sans-serif;
+  --font-mono:    'DM Sans', system-ui, sans-serif;
+  --font-body:    'DM Sans', system-ui, sans-serif;
 
-  --bg: #0B090F;
-  --bg-2: #0F0C16;
-  --bg-3: #080610;
-  --surface-1: #131018;
-  --surface-2: #1D1826;
-  --surface-3: #241F30;
+  /* On-fill text — always readable on their fill, never change with theme */
+  --on-lime:   #1A1525;  /* dark ink on lime fill */
+  --on-violet: #FFFFFF;  /* white on violet fill */
+  --on-teal:   #0B0F0E;  /* dark on teal fill */
 
-  --violet: #6D56A4;
-  --violet-soft: rgba(109, 86, 164, 0.15);
-  --violet-border: rgba(109, 86, 164, 0.22);
-  --violet-border-hover: rgba(109, 86, 164, 0.40);
-
-  --lime: #C9DC53;
-  --lime-text: #C9DC53;
-  --lime-soft: rgba(201, 220, 83, 0.14);
-  --lime-border: rgba(201, 220, 83, 0.32);
-
-  --text-1: #F0EBFF;
-  --text-2: #BFB6D0;
-  --text-3: #948AAB;
-
-  --teal: #51C1B5;
-  --amber: #D97706;
-  --amber-soft: rgba(217, 119, 6, 0.14);
-  --amber-border: rgba(217, 119, 6, 0.35);
-  --slate: #64748B;
-  --danger: #F87171;
-
-  --hairline: rgba(240, 235, 255, 0.06);
-  --hairline-strong: rgba(240, 235, 255, 0.12);
-
-  /* Type scale — use these instead of inline font-size values */
+  /* Type scale */
   --fs-eyebrow: 11px;
   --fs-mono-xs: 10px;
   --fs-mono-sm: 11px;
   --fs-body-sm: 13px;
-  --fs-body: 15px;
+  --fs-body:    15px;
   --fs-body-lg: 16px;
   --fs-h3: clamp(26px, 3.6vw, 36px);
   --fs-h2: clamp(32px, 6vw, 56px);
   --fs-quote: clamp(20px, 2.6vw, 26px);
 
-  /* Letter spacing — pick one per role, do not invent new values */
-  --ls-mono: 0.07em;       /* label eyebrows, tags, captions */
-  --ls-mono-tight: 0.05em; /* label inline pills */
-  --ls-display: -0.03em;   /* large headings */
+  /* Letter spacing */
+  --ls-mono:       0.07em;
+  --ls-mono-tight: 0.05em;
+  --ls-display:    -0.03em;
   --ls-display-sm: -0.02em;
   --ls-display-xs: -0.01em;
 
   /* Line heights */
   --lh-tight: 1.05;
-  --lh-snug: 1.2;
-  --lh-body: 1.6;
+  --lh-snug:  1.2;
+  --lh-body:  1.6;
   --lh-loose: 1.7;
   --lh-quote: 1.4;
 
-  /* Opacities for surface overlays */
   --op-hairline: 0.06;
   --op-hairline-strong: 0.12;
 }
 
+/* ══════════════════════════════════════════
+   DARK THEME  (default)
+═══════════════════════════════════════════ */
+:root,
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg:   #0B090F;
+  --bg-2: #0F0C16;
+  --bg-3: #080610;
+
+  --surface-1: #131018;
+  --surface-2: #1D1826;
+  --surface-3: #241F30;
+
+  --violet:              #6D56A4;
+  --violet-soft:         rgba(109, 86, 164, 0.15);
+  --violet-border:       rgba(109, 86, 164, 0.22);
+  --violet-border-hover: rgba(109, 86, 164, 0.40);
+
+  --lime:        #C9DC53;
+  --lime-text:   #C9DC53;
+  --lime-soft:   rgba(201, 220, 83, 0.14);
+  --lime-border: rgba(201, 220, 83, 0.32);
+
+  --teal:        #51C1B5;
+  --teal-text:   #51C1B5;
+  --teal-soft:   rgba(81, 193, 181, 0.14);
+  --teal-border: rgba(81, 193, 181, 0.32);
+
+  --amber:        #D97706;
+  --amber-text:   #D97706;
+  --amber-soft:   rgba(217, 119, 6, 0.14);
+  --amber-border: rgba(217, 119, 6, 0.35);
+
+  --danger: #F87171;
+  --slate:  #64748B;
+
+  --text-1: #F0EBFF;
+  --text-2: #BFB6D0;
+  --text-3: #948AAB;
+
+  --hairline:        rgba(240, 235, 255, 0.06);
+  --hairline-strong: rgba(240, 235, 255, 0.12);
+
+  /* Shadows — dark mode signals depth via glow/border; near-transparent shadows */
+  --shadow-card:     0 1px 2px rgba(0, 0, 0, 0.12);
+  --shadow-elevated: 0 4px 16px rgba(0, 0, 0, 0.30);
+  --shadow-highest:  0 8px 32px rgba(0, 0, 0, 0.45);
+}
+
+/* ══════════════════════════════════════════
+   LIGHT THEME
+═══════════════════════════════════════════ */
 [data-theme="light"] {
-  --bg: #FAF7F0;
+  color-scheme: light;
+
+  /* Warm cream — never pure white */
+  --bg:   #FAF7F0;
   --bg-2: #F4F0E6;
   --bg-3: #EFEAE0;
-  --surface-1: #FFFFFF;
-  --surface-2: #F8F5EC;
-  --surface-3: #EFEAE0;
 
-  --violet: #6D56A4;
-  --violet-soft: rgba(109, 86, 164, 0.12);
-  --violet-border: rgba(109, 86, 164, 0.28);
+  /* Cards are white; surface-2/3 are also white — depth via shadow */
+  --surface-1: #FFFFFF;
+  --surface-2: #FFFFFF;
+  --surface-3: #FFFFFF;
+
+  /* Violet darkened so it passes AA as text on white */
+  --violet:              #5E4A9E;
+  --violet-soft:         rgba(109, 86, 164, 0.10);
+  --violet-border:       rgba(109, 86, 164, 0.30);
   --violet-border-hover: rgba(109, 86, 164, 0.50);
 
-  --lime: #C9DC53;
-  --lime-text: #6E7B1F;
-  --lime-soft: rgba(201, 220, 83, 0.20);
-  --lime-border: rgba(201, 220, 83, 0.50);
+  --lime:        #C9DC53;                    /* fill stays bright */
+  --lime-text:   #6E7B1F;                    /* olive — AA as text on white */
+  --lime-soft:   rgba(201, 220, 83, 0.20);
+  --lime-border: rgba(110, 123, 31,  0.30);  /* olive — raw lime invisible on white */
+
+  --teal:        #51C1B5;                    /* fill */
+  --teal-text:   #1F7A6F;                    /* darkened — AA as text on white */
+  --teal-soft:   rgba(81, 193, 181, 0.16);
+  --teal-border: rgba(81, 193, 181, 0.42);
+
+  --amber:        #D97706;                   /* fill */
+  --amber-text:   #B45309;                   /* darkened — AA as text on white */
+  --amber-soft:   rgba(217, 119, 6, 0.12);
+  --amber-border: rgba(217, 119, 6, 0.42);
+
+  --danger: #DC2626;
+  --slate:  #64748B;
 
   --text-1: #1A1525;
   --text-2: #463F54;
   --text-3: #645C75;
 
-  --teal: #51C1B5;
-  --danger: #DC2626;
+  --hairline:        rgba(26, 21, 37, 0.08);
+  --hairline-strong: rgba(26, 21, 37, 0.14);
 
-  --hairline: rgba(26, 21, 37, 0.08);
-  --hairline-strong: rgba(26, 21, 37, 0.15);
+  /* Shadows — light mode signals depth via real box-shadow */
+  --shadow-card:     0 1px 3px rgba(26, 21, 37, 0.06), 0 4px 12px rgba(26, 21, 37, 0.05);
+  --shadow-elevated: 0 2px 6px rgba(26, 21, 37, 0.08), 0 8px 24px rgba(26, 21, 37, 0.06);
+  --shadow-highest:  0 4px 12px rgba(26, 21, 37, 0.10), 0 16px 40px rgba(26, 21, 37, 0.08);
 }
 
-html, body { background: var(--bg); color: var(--text-1); font-family: var(--font-body); transition: background-color 240ms ease, color 240ms ease; }
+/* ─── Base ─── */
+html, body {
+  background: var(--bg);
+  color: var(--text-1);
+  font-family: var(--font-body);
+  transition: background-color 240ms ease, color 240ms ease;
+}
 
+/* ─── Grain texture — theme-aware ─── */
 .grain::before {
   content: "";
   position: absolute; inset: 0;
@@ -112,4 +168,10 @@ html, body { background: var(--bg); color: var(--text-1); font-family: var(--fon
   mix-blend-mode: multiply;
 }
 
-/* Light-mode adjustments — keep simple, rely on token swaps for most of the work. */
+/* ─── Light-mode card elevation via shadow (opt-in helpers) ─── */
+[data-theme="light"] .surface-card     { box-shadow: var(--shadow-card); }
+[data-theme="light"] .surface-elevated { box-shadow: var(--shadow-elevated); }
+[data-theme="light"] .surface-highest  { box-shadow: var(--shadow-highest); }
+
+/* ─── Light-mode global polish: soften deep box-shadows used in dark cards ─── */
+[data-theme="light"] body { background: var(--bg); }

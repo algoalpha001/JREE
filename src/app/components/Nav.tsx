@@ -86,9 +86,10 @@ export function Nav() {
               </div>
 
               <div className="hidden md:flex items-center gap-2">
+                <ThemeToggle theme={theme} onToggle={toggle} />
                 <button
                   onClick={goSignin}
-                  className="rounded-full transition-all hover:bg-[rgba(240,235,255,0.06)] active:scale-[0.97]"
+                  className="rounded-full transition-all active:scale-[0.97]"
                   style={{
                     height: 36,
                     padding: "0 16px",
@@ -109,7 +110,7 @@ export function Nav() {
                     height: 36,
                     padding: "0 18px",
                     background: "var(--violet)",
-                    color: "var(--text-1)",
+                    color: "var(--on-violet)",
                     fontFamily: "var(--font-body)",
                     fontWeight: 500,
                     fontSize: 13,
@@ -121,6 +122,7 @@ export function Nav() {
               </div>
 
               <div className="md:hidden flex items-center gap-3">
+                <ThemeToggle theme={theme} onToggle={toggle} />
                 <button
                   onClick={goSignup}
                   className="inline-flex items-center rounded-full active:scale-[0.97]"
@@ -128,7 +130,7 @@ export function Nav() {
                     height: 34,
                     padding: "0 14px",
                     background: "var(--violet)",
-                    color: "var(--text-1)",
+                    color: "var(--on-violet)",
                     fontFamily: "var(--font-body)",
                     fontWeight: 500,
                     fontSize: 12,
@@ -178,7 +180,7 @@ export function Nav() {
               style={{
                 height: 56,
                 background: "var(--lime)",
-                color: "var(--bg)",
+                color: "var(--on-lime)",
                 fontFamily: "var(--font-display)",
                 fontWeight: 700,
                 fontSize: 18,

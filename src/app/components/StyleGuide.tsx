@@ -532,7 +532,7 @@ function MiniScoreCard() {
       <div className="mt-4 flex items-end gap-3">
         <div style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 80, color: "var(--text-1)", letterSpacing: "-0.06em", lineHeight: 0.85 }}>78</div>
         <div className="pb-2">
-          <span style={{ padding: "4px 10px", borderRadius: 100, background: "var(--lime)", color: "var(--bg)", fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 11 }}>BAND A</span>
+          <span style={{ padding: "4px 10px", borderRadius: 100, background: "var(--lime)", color: "var(--on-lime)", fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 11 }}>BAND A</span>
           <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text-3)", marginTop: 6, letterSpacing: "0.02em" }}>91ST PERCENTILE</div>
         </div>
       </div>
@@ -547,7 +547,7 @@ function UIElementsBlock() {
       <UIGroup title="Buttons">
         <div className="flex flex-wrap gap-4 items-center">
           {/* Primary — lime */}
-          <button className="rounded-full transition-all hover:scale-[1.03] active:scale-[0.97]" style={{ height: 52, padding: "0 24px", background: "var(--lime)", color: "var(--bg)", fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 15, boxShadow: "0 8px 32px rgba(201,220,83,0.25)", letterSpacing: "-0.01em" }}>
+          <button className="rounded-full transition-all hover:scale-[1.03] active:scale-[0.97]" style={{ height: 52, padding: "0 24px", background: "var(--lime)", color: "var(--on-lime)", fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 15, boxShadow: "0 8px 32px rgba(201,220,83,0.25)", letterSpacing: "-0.01em" }}>
             Take Free Assessment →
           </button>
           {/* Secondary — outline */}
@@ -559,7 +559,7 @@ function UIElementsBlock() {
             Login
           </button>
           {/* Violet filled — small */}
-          <button className="inline-flex items-center rounded-full" style={{ height: 36, padding: "0 18px", background: "var(--violet)", color: "var(--text-1)", fontFamily: "var(--font-body)", fontWeight: 500, fontSize: 13 }}>
+          <button className="inline-flex items-center rounded-full" style={{ height: 36, padding: "0 18px", background: "var(--violet)", color: "var(--on-violet)", fontFamily: "var(--font-body)", fontWeight: 500, fontSize: 13 }}>
             Register Free →
           </button>
           {/* Violet bordered large */}
@@ -580,7 +580,7 @@ function UIElementsBlock() {
             { label: "h-36 · Nav",          h: 36, px: "0 16px", fs: 13 },
             { label: "h-34 · Compact",      h: 34, px: "0 14px", fs: 12 },
           ].map((b) => (
-            <button key={b.label} className="rounded-full" style={{ height: b.h, padding: b.px, background: "var(--violet)", color: "var(--text-1)", fontFamily: "var(--font-body)", fontWeight: 500, fontSize: b.fs }}>
+            <button key={b.label} className="rounded-full" style={{ height: b.h, padding: b.px, background: "var(--violet)", color: "var(--on-violet)", fontFamily: "var(--font-body)", fontWeight: 500, fontSize: b.fs }}>
               {b.label}
             </button>
           ))}
@@ -607,7 +607,7 @@ function UIElementsBlock() {
 
         {/* Filled band badges as seen on score card */}
         <div className="flex gap-3">
-          <span style={{ padding: "5px 11px", borderRadius: 100, background: "var(--lime)", color: "var(--bg)", fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 12, letterSpacing: "-0.01em" }}>BAND A</span>
+          <span style={{ padding: "5px 11px", borderRadius: 100, background: "var(--lime)", color: "var(--on-lime)", fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 12, letterSpacing: "-0.01em" }}>BAND A</span>
           <span style={{ padding: "5px 11px", borderRadius: 100, background: "rgba(185,164,232,0.25)", color: "#B9A4E8", fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 12 }}>BAND B</span>
           <span style={{ padding: "5px 11px", borderRadius: 100, background: "var(--violet-soft)", color: "var(--violet)", fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 12 }}>BAND C</span>
           <span style={{ padding: "5px 11px", borderRadius: 100, background: "rgba(148,138,171,0.12)", color: "var(--text-3)", fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 12 }}>BAND D</span>
@@ -792,7 +792,7 @@ function UIElementsBlock() {
             <div className="mt-1" style={{ fontFamily: "var(--font-body)", fontSize: 12, color: "var(--text-1)", lineHeight: 1.35 }}>Razorpay viewed your score</div>
           </div>
           <div className="inline-flex items-center gap-2 rounded-full" style={{ padding: "8px 14px 8px 10px", background: "var(--surface-1)", border: "1px solid rgba(109,86,164,0.35)", boxShadow: "0 12px 30px rgba(0,0,0,0.5)" }}>
-            <span className="inline-flex items-center justify-center rounded-full" style={{ width: 22, height: 22, background: "var(--lime)", color: "var(--bg)", fontFamily: "var(--font-mono)", fontWeight: 700, fontSize: 12 }}>↗</span>
+            <span className="inline-flex items-center justify-center rounded-full" style={{ width: 22, height: 22, background: "var(--lime)", color: "var(--on-lime)", fontFamily: "var(--font-mono)", fontWeight: 700, fontSize: 12 }}>↗</span>
             <span style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--text-2)", letterSpacing: "0.03em" }}>SHARE ON <span style={{ color: "var(--text-1)" }}>LINKEDIN</span></span>
           </div>
         </div>
@@ -956,7 +956,7 @@ export function StyleGuide() {
           <button
             onClick={() => { window.location.hash = ""; }}
             className="rounded-full transition-all hover:scale-[1.02] active:scale-[0.97] self-start md:self-auto"
-            style={{ height: 40, padding: "0 20px", background: "var(--violet)", color: "var(--text-1)", fontFamily: "var(--font-body)", fontWeight: 500, fontSize: 13 }}
+            style={{ height: 40, padding: "0 20px", background: "var(--violet)", color: "var(--on-violet)", fontFamily: "var(--font-body)", fontWeight: 500, fontSize: 13 }}
           >
             ← Back to JREE site
           </button>

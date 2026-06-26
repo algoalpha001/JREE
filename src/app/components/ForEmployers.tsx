@@ -397,7 +397,7 @@ export function ForEmployers() {
                 height: 52,
                 padding: "0 24px",
                 background: "var(--lime)",
-                color: "var(--bg)",
+                color: "var(--on-lime)",
                 fontFamily: "var(--font-display)",
                 fontWeight: 700,
                 fontSize: 15,
