@@ -50,7 +50,7 @@ function DuoPhoto({ src, alt, aspect = "60%" }: { src: string; alt: string; aspe
       <ImageWithFallback src={src} alt={alt} className="absolute inset-0 w-full h-full object-cover"
         style={{ filter: "grayscale(20%) brightness(0.8)" }} />
       <div className="absolute inset-0" style={{ background: "linear-gradient(135deg, rgba(109,86,164,0.22) 0%, transparent 60%)", mixBlendMode: "multiply" }} />
-      <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, transparent 50%, rgba(11,9,15,0.5) 100%)" }} />
+      <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, transparent 50%, color-mix(in srgb, var(--bg) 55%, transparent) 100%)" }} />
     </div>
   );
 }

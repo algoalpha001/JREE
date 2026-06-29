@@ -16,16 +16,14 @@ export function Hero() {
         aria-hidden
         className="absolute inset-0 pointer-events-none"
         style={{
-          background:
-            "radial-gradient(75% 70% at 82% 28%, rgba(240,235,255,0.10) 0%, rgba(240,235,255,0.05) 28%, rgba(240,235,255,0.018) 52%, rgba(11,9,15,0) 78%)",
+          background: "var(--hero-spotlight-1)",
         }}
       />
       <div
         aria-hidden
         className="absolute inset-0 pointer-events-none"
         style={{
-          background:
-            "linear-gradient(100deg, #000 0%, rgba(0,0,0,0.55) 32%, rgba(0,0,0,0) 58%)",
+          background: "var(--hero-spotlight-2)",
         }}
       />
 
@@ -42,7 +40,7 @@ export function Hero() {
                 padding: "5px 12px",
                 borderRadius: 100,
                 border: "1px solid var(--lime-border)",
-                background: "rgba(201,220,83,0.06)",
+                background: "var(--lime-soft)",
               }}
             >
               <span className="inline-block rounded-full" style={{ width: 5, height: 5, background: "var(--lime)" }} />
@@ -79,7 +77,7 @@ export function Hero() {
             >
               <button
                 onClick={goSignup}
-                className="rounded-full transition-all hover:scale-[1.03] active:scale-[0.97] w-full sm:w-auto"
+                className="rounded-full transition-all hover:scale-[1.03] active:scale-[0.97] w-full sm:w-auto cursor-pointer"
                 style={{
                   height: 52,
                   padding: "0 24px",
@@ -95,16 +93,18 @@ export function Hero() {
                 Take Free Assessment →
               </button>
               <button
-                className="rounded-full transition-colors hover:border-[rgba(240,235,255,0.3)] w-full sm:w-auto"
+                className="rounded-full transition-colors w-full sm:w-auto cursor-pointer"
                 style={{
                   height: 52,
                   padding: "0 22px",
                   background: "transparent",
-                  border: "1px solid rgba(240,235,255,0.15)",
+                  border: "1px solid var(--hero-secondary-btn-border)",
                   color: "var(--text-2)",
                   fontFamily: "var(--font-body)",
                   fontSize: 14,
                 }}
+                onMouseOver={(e) => (e.currentTarget.style.borderColor = "var(--hero-secondary-btn-hover)")}
+                onMouseOut={(e) => (e.currentTarget.style.borderColor = "var(--hero-secondary-btn-border)")}
               >
                 Request Demo
               </button>
@@ -137,8 +137,8 @@ export function Hero() {
         className="absolute bottom-0 left-0 right-0 overflow-hidden"
         style={{
           height: 48,
-          background: "rgba(109,86,164,0.08)",
-          borderTop: "1px solid rgba(109,86,164,0.18)",
+          background: "var(--hero-ticker-bg)",
+          borderTop: "1px solid var(--hero-ticker-border)",
         }}
       >
         <div className="flex items-center h-full whitespace-nowrap" style={{ animation: "ticker 40s linear infinite" }}>
@@ -227,7 +227,7 @@ function ScoreCardHero() {
         style={{
           inset: 0,
           background: "var(--surface-2)",
-          border: "1px solid rgba(109,86,164,0.18)",
+          border: "1px solid var(--hero-ticker-border)",
           borderRadius: 22,
           transformOrigin: "center center",
           transform: "rotate(6deg) translate(18px, 14px)",
@@ -241,12 +241,11 @@ function ScoreCardHero() {
         transition={{ duration: 0.9, delay: 0.5, ease }}
         className="grain relative overflow-hidden"
         style={{
-          background: "linear-gradient(165deg, #16121F 0%, #0F0C16 100%)",
-          border: "1px solid rgba(109,86,164,0.3)",
+          background: "var(--hero-card-bg)",
+          border: "1px solid var(--hero-card-border)",
           borderRadius: 22,
           padding: "24px 26px 22px",
-          boxShadow:
-            "0 40px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04), 0 0 60px rgba(109,86,164,0.15)",
+          boxShadow: "var(--hero-card-shadow)",
         }}
       >
         {/* gradient corner accent */}
@@ -257,7 +256,7 @@ function ScoreCardHero() {
             right: 0,
             width: 220,
             height: 220,
-            background: "radial-gradient(circle at top right, rgba(201,220,83,0.18), transparent 60%)",
+            background: "radial-gradient(circle at top right, var(--lime-soft), transparent 60%)",
           }}
         />
 
@@ -277,11 +276,11 @@ function ScoreCardHero() {
             style={{
               padding: "4px 10px",
               borderRadius: 100,
-              border: "1px solid rgba(81,193,181,0.3)",
-              background: "rgba(81,193,181,0.08)",
+              border: "1px solid var(--teal-border)",
+              background: "var(--teal-soft)",
               fontFamily: "var(--font-mono)",
               fontSize: 12,
-              color: "var(--teal)",
+              color: "var(--teal-text)",
               letterSpacing: "0.04em",
             }}
           >
@@ -301,7 +300,7 @@ function ScoreCardHero() {
           <div className="mt-1" style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 20, color: "var(--text-1)", letterSpacing: "-0.02em" }}>
             Ananya Sharma
           </div>
-          <div className="mt-0.5" style={{ fontFamily: "var(--font-body)", fontSize: 12, color: "var(--text-3)" }}>
+          <div className="mt-0.5" style={{ fontFamily: "var(--font-body)", fontSize: 12, color: "var(--text-2)" }}>
             B.Tech CSE · VIT Pune · 2025
           </div>
         </div>
@@ -321,7 +320,7 @@ function ScoreCardHero() {
             >
               {score}
             </span>
-            <span style={{ fontFamily: "var(--font-mono)", fontSize: 18, color: "var(--text-3)", marginLeft: 4 }}>
+            <span style={{ fontFamily: "var(--font-mono)", fontSize: 18, color: "var(--text-2)", marginLeft: 4 }}>
               /100
             </span>
           </div>
@@ -345,17 +344,17 @@ function ScoreCardHero() {
             >
               BAND A
             </motion.span>
-            <div className="mt-2" style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--text-3)", letterSpacing: "0.02em" }}>
-              91<span style={{ color: "var(--text-2)" }}>ST</span> PERCENTILE
+            <div className="mt-2" style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--text-2)", letterSpacing: "0.02em" }}>
+              91<span style={{ opacity: 0.7 }}>ST</span> PERCENTILE
             </div>
-            <div style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--text-3)", letterSpacing: "0.02em" }}>
+            <div style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--text-2)", letterSpacing: "0.02em" }}>
               ALL INDIA
             </div>
           </div>
         </div>
 
         {/* Divider */}
-        <div className="mt-5 h-px" style={{ background: "linear-gradient(to right, transparent, rgba(109,86,164,0.4), transparent)" }} />
+        <div className="mt-5 h-px" style={{ background: "linear-gradient(to right, transparent, var(--violet-border), transparent)" }} />
 
         {/* Layer breakdown */}
         <div className="mt-5 space-y-2.5">
@@ -364,7 +363,7 @@ function ScoreCardHero() {
               <span className="w-[110px]" style={{ fontFamily: "var(--font-body)", fontSize: 12, color: "var(--text-2)" }}>
                 {l.label}
               </span>
-              <div className="flex-1 h-1.5 rounded-full overflow-hidden" style={{ background: "rgba(240,235,255,0.06)" }}>
+              <div className="flex-1 h-1.5 rounded-full overflow-hidden" style={{ background: "var(--hairline)" }}>
                 <motion.div
                   initial={{ width: 0 }}
                   animate={inView ? { width: `${l.value}%` } : { width: 0 }}
@@ -385,7 +384,7 @@ function ScoreCardHero() {
         </div>
 
         {/* Footer with QR */}
-        <div className="mt-5 pt-4 flex items-end justify-between gap-3" style={{ borderTop: "1px dashed rgba(109,86,164,0.18)" }}>
+        <div className="mt-5 pt-4 flex items-end justify-between gap-3" style={{ borderTop: "1px dashed var(--hero-ticker-border)" }}>
           <div>
             <div style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--text-3)", letterSpacing: "0.07em" }}>
               ID
@@ -434,8 +433,8 @@ function ScoreCardHero() {
           padding: "8px 14px 8px 10px",
           borderRadius: 100,
           background: "var(--surface-1)",
-          border: "1px solid rgba(109,86,164,0.35)",
-          boxShadow: "0 12px 30px rgba(0,0,0,0.5)",
+          border: "1px solid var(--hero-card-border)",
+          boxShadow: "var(--shadow-elevated)",
           display: "inline-flex",
           alignItems: "center",
           gap: 8,

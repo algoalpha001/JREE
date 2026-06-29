@@ -33,7 +33,7 @@ export function ForStudents() {
     <section
       ref={ref}
       className="py-16 md:py-28"
-      style={{ background: "#0B090F" }}
+      style={{ background: "var(--bg)" }}
     >
       <div className="max-w-[1160px] mx-auto px-5 sm:px-8 md:px-12 lg:px-[72px]">
 

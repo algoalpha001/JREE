@@ -202,8 +202,8 @@ function ConvertPanel({ panel, index, inView }: { panel: typeof panels[number]; 
           style={{
             height: 48,
             padding: "0 22px",
-            background: panel.ctaBg,
-            color: panel.ctaColor,
+            background: panel.ctaBg !== "transparent" ? "var(--lime)" : panel.ctaBg,
+            color: panel.ctaBg !== "transparent" ? "var(--on-lime)" : panel.ctaColor,
             border: panel.ctaBg === "transparent" ? `1px solid ${panel.accent}` : "none",
             fontFamily: "var(--font-display)",
             fontWeight: 700,

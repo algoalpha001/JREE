@@ -90,6 +90,22 @@
   --shadow-card:     0 1px 2px rgba(0, 0, 0, 0.12);
   --shadow-elevated: 0 4px 16px rgba(0, 0, 0, 0.30);
   --shadow-highest:  0 8px 32px rgba(0, 0, 0, 0.45);
+
+  /* Hero Specific */
+  --hero-spotlight-1: radial-gradient(75% 70% at 82% 28%, rgba(240,235,255,0.10) 0%, rgba(240,235,255,0.05) 28%, rgba(240,235,255,0.018) 52%, rgba(11, 9, 15, 0) 78%);
+  --hero-spotlight-2: linear-gradient(100deg, #000 0%, rgba(0,0,0,0.55) 32%, rgba(0,0,0,0) 58%);
+  --hero-card-bg: linear-gradient(165deg, #16121F 0%, #0F0C16 100%);
+  --hero-card-border: rgba(109, 86, 164, 0.3);
+  --hero-card-shadow: 0 40px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04), 0 0 60px rgba(109, 86, 164, 0.15);
+  --hero-ticker-bg: rgba(109, 86, 164, 0.08);
+  --hero-ticker-border: rgba(109, 86, 164, 0.18);
+  --hero-secondary-btn-border: rgba(240, 235, 255, 0.15);
+  --hero-secondary-btn-hover: rgba(240, 235, 255, 0.3);
+
+  /* Handoff Section */
+  --handoff-img-filter: grayscale(1) contrast(1.05) brightness(0.62);
+  --handoff-img-overlay: rgba(36,28,58,0.55);
+  --handoff-img-gradient: linear-gradient(180deg, rgba(12,10,16,0.25) 0%, rgba(12,10,16,0.35) 45%, var(--surface-1) 100%);
 }
 
 /* ══════════════════════════════════════════
@@ -133,8 +149,8 @@
   --slate:  #64748B;
 
   --text-1: #1A1525;
-  --text-2: #463F54;
-  --text-3: #645C75;
+  --text-2: #312B3D;
+  --text-3: #4D465C;
 
   --hairline:        rgba(26, 21, 37, 0.08);
   --hairline-strong: rgba(26, 21, 37, 0.14);
@@ -143,6 +159,22 @@
   --shadow-card:     0 1px 3px rgba(26, 21, 37, 0.06), 0 4px 12px rgba(26, 21, 37, 0.05);
   --shadow-elevated: 0 2px 6px rgba(26, 21, 37, 0.08), 0 8px 24px rgba(26, 21, 37, 0.06);
   --shadow-highest:  0 4px 12px rgba(26, 21, 37, 0.10), 0 16px 40px rgba(26, 21, 37, 0.08);
+
+  /* Hero Specific */
+  --hero-spotlight-1: radial-gradient(75% 70% at 82% 28%, rgba(109, 86, 164, 0.05) 0%, rgba(109, 86, 164, 0.02) 40%, transparent 70%);
+  --hero-spotlight-2: linear-gradient(100deg, var(--bg) 0%, rgba(250, 247, 240, 0.4) 40%, transparent 70%);
+  --hero-card-bg: #FFFFFF;
+  --hero-card-border: var(--hairline-strong);
+  --hero-card-shadow: var(--shadow-highest);
+  --hero-ticker-bg: rgba(109, 86, 164, 0.04);
+  --hero-ticker-border: var(--hairline);
+  --hero-secondary-btn-border: var(--violet-border);
+  --hero-secondary-btn-hover: var(--violet-border-hover);
+
+  /* Handoff Section */
+  --handoff-img-filter: none;
+  --handoff-img-overlay: transparent;
+  --handoff-img-gradient: linear-gradient(180deg, transparent 0%, rgba(26,21,37,0.02) 45%, transparent 100%);
 }
 
 /* ─── Base ─── */

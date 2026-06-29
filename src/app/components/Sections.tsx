@@ -46,7 +46,7 @@ function Heading({ first, italic, white = false }: { first: string; italic: stri
   return (
     <h2 style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "clamp(32px,6vw,56px)", color: "var(--text-1)", letterSpacing: "-0.03em", lineHeight: 1.05 }}>
       {first}{" "}
-      <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", color: white ? "var(--text-1)" : "var(--lime)", fontWeight: 400 }}>
+      <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", color: white ? "var(--text-1)" : "var(--violet)", fontWeight: 400 }}>
         {italic}
       </span>
     </h2>
@@ -113,7 +113,7 @@ export function StakeholderCards() {
           <div className="mt-4">
             <h2 style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "clamp(32px,6vw,56px)", color: "var(--text-1)", letterSpacing: "-0.03em", lineHeight: 1.05 }}>
               One platform.{" "}
-              <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", color: "var(--lime)", fontWeight: 400 }}>
+              <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", color: "var(--violet)", fontWeight: 400 }}>
                 Three
               </span>{" "}
               ways in.
@@ -214,17 +214,17 @@ function HandoffPanel({ panel, index, inView }: { panel: any; index: number; inV
       className="relative grain rounded-[18px] overflow-hidden flex flex-col text-left group cursor-pointer"
       style={{
         background: "var(--surface-1)",
-        border: "1px solid rgba(109,86,164,0.18)",
-        boxShadow: "inset 0 1px 0 rgba(255,255,255,0.04), 0 24px 48px rgba(0,0,0,0.4)",
+        border: "1px solid var(--hairline)",
+        boxShadow: "var(--shadow-card)",
         transition: "box-shadow 300ms, border-color 300ms",
       }}
       onMouseEnter={(e) => {
         e.currentTarget.style.borderColor = panel.accent;
-        e.currentTarget.style.boxShadow = `inset 0 1px 0 rgba(255,255,255,0.06), 0 36px 72px rgba(0,0,0,0.5), 0 0 50px -10px ${panel.accent}`;
+        e.currentTarget.style.boxShadow = `var(--shadow-elevated)`;
       }}
       onMouseLeave={(e) => {
-        e.currentTarget.style.borderColor = "rgba(109,86,164,0.18)";
-        e.currentTarget.style.boxShadow = "inset 0 1px 0 rgba(255,255,255,0.04), 0 24px 48px rgba(0,0,0,0.4)";
+        e.currentTarget.style.borderColor = "var(--hairline)";
+        e.currentTarget.style.boxShadow = "var(--shadow-card)";
       }}
     >
       {/* ── artifact zone: treated photo (quiet ground) + JREE artifact (hero) ── */}
@@ -234,12 +234,12 @@ function HandoffPanel({ panel, index, inView }: { panel: any; index: number; inV
           src={panel.img}
           alt={panel.alt}
           className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-          style={{ filter: "grayscale(1) contrast(1.05) brightness(0.62)" }}
+          style={{ filter: "var(--handoff-img-filter)" }}
         />
         {/* violet duotone shadow tint (house look) */}
-        <div className="absolute inset-0" style={{ background: "rgba(36,28,58,0.55)", mixBlendMode: "multiply" }} />
+        <div className="absolute inset-0" style={{ background: "var(--handoff-img-overlay)", mixBlendMode: "multiply" }} />
         {/* lift the highlights toward warm-black, fade into the surface below */}
-        <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(12,10,16,0.25) 0%, rgba(12,10,16,0.35) 45%, var(--surface-1) 100%)" }} />
+        <div className="absolute inset-0" style={{ background: "var(--handoff-img-gradient)" }} />
 
         {/* stage tag */}
         <span
@@ -288,10 +288,9 @@ function ScoreArtifact({ inView, delay }: { inView: boolean; delay: number }) {
       transition={{ duration: 0.5, delay, ease }}
       className="rounded-[14px] px-5 py-4"
       style={{
-        background: "rgba(12,10,16,0.72)",
-        backdropFilter: "blur(10px)",
+        background: "var(--surface-1)",
         border: "1px solid var(--hairline-strong)",
-        boxShadow: "0 20px 40px rgba(0,0,0,0.5)",
+        boxShadow: "var(--shadow-card)",
       }}
     >
       <div style={{ fontFamily: "var(--font-mono)", fontSize: 10, letterSpacing: "0.03em", color: "var(--text-3)", textTransform: "uppercase" }}>
@@ -323,10 +322,9 @@ function BatchArtifact({ inView, delay }: { inView: boolean; delay: number }) {
       transition={{ duration: 0.5, delay, ease }}
       className="w-full max-w-[260px] rounded-[14px] px-5 py-4"
       style={{
-        background: "rgba(12,10,16,0.72)",
-        backdropFilter: "blur(10px)",
+        background: "var(--surface-1)",
         border: "1px solid var(--hairline-strong)",
-        boxShadow: "0 20px 40px rgba(0,0,0,0.5)",
+        boxShadow: "var(--shadow-card)",
       }}
     >
       <div className="flex items-baseline justify-between">
@@ -376,22 +374,21 @@ function VerdictArtifact({ inView, delay }: { inView: boolean; delay: number }) 
       className="relative w-full max-w-[250px]"
     >
       {/* stacked-edge hint of the pool behind */}
-      <div className="absolute rounded-[14px]" style={{ inset: 0, transform: "translate(8px, 8px)", background: "rgba(12,10,16,0.4)", border: "1px solid var(--hairline)" }} />
-      <div className="absolute rounded-[14px]" style={{ inset: 0, transform: "translate(4px, 4px)", background: "rgba(12,10,16,0.55)", border: "1px solid var(--hairline)" }} />
+      <div className="absolute rounded-[14px]" style={{ inset: 0, transform: "translate(8px, 8px)", background: "var(--bg-2)", border: "1px solid var(--hairline)" }} />
+      <div className="absolute rounded-[14px]" style={{ inset: 0, transform: "translate(4px, 4px)", background: "var(--bg-3)", border: "1px solid var(--hairline)" }} />
       {/* the verified candidate */}
       <div
         className="relative rounded-[14px] px-4 py-3.5"
         style={{
-          background: "rgba(12,10,16,0.78)",
-          backdropFilter: "blur(10px)",
+          background: "var(--surface-1)",
           border: "1px solid var(--hairline-strong)",
-          boxShadow: "0 20px 40px rgba(0,0,0,0.5)",
+          boxShadow: "var(--shadow-card)",
         }}
       >
         <div className="flex items-center gap-3">
-          <span className="rounded-full" style={{ width: 34, height: 34, background: "rgba(81,193,181,0.18)", border: "1px solid rgba(81,193,181,0.45)", filter: "blur(3px)" }} />
+          <span className="rounded-full" style={{ width: 34, height: 34, background: "var(--teal-soft)", border: "1px solid var(--teal-border)" }} />
           <div className="flex-1">
-            <div style={{ height: 8, width: "55%", borderRadius: 4, background: "rgba(240,235,255,0.18)", filter: "blur(2px)" }} />
+            <div style={{ height: 8, width: "55%", borderRadius: 4, background: "var(--hairline)", opacity: 0.5 }} />
             <div className="mt-1.5" style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "var(--text-3)", letterSpacing: "0.04em" }}>
               JREE 77 · Band A
             </div>
@@ -409,10 +406,10 @@ function VerdictArtifact({ inView, delay }: { inView: boolean; delay: number }) 
             className="inline-flex items-center gap-1.5 rounded-full"
             style={{
               padding: "3px 10px",
-              background: ready ? "rgba(81,193,181,0.16)" : "rgba(240,235,255,0.06)",
-              border: `1px solid ${ready ? "rgba(81,193,181,0.5)" : "var(--hairline-strong)"}`,
+              background: ready ? "var(--teal-soft)" : "var(--bg-2)",
+              border: `1px solid ${ready ? "var(--teal-border)" : "var(--hairline-strong)"}`,
               fontFamily: "var(--font-mono)", fontSize: 11,
-              color: ready ? "#51C1B5" : "var(--text-3)",
+              color: ready ? "var(--teal-text)" : "var(--text-3)",
               letterSpacing: "0.02em",
             }}
           >
@@ -435,7 +432,7 @@ export function WhoFor() {
           <div className="mt-4">
             <h2 style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "clamp(32px,6vw,56px)", color: "var(--text-1)", letterSpacing: "-0.03em", lineHeight: 1.05 }}>
               One number.{" "}
-              <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", color: "var(--lime)", fontWeight: 400 }}>
+              <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", color: "var(--violet)", fontWeight: 400 }}>
                 Three
               </span>{" "}
               ways it works for you.
@@ -459,7 +456,7 @@ export function WhoFor() {
               padding: "8px 18px",
               background: "var(--surface-1)",
               border: "1px solid var(--violet-border)",
-              boxShadow: "0 18px 40px rgba(0,0,0,0.45), 0 0 0 1px rgba(255,255,255,0.04)",
+              boxShadow: "var(--shadow-elevated)",
             }}
           >
             <span className="inline-flex items-center gap-2" style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--text-3)", letterSpacing: "0.02em" }}>
@@ -544,8 +541,8 @@ export function WhoFor() {
           className="mt-8 md:mt-14 rounded-[14px] px-5 py-4 md:px-8 md:py-6"
           style={{
             background: "var(--surface-1)",
-            border: "1px solid var(--violet-border)",
-            boxShadow: "inset 0 1px 0 rgba(255,255,255,0.04), 0 20px 40px rgba(0,0,0,0.35)",
+            border: "1px solid var(--hairline-strong)",
+            boxShadow: "var(--shadow-card)",
           }}
         >
           <div className="flex flex-col md:flex-row md:items-center gap-5 md:gap-8">
@@ -581,7 +578,7 @@ export function WhoFor() {
 }
 
 function LensCard({ tag, color, tagline, delay, children }: { tag: string; color: string; tagline: string; delay: number; children: React.ReactNode }) {
-  const glow = color === "var(--lime)" ? "rgba(201,220,83,0.25)" : color === "var(--violet)" ? "rgba(109,86,164,0.25)" : "rgba(109,86,164,0.25)";
+  const glow = color === "var(--lime)" ? "rgba(201,220,83,0.2)" : "rgba(109,86,164,0.15)";
   return (
     <motion.div
       initial={{ opacity: 0, y: 40 }}
@@ -592,17 +589,17 @@ function LensCard({ tag, color, tagline, delay, children }: { tag: string; color
       className="relative grain rounded-[18px] overflow-hidden flex flex-col group"
       style={{
         background: "var(--surface-1)",
-        border: "1px solid rgba(109,86,164,0.18)",
-        boxShadow: "inset 0 1px 0 rgba(255,255,255,0.04), 0 24px 48px rgba(0,0,0,0.4)",
-        transition: "box-shadow 300ms, border-color 300ms",
+        border: "1px solid var(--hairline)",
+        boxShadow: "var(--shadow-card)",
+        transition: "all 300ms ease",
       }}
       onMouseEnter={(e) => {
         e.currentTarget.style.borderColor = color;
-        e.currentTarget.style.boxShadow = `inset 0 1px 0 rgba(255,255,255,0.06), 0 36px 72px rgba(0,0,0,0.5), 0 0 0 1px ${glow}, 0 0 60px ${glow}`;
+        e.currentTarget.style.boxShadow = `var(--shadow-elevated), 0 0 40px ${glow}`;
       }}
       onMouseLeave={(e) => {
-        e.currentTarget.style.borderColor = "rgba(109,86,164,0.18)";
-        e.currentTarget.style.boxShadow = "inset 0 1px 0 rgba(255,255,255,0.04), 0 24px 48px rgba(0,0,0,0.4)";
+        e.currentTarget.style.borderColor = "var(--hairline)";
+        e.currentTarget.style.boxShadow = "var(--shadow-card)";
       }}
     >
       {/* shimmer line on hover */}
@@ -644,29 +641,45 @@ function LensCard({ tag, color, tagline, delay, children }: { tag: string; color
 
 /* ----- LENS 1: Student — phone with score & share ----- */
 function StudentLens() {
+  const [isLight, setIsLight] = useState(false);
+
+  useEffect(() => {
+    const readTheme = () => setIsLight(document.documentElement.dataset.theme === "light");
+    readTheme();
+
+    const observer = new MutationObserver(readTheme);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+
+    return () => observer.disconnect();
+  }, []);
+
+  const phoneText = isLight ? "var(--text-2)" : "var(--text-3)";
+
   return (
     <div className="relative flex justify-center">
       <div
-        className="relative"
+        className="student-lens-phone relative"
         style={{
           width: 230,
           height: 490,
           borderRadius: 32,
-          background: "linear-gradient(165deg,#1A1525,#0E0B17)",
-          border: "1px solid rgba(109,86,164,0.3)",
-          boxShadow: "0 28px 64px rgba(0,0,0,0.55), inset 0 0 0 4px #050308",
+          background: isLight ? "linear-gradient(165deg,#FFFFFF 0%,#F5EEE3 100%)" : "linear-gradient(165deg,#1A1525,#0E0B17)",
+          border: isLight ? "1px solid rgba(26,21,37,0.32)" : "1px solid rgba(109,86,164,0.3)",
+          boxShadow: isLight
+            ? "0 26px 58px rgba(92,74,42,0.18), inset 0 0 0 4px #D6C8B5"
+            : "0 28px 64px rgba(0,0,0,0.55), inset 0 0 0 4px #050308",
           padding: "26px 18px 18px",
           transform: "rotate(-2deg)",
         }}
       >
         {/* notch */}
         <div
-          className="absolute left-1/2 -translate-x-1/2"
-          style={{ top: 8, width: 72, height: 18, background: "#050308", borderRadius: 12 }}
+          className="student-lens-notch absolute left-1/2 -translate-x-1/2"
+          style={{ top: 8, width: 72, height: 18, background: isLight ? "#CDBEA8" : "#050308", borderRadius: 12 }}
         />
 
         {/* status bar */}
-        <div className="flex items-center justify-between mb-5 mt-2" style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--text-3)" }}>
+        <div className="flex items-center justify-between mb-5 mt-2" style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: phoneText }}>
           <span>9:41</span>
           <span>● ● ●</span>
         </div>
@@ -681,10 +694,15 @@ function StudentLens() {
 
         {/* score */}
         <div
-          className="rounded-[14px] p-4"
-          style={{ background: "linear-gradient(140deg,rgba(109,86,164,0.25),rgba(201,220,83,0.1))", border: "1px solid rgba(109,86,164,0.3)" }}
+          className="student-lens-score rounded-[14px] p-4"
+          style={{
+            background: isLight
+              ? "linear-gradient(140deg,rgba(109,86,164,0.12),rgba(201,220,83,0.20))"
+              : "linear-gradient(140deg,rgba(109,86,164,0.25),rgba(201,220,83,0.1))",
+            border: isLight ? "1px solid rgba(26,21,37,0.26)" : "1px solid rgba(109,86,164,0.3)",
+          }}
         >
-          <div style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--text-3)", letterSpacing: "0.07em" }}>YOUR SCORE</div>
+          <div style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: phoneText, letterSpacing: "0.07em" }}>YOUR SCORE</div>
           <div className="flex items-baseline gap-1.5 mt-1">
             <motion.span
               initial={{ opacity: 0, y: 8 }}
@@ -695,7 +713,7 @@ function StudentLens() {
             >
               78
             </motion.span>
-            <span style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--text-3)" }}>/100</span>
+            <span style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: phoneText }}>/100</span>
           </div>
           <span
             className="inline-flex mt-2"
@@ -715,7 +733,7 @@ function StudentLens() {
         </div>
 
         {/* what your score means */}
-        <div className="mt-4" style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--text-3)", letterSpacing: "0.07em" }}>
+        <div className="mt-4" style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: phoneText, letterSpacing: "0.07em" }}>
           WHAT YOUR 78 MEANS
         </div>
         {[
@@ -725,8 +743,11 @@ function StudentLens() {
         ].map((r) => (
           <div
             key={r.label}
-            className="mt-2 flex items-center justify-between rounded-lg px-2.5 py-2"
-            style={{ background: "rgba(240,235,255,0.04)" }}
+            className="student-lens-row mt-2 flex items-center justify-between rounded-lg px-2.5 py-2"
+            style={{
+              background: isLight ? "rgba(109,86,164,0.065)" : "rgba(240,235,255,0.04)",
+              boxShadow: isLight ? "inset 0 0 0 1px rgba(26,21,37,0.14)" : "none",
+            }}
           >
             <span className="truncate" style={{ fontFamily: "var(--font-body)", fontSize: 10.5, color: "var(--text-2)" }}>
               {r.label}
@@ -761,22 +782,22 @@ function StudentLens() {
         whileInView={{ opacity: 1, x: 0, scale: 1 }}
         viewport={{ once: true }}
         transition={{ delay: 0.9, duration: 0.5, ease }}
-        className="absolute"
+        className="student-lens-note absolute"
         style={{
           right: -8,
           top: 36,
           padding: "9px 13px",
           borderRadius: 12,
           background: "var(--surface-2)",
-          border: "1px solid rgba(201,220,83,0.3)",
-          boxShadow: "0 14px 28px rgba(0,0,0,0.55)",
+          border: isLight ? "1px solid rgba(26,21,37,0.22)" : "1px solid rgba(201,220,83,0.3)",
+          boxShadow: isLight ? "0 14px 30px rgba(92,74,42,0.16)" : "0 14px 28px rgba(0,0,0,0.55)",
           maxWidth: 150,
         }}
       >
         <div style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--lime-text)", letterSpacing: "0.02em" }}>
           ↑ NEW
         </div>
-        <div className="mt-1" style={{ fontFamily: "var(--font-body)", fontSize: 12, color: "var(--text-1)", lineHeight: 1.35 }}>
+        <div className="mt-1" style={{ fontFamily: "var(--font-body)", fontSize: 12, color: "var(--text-2)", lineHeight: 1.35 }}>
           Razorpay viewed your score
         </div>
       </motion.div>
@@ -1737,12 +1758,12 @@ function PriyaStudio({ active }: { active: ActiveAi }) {
       {/* MAIN */}
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px]">
         {/* Avatar stage */}
-        <div className="relative p-5 sm:p-8 md:p-10 flex flex-col items-center justify-center" style={{ background: "radial-gradient(ellipse at center, rgba(109,86,164,0.18), transparent 70%), linear-gradient(165deg,#0E0B17,#1A1525)", minHeight: 320 }}>
+        <div className="relative p-5 sm:p-8 md:p-10 flex flex-col items-center justify-center" style={{ background: "radial-gradient(ellipse at center, rgba(109,86,164,0.12), transparent 70%), linear-gradient(165deg,var(--surface-1),var(--bg-2))", minHeight: 320 }}>
           <PriyaAvatar accent={active.color} key={active.id} />
 
           {/* Identity card */}
-          <div className="mt-6 flex items-center gap-3 rounded-full" style={{ padding: "6px 14px 6px 6px", background: "rgba(20,15,32,0.7)", border: `1px solid ${active.color}`, backdropFilter: "blur(8px)", boxShadow: `0 0 24px ${active.color}30` }}>
-            <span className="block rounded-full" style={{ width: 22, height: 22, background: `radial-gradient(circle at 35% 30%, rgba(255,255,255,0.5), ${active.color} 45%, #1A0E2E 100%)` }} />
+          <div className="mt-6 flex items-center gap-3 rounded-full" style={{ padding: "6px 14px 6px 6px", background: "var(--surface-1)", border: `1px solid ${active.color}`, backdropFilter: "blur(8px)", boxShadow: "var(--shadow-card)" }}>
+            <span className="block rounded-full" style={{ width: 22, height: 22, background: `radial-gradient(circle at 35% 30%, rgba(255,255,255,0.72), ${active.color} 48%, var(--surface-1) 100%)` }} />
             <div>
               <div style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 13, color: "var(--text-1)", letterSpacing: "-0.01em", lineHeight: 1 }}>
                 {active.name} <span style={{ color: "var(--text-3)", fontSize: 11 }}>· {active.gender}</span>
@@ -1804,7 +1825,10 @@ function PriyaStudio({ active }: { active: ActiveAi }) {
               <div
                 data-cam-fallback
                 className="absolute inset-0 flex-col items-center justify-center gap-2 text-center px-6"
-                style={{ display: "flex" }}
+                style={{
+                  display: "flex",
+                  background: "radial-gradient(ellipse at center, rgba(109,86,164,0.10), transparent 72%), linear-gradient(165deg,var(--surface-1),var(--bg-2))",
+                }}
               >
                 <span style={{ fontSize: 22 }}>📹</span>
                 <span style={{ fontFamily: "var(--font-body)", fontSize: 12.5, color: "var(--text-2)", lineHeight: 1.4 }}>
@@ -3791,12 +3815,12 @@ function ScrollCircuit({ nodes, inView }: { nodes: any[]; inView: boolean }) {
           </div>
           <h2 className="mt-4" style={{
             fontFamily: "var(--font-display)", fontWeight: 800,
-            fontSize: "clamp(36px, 4.6vw, 56px)", color: "var(--on-violet)",
+            fontSize: "clamp(36px, 4.6vw, 56px)", color: "var(--text-2)",
             letterSpacing: "-0.04em", lineHeight: 0.95,
           }}>
             From blank page<br />
             to{" "}
-            <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 400, color: "var(--lime)" }}>
+            <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 400, color: "var(--lime-text)" }}>
               hired.
             </span>
           </h2>
