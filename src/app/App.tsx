@@ -25,8 +25,11 @@ import { FinalCTACards } from "./components/FinalCTACards";
 import { Onboarding } from "./components/Onboarding";
 import { PostSignup, PostRoute } from "./components/PostSignup";
 import { StyleGuide } from "./components/StyleGuide";
+import { TermsPage } from "./components/TermsPage";
+import { SecurityCenterPage } from "./components/SecurityCenterPage";
+import { PrivacyPolicyPage } from "./components/PrivacyPolicyPage";
 
-type Route = "landing" | "signup" | "styleguide" | "about-us" | "for-employers" | "for-colleges" | PostRoute;
+type Route = "landing" | "signup" | "styleguide" | "about-us" | "for-employers" | "for-colleges" | "terms" | "security" | "privacy" | PostRoute;
 const POST_ROUTES: PostRoute[] = ["dashboard", "exam/check", "exam/active", "exam/transition", "exam/priya", "exam/processing", "results"];
 
 function getRoute(): Route {
@@ -37,6 +40,9 @@ function getRoute(): Route {
   if (h === "about-us") return "about-us";
   if (h === "for-employers") return "for-employers";
   if (h === "for-colleges") return "for-colleges";
+  if (h === "terms" || h === "terms-and-conditions") return "terms";
+  if (h === "security" || h === "security-center") return "security";
+  if (h === "privacy" || h === "privacy-policy") return "privacy";
   if ((POST_ROUTES as string[]).includes(h)) return h as PostRoute;
   return "landing";
 }
@@ -76,6 +82,18 @@ export default function App() {
 
   if (route === "for-colleges") {
     return <ForCollegesPage />;
+  }
+
+  if (route === "terms") {
+    return <TermsPage />;
+  }
+
+  if (route === "security") {
+    return <SecurityCenterPage />;
+  }
+
+  if (route === "privacy") {
+    return <PrivacyPolicyPage />;
   }
 
   if ((POST_ROUTES as string[]).includes(route)) {

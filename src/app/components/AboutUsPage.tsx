@@ -2,6 +2,26 @@ import { motion, useInView } from "motion/react";
 import { useRef, useState } from "react";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { Nav } from "./Nav";
+import girishPhoto from "../../imports/Girish.JPG.jpeg";
+import mayaPhoto from "../../imports/Maya.JPG.jpeg";
+import prakarshPhoto from "../../imports/Prakarsh.JPG.jpeg";
+import piyushPhoto from "../../imports/Piyush.JPG.jpeg";
+import lovinaPhoto from "../../imports/Lovina.JPG.jpeg";
+import parthPhoto from "../../imports/Parth.JPG.jpeg";
+import accentureLogo from "../../imports/accenture.png";
+import awsLogo from "../../imports/aws.png";
+import capgeminiLogo from "../../imports/capgemini.png";
+import citiLogo from "../../imports/citi.png";
+import exlLogo from "../../imports/exl.png";
+import ibmLogo from "../../imports/ibm.png";
+import sanofiLogo from "../../imports/sanofi.png";
+import infosysFoundationLogo from "../../imports/infosys_foundation.png";
+import synchronyLogo from "../../imports/synchrony.png";
+import dduGkyLogo from "../../imports/p-ddu-gky.png";
+import asapLogo from "../../imports/p-asap.png";
+import rsldcLogo from "../../imports/p-rsldc.png";
+import directorateHpLogo from "../../imports/p-dirextorate_he_hp.png";
+import sonchLogo from "../../imports/sonch.png";
 
 const ease = [0.16, 1, 0.3, 1] as const;
 const CONTAINER = "max-w-[1080px] mx-auto px-5 sm:px-8 md:px-12 lg:px-16";
@@ -258,8 +278,33 @@ function Beliefs() {
           {values.map((v, i) => (
             <FadeIn key={v.heading} delay={0.05 * i}>
               <div className="grain h-full p-8 md:p-10" style={{ background: "var(--surface-1)" }}>
-                <div className="rounded-full inline-flex items-center justify-center mb-5" style={{ width: 36, height: 36, background: "var(--violet-soft)", border: "1px solid var(--violet-border)" }}>
-                  <span style={{ fontFamily: "var(--font-mono)", fontWeight: 700, fontSize: 12, color: "var(--violet)" }}>0{i + 1}</span>
+                <div className="rounded-full inline-flex items-center justify-center mb-5" style={{ width: 44, height: 44, background: "var(--violet-soft)", border: "1px solid var(--violet-border)" }}>
+                  {i === 0 && (
+                    <motion.svg width={24} height={24} viewBox="0 0 24 24" fill="none" aria-label="Fairness icon">
+                      <motion.path d="M12 4v16" stroke="var(--violet)" strokeWidth="1.7" strokeLinecap="round" animate={{ pathLength: [0, 1, 1, 0] }} transition={{ duration: 3, repeat: Infinity, repeatDelay: 0.6, ease }} />
+                      <motion.path d="M6 8h12M7 8l-3 6h6L7 8Zm10 0l-3 6h6l-3-6Z" stroke="var(--violet)" strokeWidth="1.7" strokeLinejoin="round" animate={{ pathLength: [0, 1, 1, 0] }} transition={{ duration: 3, repeat: Infinity, repeatDelay: 0.6, delay: 0.12, ease }} />
+                    </motion.svg>
+                  )}
+                  {i === 1 && (
+                    <motion.svg width={24} height={24} viewBox="0 0 24 24" fill="none" aria-label="Honest icon">
+                      <motion.path d="M12 3l7 3v5c0 4.5-2.8 8.2-7 10-4.2-1.8-7-5.5-7-10V6l7-3Z" stroke="var(--violet)" strokeWidth="1.7" strokeLinejoin="round" animate={{ pathLength: [0, 1, 1, 0] }} transition={{ duration: 3.2, repeat: Infinity, repeatDelay: 0.6, ease }} />
+                      <motion.path d="M8.5 12.2l2.2 2.2 4.9-5" stroke="var(--lime-text)" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" animate={{ pathLength: [0, 1, 1, 0] }} transition={{ duration: 2.4, repeat: Infinity, repeatDelay: 1.4, delay: 0.45, ease }} />
+                    </motion.svg>
+                  )}
+                  {i === 2 && (
+                    <motion.svg width={24} height={24} viewBox="0 0 24 24" fill="none" aria-label="Access icon">
+                      <motion.path d="M4 12h13" stroke="var(--violet)" strokeWidth="1.7" strokeLinecap="round" animate={{ pathLength: [0, 1, 1, 0] }} transition={{ duration: 2.8, repeat: Infinity, repeatDelay: 0.7, ease }} />
+                      <motion.path d="M13 8l4 4-4 4" stroke="var(--violet)" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" animate={{ pathLength: [0, 1, 1, 0] }} transition={{ duration: 2.8, repeat: Infinity, repeatDelay: 0.7, delay: 0.25, ease }} />
+                      <motion.circle cx="18" cy="12" r="3" stroke="var(--lime-text)" strokeWidth="1.5" animate={{ scale: [0.75, 1, 1, 0.75], opacity: [0.35, 1, 1, 0.35] }} transition={{ duration: 2.8, repeat: Infinity, repeatDelay: 0.7, delay: 0.45, ease }} />
+                    </motion.svg>
+                  )}
+                  {i === 3 && (
+                    <motion.svg width={24} height={24} viewBox="0 0 24 24" fill="none" aria-label="Privacy icon">
+                      <motion.rect x="5" y="10" width="14" height="10" rx="2" stroke="var(--violet)" strokeWidth="1.7" animate={{ pathLength: [0, 1, 1, 0] }} transition={{ duration: 3, repeat: Infinity, repeatDelay: 0.7, ease }} />
+                      <motion.path d="M8.5 10V7.8A3.5 3.5 0 0 1 12 4.3a3.5 3.5 0 0 1 3.5 3.5V10" stroke="var(--violet)" strokeWidth="1.7" strokeLinecap="round" animate={{ pathLength: [0, 1, 1, 0] }} transition={{ duration: 3, repeat: Infinity, repeatDelay: 0.7, delay: 0.15, ease }} />
+                      <motion.circle cx="12" cy="15" r="1.4" fill="var(--lime-text)" animate={{ scale: [0.5, 1, 1, 0.5], opacity: [0.45, 1, 1, 0.45] }} transition={{ duration: 3, repeat: Infinity, repeatDelay: 0.7, delay: 0.5, ease }} />
+                    </motion.svg>
+                  )}
                 </div>
                 <h3 style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 22, color: "var(--text-1)", letterSpacing: "-0.02em", lineHeight: 1.2 }}>
                   {v.heading}
@@ -337,32 +382,46 @@ function Journey() {
 function LeadershipTeam() {
   const team = [
     {
-      name: "[Founder / CEO Name]",
-      title: "Co-Founder & CEO",
-      bio: "A workforce development practitioner with two decades of experience building employer-aligned training programmes across India. Before founding EduBridge, [name] led employability initiatives for [prior organisation], serving [geography]. JREE is the culmination of a long-standing conviction: that the gap between what Indian graduates can do and what employers believe they can do is solvable — with the right signal.",
-      linkedin: "#",
-      photo: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400&q=80",
+      name: "Girish Singhania",
+      title: "Founder and CEO",
+      bio: "Girish is an entrepreneur who has a vision coupled with an unwavering want to create. He brings 15 years of experience across Education, FMCG and Financial Service sectors and is driven by a visceral hard-wired need to strategize, to innovate and to disprove the words — It can't be done. His greatest passion lies in unlocking the potential that each individual has, and in enabling them to achieve their best. He strongly believes that in this golden era of opportunities in India, the biggest factor of success for our country will be our ability to transform our people into high performing contributors to the economy.",
+      linkedin: "https://www.linkedin.com/in/girishsinghania",
+      photo: girishPhoto,
     },
     {
-      name: "[Co-Founder / CTO Name]",
-      title: "Co-Founder & CTO",
-      bio: "A technologist who has spent her career building systems at the intersection of education and AI. At JREE, [name] leads the design and engineering of the assessment engine — including Priya, the AI interview layer — and the integrity architecture that makes the verified score trustworthy. She holds a graduate degree in [field] from [institution].",
-      linkedin: "#",
-      photo: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400&q=80",
+      name: "Prakarsh Jain",
+      title: "President – Finance & Accounts",
+      bio: "It is said that being a finance man, you automatically start off looking better than you are because you are fluent in the language of numbers — and that's the language of business. Right from fund raising to designing, implementing and monitoring finance operations and control systems for a geographically diverse organisation like EduBridge, Prakarsh has done it all. Since 2014, Prakarsh has worked extensively to cover all aspects of the finance functions, developed a very strong team and has also been actively involved in defining and planning strategic business goals. Gold Medallist Post Graduate from S P Jain and a Chartered Accountant (equivalent to CPA), Prakarsh has been one of the team members recognised for winning National Level Ace the Case, a business case competition organised by KPMG, and he also represented at the international level in Spain, Europe. Prakarsh's work experience includes association in Investment Banking at Mizuho Securities and in Strategic Planning, Assurance and Taxation services with Sanghvi, Sanghvi & Sanghvi.",
+      linkedin: "https://www.linkedin.com/in/prakarsh-jain-01126b15",
+      photo: prakarshPhoto,
     },
     {
-      name: "[Head of Assessments Name]",
-      title: "Head of Assessments",
-      bio: "An occupational psychologist and assessment design specialist with experience building standardised evaluation frameworks for national and international clients. At JREE, [name] owns the validity and reliability of the five-layer scoring model — ensuring the number means the same thing at every institution, for every stream.",
-      linkedin: "#",
-      photo: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400&q=80",
+      name: "Piyush Dhiman",
+      title: "Senior Vice President – Business",
+      bio: "He is a Management Graduate and comes with over 14 years of experience across Banking and Education Sector into building business and operations. For EduBridge, Piyush works on enhancing and stabilizing product and business portfolios, optimizing operations, nurturing team capabilities and delivering growth. He is passionate about building high-performance teams and enjoys being actively involved in problem solving for business growth. He unwinds over a cup of tea and music; he also enjoys time with his family and travel.",
+      linkedin: "https://www.linkedin.com/in/piyussh-diman-2650b521",
+      photo: piyushPhoto,
     },
     {
-      name: "[Head of Partnerships Name]",
-      title: "Head of Institutional Partnerships",
-      bio: "Brings fifteen years of experience in higher education partnerships across South and South-East Asia. [Name] leads JREE's engagement with colleges and universities — from onboarding and batch management to the ongoing analytics relationship that makes placement teams more effective season after season.",
-      linkedin: "#",
-      photo: "https://images.unsplash.com/photo-1699899657680-421c2c2d5064?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400&q=80",
+      name: "Lovina Anthony",
+      title: "President – Product & Learning Solutions",
+      bio: "Lovina leads the capability infrastructure behind EduBridge — the learning architecture, delivery standards, trainer certification, technology platforms, and outcome systems that move tens of thousands of learners every year from training into careers, consistently and at scale. Over 12 years at EduBridge, she has built the systems behind a 50%+ improvement in learner retention, a 20% rise in CSAT, and the digital pivot that took delivery from offline-heavy to platform-led across India. She brings 21+ years across learning, customer experience, operations, and digital platforms, with earlier years at JP Morgan Chase and Aegon Religare. Her conviction is simple: outcomes don't come from heroics — they come from systems designed to make heroics unnecessary.",
+      linkedin: "https://www.linkedin.com/in/lovina-anthony-bb0b3597",
+      photo: lovinaPhoto,
+    },
+    {
+      name: "Parth Thakar",
+      title: "Senior Vice President – Business",
+      bio: "Parth is a sales guru. In particular, he encourages salespeople to commit to a lifetime of learning and training; to be extremely shrewd when it comes to setting and thereby exceeding goals and quotas; and to maintain a heightened level of motivation by constantly visualizing success. His confident speaking style and engaging capability made him a well-recognized speaker on sales strategies at EduBridge. He is known for presentations, seminars and keynote addresses that are funny, insightful and pragmatic. A Commerce graduate with expertise in Sales, Marketing and Digital Marketing, he is an achievement-driven and high-performance senior management executive with over 13 years of outstanding contributions across business operations, including top and senior-level strategic planning, sales and marketing, training and development with organizations such as CMC Ltd. (TCS), NIIT and HDFC (CBOP).",
+      linkedin: "https://www.linkedin.com/in/parththakar",
+      photo: parthPhoto,
+    },
+    {
+      name: "Maya Gupta",
+      title: "Senior Vice President – Strategic Partnerships",
+      bio: "Maya is passionate about identifying partnership opportunities, building strong partnerships and constantly working towards strengthening them. She loves interacting with internal and external stakeholders in the system and is intrinsically a relationships person. Maya is a Manchester Business School Graduate with Masters in Technology and Innovation Management. She is also a Gold medallist from Pune University with a Bachelors of Engineering degree. Maya has 13+ years of experience with Partner Management, Business development, Marketing and setting up/Optimizing processes across these functions of the organization.",
+      linkedin: "https://www.linkedin.com/in/maya-gupta-1632075",
+      photo: mayaPhoto,
     },
   ];
 
@@ -377,21 +436,23 @@ function LeadershipTeam() {
             </span>
           </SectionHeading>
           <p className="mt-5 max-w-[520px]" style={{ fontFamily: "var(--font-body)", fontSize: 16, color: "var(--text-2)", lineHeight: 1.65 }}>
-            Placeholder profiles below — real names, photos, and bios will replace these before launch.
+            Built by leaders who have spent years turning education, employability, and opportunity into measurable outcomes.
           </p>
         </FadeIn>
 
         <div className="mt-14 flex flex-col gap-0">
           {team.map((person, i) => (
             <FadeIn key={person.name} delay={0.07 * i}>
-              <div className="py-10 grid grid-cols-1 md:grid-cols-[120px_1fr] gap-7 md:gap-10 items-start"
+              <div className="py-10 grid grid-cols-1 md:grid-cols-2 gap-7 md:gap-10 items-stretch"
                 style={{ borderTop: "1px solid var(--hairline-strong)" }}>
-                <Headshot src={person.photo} alt={person.name} size={100} />
-                <div>
+                <div className="relative overflow-hidden rounded-[18px] min-h-[280px] md:min-h-[360px]" style={{ border: "1px solid var(--hairline-strong)", background: "var(--surface-1)" }}>
+                  <ImageWithFallback src={person.photo} alt={person.name} className="absolute inset-0 w-full h-full object-cover" style={{ filter: "grayscale(10%) brightness(0.92)" }} />
+                </div>
+                <div className="flex flex-col justify-center py-2 md:py-6">
                   <div style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 20, color: "var(--text-1)", letterSpacing: "-0.015em" }}>
                     {person.name}
                   </div>
-                  <div className="mt-0.5" style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--violet)", letterSpacing: "0.06em", textTransform: "uppercase" }}>
+                  <div className="mt-0.5" style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "#8B6FE8", letterSpacing: "0.06em", textTransform: "uppercase" }}>
                     {person.title}
                   </div>
                   <p className="mt-4 max-w-[640px]" style={{ fontFamily: "var(--font-body)", fontSize: 15, color: "var(--text-2)", lineHeight: 1.7 }}>
@@ -484,33 +545,34 @@ function BackedBy() {
 }
 
 /* ─── 8. Partners / Trust signals ─── */
-const PARTNER_CATEGORIES = ["Employer Partners", "Assessment Frameworks", "Compliance"] as const;
+const PARTNER_CATEGORIES = ["Corporate Partners", "Government partners", "NGO Partners"] as const;
 type PartnerCat = typeof PARTNER_CATEGORIES[number];
 
-const PARTNER_DATA: Record<PartnerCat, { name: string; sub: string }[]> = {
-  "Employer Partners": [
-    { name: "[Employer A]", sub: "Manufacturing · [City]" },
-    { name: "[Employer B]", sub: "BFSI · National" },
-    { name: "[Employer C]", sub: "Retail · Regional" },
-    { name: "[Employer D]", sub: "IT Services · Bengaluru" },
-    { name: "[Employer E]", sub: "Healthcare · National" },
-    { name: "[Employer F]", sub: "Logistics · National" },
+const PARTNER_DATA: Record<PartnerCat, { name: string; sub: string; logo?: string }[]> = {
+  "Corporate Partners": [
+    { name: "Accenture", sub: "Corporate partner", logo: accentureLogo },
+    { name: "AWS", sub: "Corporate partner", logo: awsLogo },
+    { name: "Capgemini", sub: "Corporate partner", logo: capgeminiLogo },
+    { name: "Citi", sub: "Corporate partner", logo: citiLogo },
+    { name: "EXL", sub: "Corporate partner", logo: exlLogo },
+    { name: "IBM", sub: "Corporate partner", logo: ibmLogo },
+    { name: "Sanofi", sub: "Corporate partner", logo: sanofiLogo },
+    { name: "Infosys Foundation", sub: "Corporate partner", logo: infosysFoundationLogo },
+    { name: "Synchrony", sub: "Corporate partner", logo: synchronyLogo },
   ],
-  "Assessment Frameworks": [
-    { name: "O*NET", sub: "Occupational Information Network" },
-    { name: "EQF", sub: "European Qualifications Framework (aligned)" },
-    { name: "WorldSkills", sub: "Skill standards reference" },
-    { name: "NSQF", sub: "National Skills Qualifications Framework" },
+  "Government partners": [
+    { name: "DDU-GKY", sub: "Government partner", logo: dduGkyLogo },
+    { name: "ASAP Kerala", sub: "Government partner", logo: asapLogo },
+    { name: "RSLDC", sub: "Government partner", logo: rsldcLogo },
+    { name: "Directorate of Higher Education, Himachal Pradesh", sub: "Government partner", logo: directorateHpLogo },
   ],
-  "Compliance": [
-    { name: "DPDP 2023", sub: "Digital Personal Data Protection Act" },
-    { name: "ISO 27001", sub: "Information security management [planned]" },
-    { name: "UGC", sub: "Higher Education framework reference" },
+  "NGO Partners": [
+    { name: "Sonch", sub: "NGO partner", logo: sonchLogo },
   ],
 };
 
 function Partners() {
-  const [active, setActive] = useState<PartnerCat>("Employer Partners");
+  const [active, setActive] = useState<PartnerCat>("Corporate Partners");
   return (
     <section style={{ background: "var(--bg)", paddingTop: "5rem", paddingBottom: "5rem" }}>
       <div className={CONTAINER}>
@@ -543,7 +605,7 @@ function Partners() {
         </div>
 
         {/* partner grid */}
-        <div className="mt-8 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+        <div className={`mt-8 grid gap-3 ${active === "Corporate Partners" ? "grid-cols-1 sm:grid-cols-3" : "grid-cols-2 sm:grid-cols-3 md:grid-cols-4"}` }>
           {PARTNER_DATA[active].map((p) => (
             <motion.div key={p.name}
               initial={{ opacity: 0, scale: 0.95 }}
@@ -551,18 +613,21 @@ function Partners() {
               transition={{ duration: 0.3, ease }}
               className="grain rounded-[12px] flex flex-col items-center justify-center text-center p-5"
               style={{ background: "var(--surface-1)", border: "1px solid var(--hairline-strong)", minHeight: 90 }}>
-              <div style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 13, color: "var(--text-2)", letterSpacing: "-0.01em", lineHeight: 1.2 }}>
-                {p.name}
-              </div>
-              <div className="mt-1" style={{ fontFamily: "var(--font-mono)", fontSize: 9, color: "var(--text-3)", letterSpacing: "0.04em", lineHeight: 1.3 }}>
-                {p.sub}
-              </div>
+              {p.logo ? (
+                <ImageWithFallback src={p.logo} alt={`${p.name} logo`} className="max-w-[150px] max-h-[54px] object-contain" />
+              ) : (
+                <>
+                  <div style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 13, color: "var(--text-2)", letterSpacing: "-0.01em", lineHeight: 1.2 }}>
+                    {p.name}
+                  </div>
+                  <div className="mt-1" style={{ fontFamily: "var(--font-mono)", fontSize: 9, color: "var(--text-3)", letterSpacing: "0.04em", lineHeight: 1.3 }}>
+                    {p.sub}
+                  </div>
+                </>
+              )}
             </motion.div>
           ))}
         </div>
-        <p className="mt-5" style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text-3)", letterSpacing: "0.04em" }}>
-          Logo slots — actual logos will replace placeholder tiles before launch.
-        </p>
       </div>
     </section>
   );

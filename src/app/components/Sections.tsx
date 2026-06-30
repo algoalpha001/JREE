@@ -2881,7 +2881,7 @@ export function Footer() {
               <ul className="mt-4 space-y-2.5">
                 {c.links.map((l) => (
                   <li key={l}>
-                    <a href="#" className="transition-colors hover:text-[var(--text-1)]" style={{ fontFamily: "var(--font-body)", fontSize: 13, color: "#5D5578" }}>
+                    <a href={l === "Terms and Conditions" ? "#terms-and-conditions" : l === "Security Center" ? "#security-center" : l === "Privacy Policy" ? "#privacy-policy" : "#"} className="transition-colors hover:text-[var(--text-1)]" style={{ fontFamily: "var(--font-body)", fontSize: 13, color: "#5D5578" }}>
                       {l}
                     </a>
                   </li>
