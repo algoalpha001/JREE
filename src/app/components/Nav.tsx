@@ -30,7 +30,7 @@ export function Nav() {
   }, []);
 
   const goSignup = () => { window.location.hash = "signup"; };
-  const goSignin = () => alert("Login coming soon — your dashboard will live here.");
+  const goSignin = () => { window.location.hash = "login"; };
 
   const navLinks: { label: string; id: string }[] = [
     { label: "How It Works", id: "how-it-works" },

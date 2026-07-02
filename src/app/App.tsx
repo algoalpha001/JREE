@@ -23,19 +23,21 @@ import { ForEmployersPage } from "./components/ForEmployersPage";
 import { ForCollegesPage } from "./components/ForCollegesPage";
 import { FinalCTACards } from "./components/FinalCTACards";
 import { Onboarding } from "./components/Onboarding";
+import { Login } from "./components/Login";
 import { PostSignup, PostRoute } from "./components/PostSignup";
 import { StyleGuide } from "./components/StyleGuide";
 import { TermsPage } from "./components/TermsPage";
 import { SecurityCenterPage } from "./components/SecurityCenterPage";
 import { PrivacyPolicyPage } from "./components/PrivacyPolicyPage";
 
-type Route = "landing" | "signup" | "styleguide" | "about-us" | "for-employers" | "for-colleges" | "terms" | "security" | "privacy" | PostRoute;
+type Route = "landing" | "signup" | "login" | "styleguide" | "about-us" | "for-employers" | "for-colleges" | "terms" | "security" | "privacy" | PostRoute;
 const POST_ROUTES: PostRoute[] = ["dashboard", "exam/check", "exam/active", "exam/transition", "exam/priya", "exam/processing", "results"];
 
 function getRoute(): Route {
   if (typeof window === "undefined") return "landing";
   const h = window.location.hash.replace(/^#/, "");
   if (h === "signup") return "signup";
+  if (h === "login") return "login";
   if (h === "styleguide") return "styleguide";
   if (h === "about-us") return "about-us";
   if (h === "for-employers") return "for-employers";
@@ -64,6 +66,15 @@ export default function App() {
       <div className="min-h-screen overflow-x-hidden" style={{ background: "var(--bg)", color: "var(--text-1)", fontFamily: "var(--font-body)" }}>
         <SignupHeader />
         <Onboarding />
+      </div>
+    );
+  }
+
+  if (route === "login") {
+    return (
+      <div className="min-h-screen overflow-x-hidden" style={{ background: "var(--bg)", color: "var(--text-1)", fontFamily: "var(--font-body)" }}>
+        <SignupHeader />
+        <Login />
       </div>
     );
   }
