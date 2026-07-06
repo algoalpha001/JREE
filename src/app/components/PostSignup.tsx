@@ -204,6 +204,62 @@ function Dashboard() {
               }}>Edit profile</button>
             </Card>
 
+            <button 
+              onClick={() => window.location.hash = "#resume-builder"}
+              className="relative w-full overflow-hidden group transition-all duration-500 hover:scale-[1.02] active:scale-[0.98]" style={{
+              background: "linear-gradient(135deg, #1A1721 0%, #0F0C16 100%)",
+              border: "1px solid rgba(109, 86, 164, 0.3)",
+              borderRadius: 20,
+              padding: "24px",
+              textAlign: "left",
+              boxShadow: "0 20px 40px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.05)"
+            }}>
+              <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                <Sparkles size={48} color="var(--lime)" />
+              </div>
+              
+              <div className="relative z-10 flex items-start gap-4">
+                <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0" style={{ background: "rgba(201, 220, 83, 0.1)", border: "1px solid rgba(201, 220, 83, 0.2)" }}>
+                   <div className="relative">
+                      <Save size={20} color="var(--lime)" />
+                      <motion.div 
+                        animate={{ scale: [1, 1.2, 1], opacity: [0.5, 1, 0.5] }}
+                        transition={{ duration: 2, repeat: Infinity }}
+                        className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-[var(--lime)]"
+                      />
+                   </div>
+                </div>
+                
+                <div className="flex-1">
+                  <div style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "var(--lime)", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 6 }}>
+                    New Feature
+                  </div>
+                  <h3 style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 18, color: "var(--text-1)", marginBottom: 4 }}>
+                    AI Resume Builder
+                  </h3>
+                  <p style={{ fontFamily: "var(--font-body)", fontSize: 13, color: "var(--text-3)", lineHeight: 1.5, maxWidth: "200px" }}>
+                    Generate a verified PDF resume based on your JREE scores.
+                  </p>
+                </div>
+                
+                <div className="self-center">
+                  <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center group-hover:bg-[var(--lime)] group-hover:border-[var(--lime)] transition-all">
+                    <ArrowRight size={14} className="text-white group-hover:text-[var(--bg)] transition-colors" />
+                  </div>
+                </div>
+              </div>
+
+              {/* Decorative pulse line */}
+              <div className="absolute bottom-0 left-0 w-full h-0.5 overflow-hidden">
+                <motion.div 
+                  animate={{ x: ["-100%", "100%"] }}
+                  transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+                  className="w-1/2 h-full"
+                  style={{ background: "linear-gradient(90deg, transparent, var(--lime), transparent)" }}
+                />
+              </div>
+            </button>
+
             <Card style={{ padding: 28 }}>
               <Eyebrow color="var(--lime-text)">Before you start</Eyebrow>
               <ul className="mt-5 space-y-3.5">

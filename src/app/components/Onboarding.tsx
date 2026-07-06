@@ -280,12 +280,15 @@ export function Onboarding() {
   };
 
   return (
-    <section id="signup" className="relative py-16 md:py-28 px-5 sm:px-8 md:px-12 lg:px-[72px]" style={{ background: "var(--bg-2)" }}>
-      <div
-        className="absolute inset-0 pointer-events-none"
+    <section id="signup" className="relative py-16 md:py-28 px-5 sm:px-8 md:px-12 lg:px-[72px]" style={{ background: "var(--bg)" }}>
+
+      <div 
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
         style={{
-          backgroundImage: "radial-gradient(rgba(240,235,255,0.04) 1px, transparent 1px)",
-          backgroundSize: "32px 32px",
+          width: 800,
+          height: 800,
+          background: "radial-gradient(circle, rgba(109,86,164,0.12) 0%, transparent 70%)",
+          filter: "blur(60px)",
         }}
       />
       
