@@ -59,7 +59,7 @@ export function ForEmployers() {
               }}
             >
               Shortlists that{" "}
-              <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", color: "var(--lime)", fontWeight: 400 }}>
+              <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", color: "var(--lime-text)", fontWeight: 400 }}>
                 screen themselves
               </span>
               .
@@ -213,7 +213,7 @@ export function ForEmployers() {
                     className="mt-5 md:mt-6 rounded-[4px] px-4 py-4 flex items-center justify-between gap-4"
                     style={{
                       background:
-                        verdict === "ready" ? "var(--lime-soft)" : "rgba(240,235,255,0.04)",
+                        verdict === "ready" ? "var(--lime-soft)" : "var(--hairline)",
                       border: `1px solid ${
                         verdict === "ready"
                           ? "var(--lime-border)"
@@ -396,13 +396,13 @@ export function ForEmployers() {
               style={{
                 height: 52,
                 padding: "0 24px",
-                background: "var(--lime)",
-                color: "var(--on-lime)",
+                background: "var(--violet)",
+                color: "var(--on-violet)",
                 fontFamily: "var(--font-display)",
                 fontWeight: 700,
                 fontSize: 15,
                 letterSpacing: "-0.01em",
-                boxShadow: "0 8px 32px rgba(201,220,83,0.25)",
+                boxShadow: "var(--shadow-card)",
               }}
             >
               Start Hiring →

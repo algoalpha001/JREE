@@ -372,9 +372,9 @@ function ColorPaletteBlock() {
   return (
     <div className="space-y-12">
       <ColorGroup title="Backgrounds">
-        <Swatch token="--bg"    hex="#0B090F" label="Page background" />
+        <Swatch token="--bg"    hex="var(--text-1)" label="Page background" />
         <Swatch token="--bg-2"  hex="#0F0C16" label="Section alternate" />
-        <Swatch token="--bg-3"  hex="#080610" label="Darkest background" />
+        <Swatch token="--bg-3"  hex="var(--bg-3)" label="Darkest background" />
       </ColorGroup>
 
       <ColorGroup title="Surfaces">
@@ -420,20 +420,20 @@ function ColorPaletteBlock() {
       </ColorGroup>
 
       <ColorGroup title="Semantic">
-        <Swatch token="--danger" hex="#F87171" label="Error / Recording" />
-        <AlphaSwatch token="--hairline"        rgba="rgba(240,235,255,0.06)" label="Dividers" />
-        <AlphaSwatch token="--hairline-strong" rgba="rgba(240,235,255,0.12)" label="Borders" />
+        <Swatch token="--danger" hex="var(--amber-text)" label="Review / Recording" />
+        <AlphaSwatch token="--hairline"        rgba="var(--hairline)" label="Dividers" />
+        <AlphaSwatch token="--hairline-strong" rgba="var(--hairline-strong)" label="Borders" />
       </ColorGroup>
 
       <ColorGroup title="Text">
-        <Swatch token="--text-1" hex="#F0EBFF" label="Primary text" />
+        <Swatch token="--text-1" hex="#1A1525" label="Primary text" />
         <Swatch token="--text-2" hex="#BFB6D0" label="Secondary text" />
         <Swatch token="--text-3" hex="#948AAB" label="Tertiary / muted" />
       </ColorGroup>
 
       {/* Light mode note */}
       <div className="p-5 rounded-[14px]" style={{ background: "var(--surface-1)", border: "1px solid var(--hairline-strong)" }}>
-        <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--violet)", letterSpacing: "0.02em", marginBottom: 12 }}>LIGHT MODE OVERRIDES — [data-theme="light"]</div>
+        <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--violet)", letterSpacing: "0.02em", marginBottom: 12 }}>LIGHT-ONLY TOKEN REFERENCE</div>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
           {[
             { token: "--bg",      hex: "#FAF7F0" }, { token: "--bg-2",     hex: "#F4F0E6" },
@@ -507,7 +507,7 @@ function ProgressBarDemo() {
       ].map((l) => (
         <div key={l.label} className="flex items-center gap-3">
           <span style={{ width: 110, fontFamily: "var(--font-body)", fontSize: 12, color: "var(--text-2)", flexShrink: 0 }}>{l.label}</span>
-          <div className="flex-1 h-1.5 rounded-full overflow-hidden" style={{ background: "rgba(240,235,255,0.06)" }}>
+          <div className="flex-1 h-1.5 rounded-full overflow-hidden" style={{ background: "var(--hairline)" }}>
             <div className="h-full rounded-full" style={{ width: `${l.pct}%`, background: l.color }} />
           </div>
           <span style={{ width: 28, fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--text-1)", textAlign: "right", flexShrink: 0 }}>{l.pct}</span>
@@ -519,20 +519,20 @@ function ProgressBarDemo() {
 
 function MiniScoreCard() {
   return (
-    <div className="rounded-[22px] overflow-hidden" style={{ maxWidth: 340, background: "linear-gradient(165deg,#16121F,#0F0C16)", border: "1px solid rgba(109,86,164,0.3)", padding: "20px 22px", boxShadow: "0 40px 80px rgba(0,0,0,0.6)" }}>
+    <div className="rounded-[22px] overflow-hidden" style={{ maxWidth: 340, background: "linear-gradient(165deg,var(--surface-1),var(--bg-2))", border: "1px solid rgba(109,86,164,0.3)", padding: "20px 22px", boxShadow: "var(--shadow-highest)" }}>
       <div className="flex items-center justify-between">
         <div>
           <div style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 14, color: "var(--text-1)", letterSpacing: "-0.03em" }}>JREE<span style={{ display: "inline-block", width: 4, height: 4, background: "var(--lime)", borderRadius: "50%", marginLeft: 2, marginBottom: 3, verticalAlign: "middle" }} /></div>
           <div style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "var(--text-3)", letterSpacing: "0.07em" }}>OFFICIAL SCORE CARD</div>
         </div>
-        <span style={{ padding: "4px 10px", borderRadius: 100, border: "1px solid rgba(81,193,181,0.3)", background: "rgba(81,193,181,0.08)", fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--teal)", letterSpacing: "0.04em" }}>✓ VERIFIED</span>
+        <span style={{ padding: "4px 10px", borderRadius: 100, border: "1px solid rgba(81,193,181,0.3)", background: "rgba(81,193,181,0.08)", fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--teal-text)", letterSpacing: "0.04em" }}>✓ VERIFIED</span>
       </div>
       <div className="mt-4" style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--violet)", letterSpacing: "0.03em" }}>CANDIDATE</div>
       <div style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 18, color: "var(--text-1)", letterSpacing: "-0.02em", marginTop: 2 }}>Ananya Sharma</div>
       <div className="mt-4 flex items-end gap-3">
         <div style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 80, color: "var(--text-1)", letterSpacing: "-0.06em", lineHeight: 0.85 }}>78</div>
         <div className="pb-2">
-          <span style={{ padding: "4px 10px", borderRadius: 100, background: "var(--lime)", color: "var(--on-lime)", fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 11 }}>BAND A</span>
+          <span style={{ padding: "4px 10px", borderRadius: 100, background: "var(--violet)", color: "var(--on-violet)", fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 11 }}>BAND A</span>
           <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text-3)", marginTop: 6, letterSpacing: "0.02em" }}>91ST PERCENTILE</div>
         </div>
       </div>
@@ -547,15 +547,15 @@ function UIElementsBlock() {
       <UIGroup title="Buttons">
         <div className="flex flex-wrap gap-4 items-center">
           {/* Primary — lime */}
-          <button className="rounded-full transition-all hover:scale-[1.03] active:scale-[0.97]" style={{ height: 52, padding: "0 24px", background: "var(--lime)", color: "var(--on-lime)", fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 15, boxShadow: "0 8px 32px rgba(201,220,83,0.25)", letterSpacing: "-0.01em" }}>
+          <button className="rounded-full transition-all hover:scale-[1.03] active:scale-[0.97]" style={{ height: 52, padding: "0 24px", background: "var(--violet)", color: "var(--on-violet)", fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 15, boxShadow: "var(--shadow-card)", letterSpacing: "-0.01em" }}>
             Take Free Assessment →
           </button>
           {/* Secondary — outline */}
-          <button className="rounded-full transition-colors" style={{ height: 52, padding: "0 22px", background: "transparent", border: "1px solid rgba(240,235,255,0.15)", color: "var(--text-2)", fontFamily: "var(--font-body)", fontSize: 14 }}>
+          <button className="rounded-full transition-colors" style={{ height: 52, padding: "0 22px", background: "transparent", border: "1px solid var(--hairline-strong)", color: "var(--text-2)", fontFamily: "var(--font-body)", fontSize: 14 }}>
             Request Demo
           </button>
           {/* Violet outline */}
-          <button className="rounded-full transition-all hover:bg-[rgba(240,235,255,0.06)]" style={{ height: 36, padding: "0 16px", background: "transparent", border: "1px solid var(--violet-border)", color: "var(--text-1)", fontFamily: "var(--font-body)", fontWeight: 500, fontSize: 13 }}>
+          <button className="rounded-full transition-all hover:bg-[var(--hairline)]" style={{ height: 36, padding: "0 16px", background: "transparent", border: "1px solid var(--violet-border)", color: "var(--text-1)", fontFamily: "var(--font-body)", fontWeight: 500, fontSize: 13 }}>
             Login
           </button>
           {/* Violet filled — small */}
@@ -567,7 +567,7 @@ function UIElementsBlock() {
             Meet them yourself →
           </button>
           {/* Danger */}
-          <button className="inline-flex items-center rounded-full" style={{ height: 34, padding: "0 14px", background: "transparent", border: "1px solid rgba(248,113,113,0.4)", color: "var(--danger)", fontFamily: "var(--font-mono)", fontSize: 12, letterSpacing: "0.03em" }}>
+          <button className="inline-flex items-center rounded-full" style={{ height: 34, padding: "0 14px", background: "transparent", border: "1px solid var(--amber-border)", color: "var(--danger)", fontFamily: "var(--font-mono)", fontSize: 12, letterSpacing: "0.03em" }}>
             End
           </button>
         </div>
@@ -591,7 +591,7 @@ function UIElementsBlock() {
       <UIGroup title="Score Bands">
         <div className="flex flex-wrap gap-3 items-end mb-6">
           {[
-            { letter: "A", range: "75–100", color: "var(--lime)",   bg: "var(--lime-soft)",              border: "var(--lime-border)"    },
+            { letter: "A", range: "75–100", color: "var(--lime-text)",   bg: "var(--lime-soft)",              border: "var(--lime-border)"    },
             { letter: "B", range: "55–74",  color: "#B9A4E8",       bg: "rgba(185,164,232,0.15)",        border: "rgba(185,164,232,0.3)" },
             { letter: "C", range: "35–54",  color: "var(--violet)", bg: "var(--violet-soft)",            border: "var(--violet-border)"  },
             { letter: "D", range: "0–34",   color: "var(--text-3)", bg: "rgba(148,138,171,0.12)",        border: "rgba(148,138,171,0.25)" },
@@ -607,10 +607,10 @@ function UIElementsBlock() {
 
         {/* Filled band badges as seen on score card */}
         <div className="flex gap-3">
-          <span style={{ padding: "5px 11px", borderRadius: 100, background: "var(--lime)", color: "var(--on-lime)", fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 12, letterSpacing: "-0.01em" }}>BAND A</span>
+          <span style={{ padding: "5px 11px", borderRadius: 100, background: "var(--violet)", color: "var(--on-violet)", fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 12, letterSpacing: "-0.01em" }}>BAND A</span>
           <span style={{ padding: "5px 11px", borderRadius: 100, background: "rgba(185,164,232,0.25)", color: "#B9A4E8", fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 12 }}>BAND B</span>
           <span style={{ padding: "5px 11px", borderRadius: 100, background: "var(--violet-soft)", color: "var(--violet)", fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 12 }}>BAND C</span>
-          <span style={{ padding: "5px 11px", borderRadius: 100, background: "rgba(148,138,171,0.12)", color: "var(--text-3)", fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 12 }}>BAND D</span>
+          <span style={{ padding: "5px 11px", borderRadius: 100, background: "rgba(148,138,171,0.12)", color: "var(--text-3)", fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 12 }}>NEEDS SUPPORT</span>
         </div>
       </UIGroup>
 
@@ -618,7 +618,7 @@ function UIElementsBlock() {
       <UIGroup title="Status Pills & Eyebrows">
         <div className="flex flex-wrap gap-3 items-center">
           {/* Verified teal */}
-          <span className="inline-flex items-center gap-1.5" style={{ padding: "4px 10px", borderRadius: 100, border: "1px solid rgba(81,193,181,0.3)", background: "rgba(81,193,181,0.08)", fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--teal)", letterSpacing: "0.04em" }}>
+          <span className="inline-flex items-center gap-1.5" style={{ padding: "4px 10px", borderRadius: 100, border: "1px solid rgba(81,193,181,0.3)", background: "rgba(81,193,181,0.08)", fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--teal-text)", letterSpacing: "0.04em" }}>
             <span className="block rounded-full" style={{ width: 5, height: 5, background: "var(--teal)" }} />
             VERIFIED
           </span>
@@ -628,7 +628,7 @@ function UIElementsBlock() {
             LIVE
           </span>
           {/* REC danger */}
-          <span className="inline-flex items-center gap-1.5" style={{ padding: "4px 10px", borderRadius: 100, border: "1px solid rgba(248,113,113,0.3)", background: "rgba(248,113,113,0.08)", fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--danger)", letterSpacing: "0.05em" }}>
+          <span className="inline-flex items-center gap-1.5" style={{ padding: "4px 10px", borderRadius: 100, border: "1px solid var(--amber-border)", background: "var(--amber-soft)", fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--danger)", letterSpacing: "0.05em" }}>
             <motion.span className="block rounded-full" style={{ width: 5, height: 5, background: "var(--danger)" }} animate={{ scale: [1, 1.5, 1], opacity: [1, 0.3, 1] }} transition={{ duration: 1.4, repeat: Infinity }} />
             REC 01:24
           </span>
@@ -638,9 +638,9 @@ function UIElementsBlock() {
             <span style={{ fontFamily: "var(--font-body)", fontSize: 12, color: "var(--lime-text)" }}>India's first AI-powered job readiness assessment</span>
           </span>
           {/* Stage tag */}
-          <span style={{ padding: "4px 10px", borderRadius: 100, background: "rgba(0,0,0,0.5)", backdropFilter: "blur(8px)", border: "1px solid var(--hairline-strong)", fontFamily: "var(--font-mono)", fontSize: 10, color: "#B9A4E8", letterSpacing: "0.07em" }}>FOR STUDENTS</span>
+          <span style={{ padding: "4px 10px", borderRadius: 100, background: "rgba(255,255,255,.88)", backdropFilter: "blur(8px)", border: "1px solid var(--hairline-strong)", fontFamily: "var(--font-mono)", fontSize: 10, color: "#B9A4E8", letterSpacing: "0.07em" }}>FOR STUDENTS</span>
           {/* Amber focus */}
-          <span style={{ padding: "4px 11px", borderRadius: 100, background: "var(--amber-soft)", border: "1px solid var(--amber-border)", fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--amber)", letterSpacing: "0.03em" }}>NEXT STEP</span>
+          <span style={{ padding: "4px 11px", borderRadius: 100, background: "var(--amber-soft)", border: "1px solid var(--amber-border)", fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--amber-text)", letterSpacing: "0.03em" }}>NEXT STEP</span>
           {/* Unique badge */}
           <span style={{ fontFamily: "var(--font-mono)", fontSize: 12, padding: "3px 9px", borderRadius: 100, background: "transparent", border: "1px solid var(--lime-border)", color: "var(--lime-text)", letterSpacing: "0.02em" }}>★ UNIQUE TO JREE</span>
         </div>
@@ -650,7 +650,7 @@ function UIElementsBlock() {
       <UIGroup title="Card Surfaces">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Surface 1 card */}
-          <div className="grain rounded-[18px] p-6" style={{ background: "var(--surface-1)", border: "1px solid rgba(109,86,164,0.18)", boxShadow: "inset 0 1px 0 rgba(255,255,255,0.04), 0 24px 48px rgba(0,0,0,0.4)" }}>
+          <div className="grain rounded-[18px] p-6" style={{ background: "var(--surface-1)", border: "1px solid rgba(109,86,164,0.18)", boxShadow: "var(--shadow-elevated)" }}>
             <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text-3)", letterSpacing: "0.07em" }}>SURFACE-1 · GRAIN</div>
             <div className="mt-3" style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 20, color: "var(--text-1)", letterSpacing: "-0.02em" }}>Default Card</div>
             <div className="mt-2" style={{ fontFamily: "var(--font-body)", fontSize: 13, color: "var(--text-2)", lineHeight: 1.5 }}>Used for feature cards, FAQ, testimonials, and most surfaces.</div>
@@ -662,7 +662,7 @@ function UIElementsBlock() {
             <div className="mt-2" style={{ fontFamily: "var(--font-body)", fontSize: 13, color: "var(--text-2)", lineHeight: 1.5 }}>Floating pills, notification badges, overlays.</div>
           </div>
           {/* Glass card */}
-          <div className="rounded-[14px] px-5 py-4" style={{ background: "rgba(12,10,16,0.72)", backdropFilter: "blur(10px)", border: "1px solid var(--hairline-strong)", boxShadow: "0 20px 40px rgba(0,0,0,0.5)" }}>
+          <div className="rounded-[14px] px-5 py-4" style={{ background: "rgba(255,255,255,.92)", backdropFilter: "blur(10px)", border: "1px solid var(--hairline-strong)", boxShadow: "var(--shadow-elevated)" }}>
             <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text-3)", letterSpacing: "0.07em" }}>GLASS CARD</div>
             <div className="mt-3" style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 20, color: "var(--text-1)", letterSpacing: "-0.02em" }}>Frosted Glass</div>
             <div className="mt-2" style={{ fontFamily: "var(--font-body)", fontSize: 13, color: "var(--text-2)", lineHeight: 1.5 }}>Artifact overlays, score panels above images.</div>
@@ -702,7 +702,7 @@ function UIElementsBlock() {
           </div>
           <div>
             <div style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "var(--text-3)", letterSpacing: "0.02em", marginBottom: 8 }}>LIME GLOW — score pointer line</div>
-            <div className="h-px" style={{ background: "var(--lime)", boxShadow: "0 0 12px rgba(201,220,83,0.7)" }} />
+            <div className="h-px" style={{ background: "var(--lime)", boxShadow: "none" }} />
           </div>
         </div>
       </UIGroup>
@@ -732,7 +732,7 @@ function UIElementsBlock() {
       {/* Ghost word */}
       <UIGroup title="Ghost Background Words">
         <div className="relative rounded-[14px] overflow-hidden" style={{ height: 160, background: "var(--surface-1)", border: "1px solid var(--hairline-strong)" }}>
-          <div className="absolute pointer-events-none select-none" style={{ left: "-2%", top: "-20%", fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 160, color: "rgba(240,235,255,0.025)", letterSpacing: "-0.06em", lineHeight: 0.85 }}>JREE</div>
+          <div className="absolute pointer-events-none select-none" style={{ left: "-2%", top: "-20%", fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 160, color: "rgba(94,74,158,.05)", letterSpacing: "-0.06em", lineHeight: 0.85 }}>JREE</div>
           <div className="absolute inset-0 flex items-center justify-center">
             <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text-3)", letterSpacing: "0.03em" }}>opacity: 0.025 · Bricolage · 800 · used as background watermark</span>
           </div>
@@ -768,12 +768,12 @@ function UIElementsBlock() {
       <UIGroup title="Roster Picker (AI Interviewers)">
         <div className="rounded-[16px] p-3 grid grid-cols-2 md:grid-cols-4 gap-2" style={{ background: "var(--surface-1)", border: "1px solid var(--violet-border)", maxWidth: 680 }}>
           {[
-            { name: "Priya",  tone: "WARM",   accent: "Neutral Indian",  active: true,  color: "var(--lime)"   },
+            { name: "Priya",  tone: "WARM",   accent: "Neutral Indian",  active: true,  color: "var(--lime-text)"   },
             { name: "Arjun",  tone: "CRISP",  accent: "Neutral Indian",  active: false, color: "var(--violet)" },
             { name: "Meera",  tone: "CALM",   accent: "South Indian",    active: false, color: "var(--violet)" },
-            { name: "Rohan",  tone: "DIRECT", accent: "North Indian",    active: false, color: "var(--lime)"   },
+            { name: "Rohan",  tone: "DIRECT", accent: "North Indian",    active: false, color: "var(--lime-text)"   },
           ].map((a) => (
-            <div key={a.name} className="flex items-center gap-2.5 rounded-[12px]" style={{ padding: "9px 11px", background: a.active ? "rgba(109,86,164,0.18)" : "transparent", border: `1px solid ${a.active ? a.color : "rgba(240,235,255,0.08)"}` }}>
+            <div key={a.name} className="flex items-center gap-2.5 rounded-[12px]" style={{ padding: "9px 11px", background: a.active ? "rgba(109,86,164,0.18)" : "transparent", border: `1px solid ${a.active ? a.color : "var(--hairline-strong)"}` }}>
               <span className="block rounded-full flex-shrink-0" style={{ width: 28, height: 28, background: `radial-gradient(circle at 35% 30%, rgba(255,255,255,0.5), ${a.color} 40%, #1A0E2E 100%)` }} />
               <div>
                 <div style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 13, color: "var(--text-1)", letterSpacing: "-0.01em", lineHeight: 1 }}>{a.name}</div>
@@ -787,12 +787,12 @@ function UIElementsBlock() {
       {/* Notification toast */}
       <UIGroup title="Toast / Notification">
         <div className="flex flex-wrap gap-4">
-          <div style={{ padding: "9px 13px", borderRadius: 12, background: "var(--surface-2)", border: "1px solid rgba(201,220,83,0.3)", boxShadow: "0 14px 28px rgba(0,0,0,0.55)", maxWidth: 200 }}>
+          <div style={{ padding: "9px 13px", borderRadius: 12, background: "var(--surface-2)", border: "1px solid rgba(201,220,83,0.3)", boxShadow: "var(--shadow-card)", maxWidth: 200 }}>
             <div style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--lime-text)", letterSpacing: "0.02em" }}>↑ NEW</div>
             <div className="mt-1" style={{ fontFamily: "var(--font-body)", fontSize: 12, color: "var(--text-1)", lineHeight: 1.35 }}>Razorpay viewed your score</div>
           </div>
-          <div className="inline-flex items-center gap-2 rounded-full" style={{ padding: "8px 14px 8px 10px", background: "var(--surface-1)", border: "1px solid rgba(109,86,164,0.35)", boxShadow: "0 12px 30px rgba(0,0,0,0.5)" }}>
-            <span className="inline-flex items-center justify-center rounded-full" style={{ width: 22, height: 22, background: "var(--lime)", color: "var(--on-lime)", fontFamily: "var(--font-mono)", fontWeight: 700, fontSize: 12 }}>↗</span>
+          <div className="inline-flex items-center gap-2 rounded-full" style={{ padding: "8px 14px 8px 10px", background: "var(--surface-1)", border: "1px solid rgba(109,86,164,0.35)", boxShadow: "var(--shadow-card)" }}>
+            <span className="inline-flex items-center justify-center rounded-full" style={{ width: 22, height: 22, background: "var(--violet)", color: "var(--on-violet)", fontFamily: "var(--font-mono)", fontWeight: 700, fontSize: 12 }}>↗</span>
             <span style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--text-2)", letterSpacing: "0.03em" }}>SHARE ON <span style={{ color: "var(--text-1)" }}>LINKEDIN</span></span>
           </div>
         </div>
@@ -801,9 +801,9 @@ function UIElementsBlock() {
       {/* Stamp / Seal */}
       <UIGroup title="Verification Stamp">
         <div className="flex items-center gap-8">
-          <div className="flex flex-col items-center justify-center" style={{ width: 78, height: 78, borderRadius: "50%", border: "1.5px dashed var(--lime)", background: "rgba(11,9,15,0.85)" }}>
+          <div className="flex flex-col items-center justify-center" style={{ width: 78, height: 78, borderRadius: "50%", border: "1.5px dashed var(--lime)", background: "rgba(250,247,240,0.94)" }}>
             <span style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--lime-text)", letterSpacing: "0.02em" }}>JREE</span>
-            <span style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 14, color: "var(--lime)", lineHeight: 1, marginTop: 2 }}>OFFICIAL</span>
+            <span style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 14, color: "var(--lime-text)", lineHeight: 1, marginTop: 2 }}>OFFICIAL</span>
             <span style={{ fontFamily: "var(--font-mono)", fontSize: 8, color: "var(--text-3)", letterSpacing: "0.02em", marginTop: 2 }}>✓ VERIFIED</span>
           </div>
           <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text-3)", letterSpacing: "0.05em", lineHeight: 1.6 }}>
@@ -870,7 +870,7 @@ export function StyleGuide() {
   return (
     <div className="min-h-screen" style={{ background: "var(--bg)", color: "var(--text-1)", fontFamily: "var(--font-body)" }}>
       {/* Header */}
-      <header style={{ background: "rgba(11,9,15,0.85)", backdropFilter: "blur(24px)", borderBottom: "1px solid var(--hairline-strong)", position: "sticky", top: 0, zIndex: 100 }}>
+      <header style={{ background: "rgba(250,247,240,0.94)", backdropFilter: "blur(24px)", borderBottom: "1px solid var(--hairline-strong)", position: "sticky", top: 0, zIndex: 100 }}>
         <div className={`${CONTAINER} h-14 flex items-center justify-between`}>
           <div className="flex items-center gap-4">
             <span style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 16, color: "var(--text-1)", letterSpacing: "-0.03em" }}>
@@ -882,7 +882,7 @@ export function StyleGuide() {
             <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text-3)", letterSpacing: "0.05em" }}>v1.0</span>
             <button
               onClick={() => { window.location.hash = ""; }}
-              className="rounded-full transition-all hover:bg-[rgba(240,235,255,0.06)]"
+              className="rounded-full transition-all hover:bg-[var(--hairline)]"
               style={{ height: 32, padding: "0 14px", background: "transparent", border: "1px solid var(--violet-border)", color: "var(--text-2)", fontFamily: "var(--font-body)", fontWeight: 500, fontSize: 12 }}
             >
               ← Back to site
@@ -893,11 +893,11 @@ export function StyleGuide() {
 
       {/* Hero banner */}
       <div className="relative overflow-hidden" style={{ background: "linear-gradient(165deg, var(--bg-2), var(--bg))", borderBottom: "1px solid var(--hairline-strong)" }}>
-        <div className="absolute pointer-events-none select-none" style={{ right: "-4vw", top: "-20%", fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "min(28vw,360px)", color: "rgba(240,235,255,0.02)", letterSpacing: "-0.06em", lineHeight: 0.85 }}>TOKENS</div>
+        <div className="absolute pointer-events-none select-none" style={{ right: "-4vw", top: "-20%", fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "min(28vw,360px)", color: "rgba(94,74,158,.04)", letterSpacing: "-0.06em", lineHeight: 0.85 }}>TOKENS</div>
         <div className={`${CONTAINER} py-14 md:py-20`}>
           <div style={{ fontFamily: "var(--font-mono)", fontWeight: 500, fontSize: 11, color: "var(--violet)", letterSpacing: "0.03em", textTransform: "uppercase", marginBottom: 16 }}>JREE Design System · 2025</div>
           <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "clamp(40px,7vw,80px)", color: "var(--text-1)", letterSpacing: "-0.04em", lineHeight: 0.95 }}>
-            Style <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", color: "var(--lime)", fontWeight: 400 }}>Guide</span>.
+            Style <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", color: "var(--lime-text)", fontWeight: 400 }}>Guide</span>.
           </h1>
           <p className="mt-5 max-w-[540px]" style={{ fontFamily: "var(--font-body)", fontSize: 16, color: "var(--text-2)", lineHeight: 1.65 }}>
             Typography, color tokens, and all UI components used across the JREE landing page — dark and light mode ready.
@@ -948,7 +948,7 @@ export function StyleGuide() {
       </div>
 
       {/* Footer */}
-      <footer style={{ background: "#070509", borderTop: "1px solid rgba(109,86,164,0.12)" }} className="py-8">
+      <footer style={{ background: "var(--bg-2)", borderTop: "1px solid rgba(109,86,164,0.12)" }} className="py-8">
         <div className={`${CONTAINER} flex flex-col md:flex-row md:items-center justify-between gap-4`}>
           <div style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--text-3)" }}>
             JREE Design System · Built by EduBridge · 2025

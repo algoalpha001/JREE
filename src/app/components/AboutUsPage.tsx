@@ -142,7 +142,7 @@ function WelcomeSection() {
           <Eyebrow>Welcome to JREE</Eyebrow>
           <SectionHeading>
             <span className="block mt-4">India needed a shared<br />
-              <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 400, color: "var(--lime)" }}>language for readiness.</span>
+              <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 400, color: "var(--lime-text)" }}>language for readiness.</span>
             </span>
           </SectionHeading>
         </FadeIn>
@@ -269,7 +269,7 @@ function Beliefs() {
           <Eyebrow>What We Believe In</Eyebrow>
           <SectionHeading>
             <span className="block mt-4">Four principles.<br />
-              <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 400, color: "var(--teal)" }}>No exceptions.</span>
+              <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 400, color: "var(--teal-text)" }}>No exceptions.</span>
             </span>
           </SectionHeading>
         </FadeIn>
@@ -492,7 +492,7 @@ function BackedBy() {
           <Eyebrow>Backed by EduBridge</Eyebrow>
           <SectionHeading>
             <span className="block mt-4">Not a startup.<br />
-              <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 400, color: "var(--lime)" }}>A 17-year conviction.</span>
+              <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 400, color: "var(--lime-text)" }}>A 17-year conviction.</span>
             </span>
           </SectionHeading>
         </FadeIn>
@@ -580,7 +580,7 @@ function Partners() {
           <Eyebrow>Our Partners & Trust Signals</Eyebrow>
           <SectionHeading>
             <span className="block mt-4">The ecosystem<br />
-              <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 400, color: "var(--teal)" }}>we sit inside.</span>
+              <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 400, color: "var(--teal-text)" }}>we sit inside.</span>
             </span>
           </SectionHeading>
         </FadeIn>
@@ -676,7 +676,7 @@ function MediaAndAwards() {
           <Eyebrow>Our Presence</Eyebrow>
           <SectionHeading>
             <span className="block mt-4">In the room<br />
-              <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 400, color: "var(--lime)" }}>where it's discussed.</span>
+              <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 400, color: "var(--lime-text)" }}>where it's discussed.</span>
             </span>
           </SectionHeading>
         </FadeIn>
@@ -733,7 +733,7 @@ function TrustAndData() {
 
         <FadeIn delay={0.3}>
           <div className="mt-8 rounded-[14px] p-6 flex items-start gap-4" style={{ background: "var(--teal-soft)", border: "1px solid var(--teal-border)" }}>
-            <span style={{ fontFamily: "var(--font-mono)", fontSize: 18, color: "var(--teal)", flexShrink: 0 }}>⚑</span>
+            <span style={{ fontFamily: "var(--font-mono)", fontSize: 18, color: "var(--teal-text)", flexShrink: 0 }}>⚑</span>
             <p style={{ fontFamily: "var(--font-body)", fontSize: 14.5, color: "var(--text-2)", lineHeight: 1.65 }}>
               For questions about your data, to request a copy of your record, or to exercise your right to erasure under DPDP 2023, write to{" "}
               <span style={{ color: "var(--text-1)", fontWeight: 500 }}>privacy@jree.in</span>.
@@ -769,7 +769,7 @@ export function AboutUsPage() {
               maxWidth: 860,
             }}>
               Built to close India's<br />
-              <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 400, color: "var(--lime)" }}>
+              <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 400, color: "var(--lime-text)" }}>
                 employability gap.
               </span>
             </h1>
@@ -813,7 +813,7 @@ export function AboutUsPage() {
             </button>
             <button onClick={() => { window.location.hash = "signup"; }}
               className="rounded-full transition-all hover:scale-[1.03] active:scale-[0.97]"
-              style={{ height: 44, padding: "0 24px", background: "var(--lime)", color: "var(--on-lime)", fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 14, boxShadow: "0 8px 24px rgba(201,220,83,0.2)" }}>
+              style={{ height: 44, padding: "0 24px", background: "var(--violet)", color: "var(--on-violet)", fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 14, boxShadow: "var(--shadow-card)" }}>
               Register Free →
             </button>
           </div>

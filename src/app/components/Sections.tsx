@@ -182,7 +182,7 @@ function HandoffThread({ inView }: { inView: boolean }) {
             width: 22, height: 22,
             background: "var(--bg)",
             border: "1px solid var(--violet)",
-            boxShadow: "0 0 18px rgba(109,86,164,0.5)",
+            boxShadow: "var(--shadow-card)",
             fontFamily: "var(--font-mono)", fontSize: 9, color: "var(--text-1)",
           }}
         >
@@ -244,7 +244,7 @@ function HandoffPanel({ panel, index, inView }: { panel: any; index: number; inV
         {/* stage tag */}
         <span
           className="absolute top-3.5 left-3.5 inline-flex items-center rounded-full z-20"
-          style={{ padding: "4px 10px", background: "rgba(0,0,0,0.5)", backdropFilter: "blur(8px)", border: "1px solid var(--hairline-strong)", fontFamily: "var(--font-mono)", fontSize: 10, color: panel.accentText, letterSpacing: "0.07em" }}
+          style={{ padding: "4px 10px", background: "rgba(255,255,255,.88)", backdropFilter: "blur(8px)", border: "1px solid var(--hairline-strong)", fontFamily: "var(--font-mono)", fontSize: 10, color: panel.accentText, letterSpacing: "0.07em" }}
         >
           {panel.tag}
         </span>
@@ -469,7 +469,7 @@ export function WhoFor() {
               BROADCASTING
             </span>
             <span style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 14, color: "var(--text-1)", letterSpacing: "-0.01em" }}>
-              ANANYA S. <span style={{ color: "var(--text-3)" }}>·</span> <span style={{ fontFamily: "var(--font-mono)", color: "var(--lime)" }}>78</span> <span style={{ color: "var(--text-3)" }}>·</span> BAND A
+              ANANYA S. <span style={{ color: "var(--text-3)" }}>·</span> <span style={{ fontFamily: "var(--font-mono)", color: "var(--lime-text)" }}>78</span> <span style={{ color: "var(--text-3)" }}>·</span> BAND A
             </span>
             <span className="hidden sm:inline" style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--text-3)", letterSpacing: "0.02em" }}>
               JR-25-K9X8M2
@@ -551,7 +551,7 @@ export function WhoFor() {
                 YOUR JREE SCORE IS RECOGNISED AT
               </div>
               <div className="mt-2 flex items-baseline gap-2.5">
-                <span style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 34, color: "var(--lime)", letterSpacing: "-0.03em", lineHeight: 1 }}>
+                <span style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 34, color: "var(--lime-text)", letterSpacing: "-0.03em", lineHeight: 1 }}>
                   240+
                 </span>
                 <span style={{ fontFamily: "var(--font-body)", fontSize: 13, color: "var(--text-2)" }}>companies hiring in India</span>
@@ -569,7 +569,7 @@ export function WhoFor() {
         <div className="mt-8 md:mt-14 text-center max-w-[680px] mx-auto">
           <p style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontSize: "clamp(20px,2.6vw,26px)", color: "var(--text-1)", lineHeight: 1.4 }}>
             One score you actually own.{" "}
-            <span style={{ color: "var(--lime)" }}>A map to grow it.</span> A language hiring teams already speak.
+            <span style={{ color: "var(--lime-text)" }}>A map to grow it.</span> A language hiring teams already speak.
           </p>
         </div>
       </div>
@@ -609,7 +609,7 @@ function LensCard({ tag, color, tagline, delay, children }: { tag: string; color
       />
 
       {/* tag bar */}
-      <div className="flex items-center justify-between px-6 py-4" style={{ borderBottom: "1px solid rgba(240,235,255,0.06)" }}>
+      <div className="flex items-center justify-between px-6 py-4" style={{ borderBottom: "1px solid var(--hairline)" }}>
         <span className="inline-flex items-center gap-2.5" style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--text-3)", letterSpacing: "0.03em" }}>
           <motion.span
             className="block rounded-full"
@@ -630,7 +630,7 @@ function LensCard({ tag, color, tagline, delay, children }: { tag: string; color
       </div>
 
       {/* tagline */}
-      <div className="px-7 py-5" style={{ borderTop: "1px solid rgba(240,235,255,0.06)" }}>
+      <div className="px-7 py-5" style={{ borderTop: "1px solid var(--hairline)" }}>
         <p style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontSize: "clamp(17px,2.2vw,19px)", color: "var(--text-1)", lineHeight: 1.4 }}>
           {tagline}
         </p>
@@ -641,17 +641,7 @@ function LensCard({ tag, color, tagline, delay, children }: { tag: string; color
 
 /* ----- LENS 1: Student — phone with score & share ----- */
 function StudentLens() {
-  const [isLight, setIsLight] = useState(false);
-
-  useEffect(() => {
-    const readTheme = () => setIsLight(document.documentElement.dataset.theme === "light");
-    readTheme();
-
-    const observer = new MutationObserver(readTheme);
-    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
-
-    return () => observer.disconnect();
-  }, []);
+  const isLight = true;
 
   const phoneText = isLight ? "var(--text-2)" : "var(--text-3)";
 
@@ -663,11 +653,11 @@ function StudentLens() {
           width: 230,
           height: 490,
           borderRadius: 32,
-          background: isLight ? "linear-gradient(165deg,#FFFFFF 0%,#F5EEE3 100%)" : "linear-gradient(165deg,#1A1525,#0E0B17)",
+          background: "linear-gradient(165deg,#FFFFFF 0%,#F5EEE3 100%)",
           border: isLight ? "1px solid rgba(26,21,37,0.32)" : "1px solid rgba(109,86,164,0.3)",
           boxShadow: isLight
             ? "0 26px 58px rgba(92,74,42,0.18), inset 0 0 0 4px #D6C8B5"
-            : "0 28px 64px rgba(0,0,0,0.55), inset 0 0 0 4px #050308",
+            : "var(--shadow-highest)",
           padding: "26px 18px 18px",
           transform: "rotate(-2deg)",
         }}
@@ -675,7 +665,7 @@ function StudentLens() {
         {/* notch */}
         <div
           className="student-lens-notch absolute left-1/2 -translate-x-1/2"
-          style={{ top: 8, width: 72, height: 18, background: isLight ? "#CDBEA8" : "#050308", borderRadius: 12 }}
+          style={{ top: 8, width: 72, height: 18, background: "#CDBEA8", borderRadius: 12 }}
         />
 
         {/* status bar */}
@@ -720,8 +710,8 @@ function StudentLens() {
             style={{
               padding: "3px 9px",
               borderRadius: 100,
-              background: "var(--lime)",
-              color: "var(--on-lime)",
+              background: "var(--violet)",
+              color: "var(--on-violet)",
               fontFamily: "var(--font-display)",
               fontWeight: 700,
               fontSize: 12,
@@ -745,7 +735,7 @@ function StudentLens() {
             key={r.label}
             className="student-lens-row mt-2 flex items-center justify-between rounded-lg px-2.5 py-2"
             style={{
-              background: isLight ? "rgba(109,86,164,0.065)" : "rgba(240,235,255,0.04)",
+              background: isLight ? "rgba(109,86,164,0.065)" : "var(--hairline)",
               boxShadow: isLight ? "inset 0 0 0 1px rgba(26,21,37,0.14)" : "none",
             }}
           >
@@ -790,7 +780,7 @@ function StudentLens() {
           borderRadius: 12,
           background: "var(--surface-2)",
           border: isLight ? "1px solid rgba(26,21,37,0.22)" : "1px solid rgba(201,220,83,0.3)",
-          boxShadow: isLight ? "0 14px 30px rgba(92,74,42,0.16)" : "0 14px 28px rgba(0,0,0,0.55)",
+          boxShadow: isLight ? "0 14px 30px rgba(92,74,42,0.16)" : "var(--shadow-card)",
           maxWidth: 150,
         }}
       >
@@ -808,16 +798,16 @@ function StudentLens() {
 /* ----- LENS 2: Growth Map — JREE dashboard showing where to improve ----- */
 function GrowthMapLens() {
   const dims = [
-    { label: "Reasoning",     score: 84, color: "var(--lime)",   note: "Strong",         delta: "+6" },
+    { label: "Reasoning",     score: 84, color: "var(--lime-text)",   note: "Strong",         delta: "+6" },
     { label: "Communication", score: 76, color: "var(--violet)", note: "Steady",         delta: "+2" },
     { label: "Domain depth",  score: 71, color: "var(--violet)",   note: "Improving",      delta: "+4" },
-    { label: "Composure",     score: 64, color: "#F59E0B",       note: "Focus here",     delta: "−1", focus: true },
-    { label: "Logic & data",  score: 79, color: "var(--lime)",   note: "On track",       delta: "+3" },
+    { label: "Composure",     score: 64, color: "var(--amber)",       note: "Focus here",     delta: "−1", focus: true },
+    { label: "Logic & data",  score: 79, color: "var(--lime-text)",   note: "On track",       delta: "+3" },
   ];
   return (
-    <div className="rounded-[14px] overflow-hidden" style={{ background: "var(--bg-2)", border: "1px solid rgba(240,235,255,0.06)" }}>
+    <div className="rounded-[14px] overflow-hidden" style={{ background: "var(--bg-2)", border: "1px solid var(--hairline)" }}>
       {/* header */}
-      <div className="px-5 py-4 flex items-center justify-between" style={{ borderBottom: "1px solid rgba(240,235,255,0.05)", background: "var(--surface-1)" }}>
+      <div className="px-5 py-4 flex items-center justify-between" style={{ borderBottom: "1px solid var(--hairline)", background: "var(--surface-1)" }}>
         <div>
           <div style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--text-3)", letterSpacing: "0.07em" }}>
             YOUR JREE DASHBOARD
@@ -851,7 +841,7 @@ function GrowthMapLens() {
                 </span>
               </span>
             </div>
-            <div className="relative h-2 rounded-full overflow-hidden" style={{ background: "rgba(240,235,255,0.05)" }}>
+            <div className="relative h-2 rounded-full overflow-hidden" style={{ background: "var(--hairline)" }}>
               <motion.div
                 initial={{ width: 0 }}
                 whileInView={{ width: `${d.score}%` }}
@@ -863,7 +853,7 @@ function GrowthMapLens() {
               {/* target marker */}
               <span
                 className="absolute top-0 bottom-0"
-                style={{ left: `${d.score + 8}%`, width: 1, background: "rgba(240,235,255,0.25)" }}
+                style={{ left: `${d.score + 8}%`, width: 1, background: "var(--hairline-strong)" }}
               />
             </div>
           </motion.div>
@@ -902,14 +892,14 @@ function SignalLens() {
     { label: "ENTRY-LEVEL FIT",  on: false },
   ];
   return (
-    <div className="rounded-[14px] overflow-hidden" style={{ background: "var(--bg-2)", border: "1px solid rgba(240,235,255,0.06)" }}>
+    <div className="rounded-[14px] overflow-hidden" style={{ background: "var(--bg-2)", border: "1px solid var(--hairline)" }}>
       {/* header — score decoder */}
-      <div className="px-5 py-4" style={{ borderBottom: "1px solid rgba(240,235,255,0.05)", background: "var(--surface-1)" }}>
+      <div className="px-5 py-4" style={{ borderBottom: "1px solid var(--hairline)", background: "var(--surface-1)" }}>
         <div style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--text-3)", letterSpacing: "0.07em" }}>
           BAND A · SCORE DECODER
         </div>
         <div className="mt-2 flex items-baseline gap-2.5">
-          <span style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 30, color: "var(--lime)", letterSpacing: "-0.03em", lineHeight: 1, textShadow: "0 0 18px rgba(201,220,83,0.4)" }}>
+          <span style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 30, color: "var(--lime-text)", letterSpacing: "-0.03em", lineHeight: 1, textShadow: "none" }}>
             78
           </span>
           <span style={{ fontFamily: "var(--font-body)", fontSize: 12, color: "var(--text-2)" }}>
@@ -918,14 +908,14 @@ function SignalLens() {
         </div>
 
         {/* percentile bar */}
-        <div className="mt-3 relative h-1.5 rounded-full" style={{ background: "rgba(240,235,255,0.05)" }}>
+        <div className="mt-3 relative h-1.5 rounded-full" style={{ background: "var(--hairline)" }}>
           <motion.div
             initial={{ width: 0 }}
             whileInView={{ width: "78%" }}
             viewport={{ once: true }}
             transition={{ duration: 1, delay: 0.3, ease }}
             className="absolute left-0 top-0 bottom-0 rounded-full"
-            style={{ background: "var(--lime)", boxShadow: "0 0 10px rgba(201,220,83,0.5)" }}
+            style={{ background: "var(--lime)", boxShadow: "none" }}
           />
           <motion.span
             initial={{ opacity: 0 }}
@@ -933,7 +923,7 @@ function SignalLens() {
             viewport={{ once: true }}
             transition={{ delay: 1.1 }}
             className="absolute -top-1.5 rounded-full"
-            style={{ left: "calc(78% - 5px)", width: 10, height: 10, background: "var(--lime)", boxShadow: "0 0 12px var(--lime)" }}
+            style={{ left: "calc(78% - 5px)", width: 10, height: 10, background: "var(--lime)", boxShadow: "none" }}
           />
         </div>
         <div className="mt-1.5 flex justify-between" style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--text-3)", letterSpacing: "0.04em" }}>
@@ -942,7 +932,7 @@ function SignalLens() {
       </div>
 
       {/* "Reads as" block */}
-      <div className="px-5 py-4" style={{ borderBottom: "1px solid rgba(240,235,255,0.05)" }}>
+      <div className="px-5 py-4" style={{ borderBottom: "1px solid var(--hairline)" }}>
         <div style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--text-3)", letterSpacing: "0.07em" }}>
           HOW HIRING TEAMS READ THIS
         </div>
@@ -956,8 +946,8 @@ function SignalLens() {
               transition={{ duration: 0.35, delay: 0.4 + i * 0.07, ease }}
               className="flex items-center gap-1.5 rounded-md px-2 py-1.5"
               style={{
-                background: r.on ? "rgba(201,220,83,0.08)" : "rgba(240,235,255,0.03)",
-                border: `1px solid ${r.on ? "var(--lime-border)" : "rgba(240,235,255,0.06)"}`,
+                background: r.on ? "rgba(201,220,83,0.08)" : "var(--hairline)",
+                border: `1px solid ${r.on ? "var(--lime-border)" : "var(--hairline)"}`,
               }}
             >
               <span
@@ -965,7 +955,7 @@ function SignalLens() {
                 style={{
                   width: 14, height: 14,
                   background: r.on ? "var(--lime)" : "transparent",
-                  border: r.on ? "none" : "1px solid rgba(240,235,255,0.2)",
+                  border: r.on ? "none" : "1px solid var(--hairline-strong)",
                   color: "var(--on-lime)",
                   fontFamily: "var(--font-mono)", fontWeight: 700, fontSize: 12,
                 }}
@@ -986,7 +976,7 @@ function SignalLens() {
           className="flex items-center justify-center rounded-md flex-shrink-0"
           style={{ width: 36, height: 36, background: "rgba(109,86,164,0.15)", border: "1px solid var(--violet-border)" }}
         >
-          <span style={{ fontFamily: "var(--font-mono)", fontWeight: 700, fontSize: 14, color: "var(--lime)" }}>✓</span>
+          <span style={{ fontFamily: "var(--font-mono)", fontWeight: 700, fontSize: 14, color: "var(--lime-text)" }}>✓</span>
         </div>
         <div className="flex-1 min-w-0">
           <div style={{ fontFamily: "var(--font-body)", fontWeight: 500, fontSize: 12.5, color: "var(--text-1)" }}>
@@ -1023,7 +1013,7 @@ export function HowItWorks() {
       title: "Four layers. One picture.",
       body: "Aptitude · English · Domain · Situational Judgement. Distraction-free UI. Auto-saves every 30 seconds.",
       Artifact: ArtifactLayers,
-      color: "var(--lime)",
+      color: "var(--lime-text)",
     },
     {
       n: "03",
@@ -1044,7 +1034,7 @@ export function HowItWorks() {
       title: "A number that means something.",
       body: "0–100 score. Band A through D. Your exact national percentile. Layer-by-layer breakdown.",
       Artifact: ArtifactScore,
-      color: "var(--lime)",
+      color: "var(--lime-text)",
     },
     {
       n: "05",
@@ -1064,7 +1054,7 @@ export function HowItWorks() {
       title: "Now you're findable.",
       body: "Employers search by role fit, score, domain, location. Your score is your first impression.",
       Artifact: ArtifactInbox,
-      color: "var(--lime)",
+      color: "var(--lime-text)",
     },
   ];
 
@@ -1079,7 +1069,7 @@ export function HowItWorks() {
           fontFamily: "var(--font-display)",
           fontWeight: 800,
           fontSize: "min(28vw, 360px)",
-          color: "rgba(240,235,255,0.025)",
+          color: "rgba(94,74,158,.05)",
           letterSpacing: "-0.06em",
           lineHeight: 0.85,
           writingMode: "vertical-rl",
@@ -1245,7 +1235,7 @@ function StepRow({ step, index }: { step: any; index: number }) {
           style={{
             background: "var(--surface-1)",
             border: "1px solid rgba(109,86,164,0.22)",
-            boxShadow: "inset 0 1px 0 rgba(255,255,255,0.04), 0 22px 48px rgba(0,0,0,0.4)",
+            boxShadow: "var(--shadow-elevated)",
             padding: 20,
           }}
           whileHover={{
@@ -1339,7 +1329,7 @@ function ArtifactLayers() {
     { l: "Aptitude", pct: 82, c: "var(--lime)" },
     { l: "English", pct: 76, c: "var(--violet)" },
     { l: "Domain", pct: 81, c: "var(--violet)" },
-    { l: "Sit. Judg.", pct: 72, c: "#F59E0B" },
+    { l: "Sit. Judg.", pct: 72, c: "var(--amber)" },
   ];
   return (
     <div>
@@ -1348,7 +1338,7 @@ function ArtifactLayers() {
           <span className="flex-shrink-0" style={{ width: 70, fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--text-2)" }}>
             {d.l}
           </span>
-          <div className="flex-1 h-2.5 rounded-full overflow-hidden" style={{ background: "rgba(240,235,255,0.05)" }}>
+          <div className="flex-1 h-2.5 rounded-full overflow-hidden" style={{ background: "var(--hairline)" }}>
             <motion.div
               initial={{ width: 0 }}
               whileInView={{ width: `${d.pct}%` }}
@@ -1378,7 +1368,7 @@ function ArtifactPriya() {
   return (
     <div>
       <div className="grid grid-cols-[1fr_1fr] gap-2">
-        <div className="relative rounded-lg overflow-hidden" style={{ height: 120, background: "linear-gradient(135deg,#1E1030,#2D1A4A)" }}>
+        <div className="relative rounded-lg overflow-hidden" style={{ height: 120, background: "linear-gradient(135deg,var(--violet-soft),var(--bg-2))" }}>
           <div className="absolute inset-0 flex flex-col items-center justify-center">
             <div className="rounded-[40%]" style={{ width: 36, height: 46, background: "linear-gradient(135deg,#3D2257,#6D56A4)" }} />
             <span className="mt-2" style={{ fontFamily: "var(--font-mono)", fontWeight: 500, fontSize: 12, color: "var(--lime-text)" }}>Priya</span>
@@ -1389,7 +1379,7 @@ function ArtifactPriya() {
             </div>
           </div>
         </div>
-        <div className="relative rounded-lg overflow-hidden flex items-center justify-center" style={{ height: 120, background: "#181520" }}>
+        <div className="relative rounded-lg overflow-hidden flex items-center justify-center" style={{ height: 120, background: "var(--bg-2)" }}>
           <div
             className="rounded-full"
             style={{
@@ -1445,8 +1435,8 @@ function ArtifactScore() {
             style={{
               padding: "4px 11px",
               borderRadius: 100,
-              background: "var(--lime)",
-              color: "var(--on-lime)",
+              background: "var(--violet)",
+              color: "var(--on-violet)",
               fontFamily: "var(--font-display)",
               fontWeight: 700,
               fontSize: 12,
@@ -1469,14 +1459,14 @@ function ArtifactCert() {
         style={{
           width: 88,
           height: 118,
-          background: "linear-gradient(180deg,#1A1525 0%,#0E0B17 100%)",
+          background: "linear-gradient(180deg,var(--surface-1) 0%,var(--bg-2) 100%)",
           border: "1px solid rgba(109,86,164,0.35)",
           padding: 9,
         }}
       >
         <div style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 12, color: "var(--text-1)" }}>JREE</div>
         <div className="mt-2.5" style={{ fontFamily: "var(--font-mono)", fontSize: 7, color: "var(--text-3)", letterSpacing: "0.02em" }}>SCORE</div>
-        <div style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 26, color: "var(--lime)", letterSpacing: "-0.04em", lineHeight: 1 }}>78</div>
+        <div style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 26, color: "var(--lime-text)", letterSpacing: "-0.04em", lineHeight: 1 }}>78</div>
         <div className="absolute bottom-2 right-2 grid grid-cols-6 gap-[1px]" style={{ width: 30, height: 30 }}>
           {Array.from({ length: 36 }).map((_, i) => (
             <span key={i} className="block" style={{ background: (i * 7 + 3) % 3 === 0 ? "var(--text-1)" : "transparent" }} />
@@ -1535,10 +1525,10 @@ function ArtifactInbox() {
           viewport={{ once: true }}
           transition={{ duration: 0.4, delay: 0.3 + i * 0.1, ease }}
           className="flex items-center gap-2.5 py-3"
-          style={{ borderTop: i > 0 ? "1px solid rgba(240,235,255,0.04)" : "none" }}
+          style={{ borderTop: i > 0 ? "1px solid var(--hairline)" : "none" }}
         >
           {m.hot ? (
-            <motion.span className="block rounded-full flex-shrink-0" style={{ width: 7, height: 7, background: "var(--lime)", boxShadow: "0 0 8px var(--lime)" }} animate={{ scale: [1, 1.3, 1] }} transition={{ duration: 1.6, repeat: Infinity }} />
+            <motion.span className="block rounded-full flex-shrink-0" style={{ width: 7, height: 7, background: "var(--lime)", boxShadow: "none" }} animate={{ scale: [1, 1.3, 1] }} transition={{ duration: 1.6, repeat: Infinity }} />
           ) : (
             <span className="block flex-shrink-0" style={{ width: 7, height: 7 }} />
           )}
@@ -1557,10 +1547,10 @@ function ArtifactInbox() {
 
 /* ============ 06. MEET PRIYA — AI INTERVIEW STUDIO ============ */
 const AI_ROSTER = [
-  { id: "priya",  name: "Priya",  gender: "F", accent: "Neutral Indian",   tone: "Warm",   v: "v2.4", color: "var(--lime)" },
+  { id: "priya",  name: "Priya",  gender: "F", accent: "Neutral Indian",   tone: "Warm",   v: "v2.4", color: "var(--lime-text)" },
   { id: "arjun",  name: "Arjun",  gender: "M", accent: "Neutral Indian",   tone: "Crisp",  v: "v2.4", color: "var(--violet)" },
   { id: "meera",  name: "Meera",  gender: "F", accent: "South Indian",     tone: "Calm",   v: "v2.3", color: "var(--violet)" },
-  { id: "rohan",  name: "Rohan",  gender: "M", accent: "North Indian",     tone: "Direct", v: "v2.4", color: "var(--lime)" },
+  { id: "rohan",  name: "Rohan",  gender: "M", accent: "North Indian",     tone: "Direct", v: "v2.4", color: "var(--lime-text)" },
 ] as const;
 type AiId = typeof AI_ROSTER[number]["id"];
 type ActiveAi = typeof AI_ROSTER[number];
@@ -1580,7 +1570,7 @@ function AiRosterPicker({ selected, onSelect }: { selected: AiId; onSelect: (id:
         style={{
           background: "var(--surface-1)",
           border: "1px solid var(--violet-border)",
-          boxShadow: "inset 0 1px 0 rgba(255,255,255,0.04), 0 18px 40px rgba(0,0,0,0.35)",
+          boxShadow: "var(--shadow-elevated)",
         }}
       >
         {AI_ROSTER.map((a) => {
@@ -1593,7 +1583,7 @@ function AiRosterPicker({ selected, onSelect }: { selected: AiId; onSelect: (id:
               style={{
                 padding: "9px 11px",
                 background: isActive ? "rgba(109,86,164,0.18)" : "transparent",
-                border: `1px solid ${isActive ? a.color : "rgba(240,235,255,0.08)"}`,
+                border: `1px solid ${isActive ? a.color : "var(--hairline-strong)"}`,
                 boxShadow: isActive ? `0 0 0 1px ${a.color}40, 0 0 24px ${a.color}30` : "none",
               }}
             >
@@ -1660,7 +1650,7 @@ export function MeetPriya() {
           fontFamily: "var(--font-display)",
           fontWeight: 800,
           fontSize: "min(28vw, 380px)",
-          color: "rgba(240,235,255,0.035)",
+          color: "rgba(94,74,158,.06)",
           letterSpacing: "-0.06em",
           lineHeight: 0.85,
         }}
@@ -1693,7 +1683,7 @@ export function MeetPriya() {
         {/* Footer note + CTA */}
         <div className="mt-8 md:mt-14 text-center max-w-[640px] mx-auto">
           <p style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontSize: "clamp(20px,2.6vw,26px)", color: "var(--text-1)", lineHeight: 1.4 }}>
-            Five questions. <span style={{ color: "var(--lime)" }}>Zero bias.</span> One honest read of who you actually are.
+            Five questions. <span style={{ color: "var(--lime-text)" }}>Zero bias.</span> One honest read of who you actually are.
           </p>
           <button
             className="mt-7 rounded-full transition-all hover:scale-[1.03] active:scale-[0.97]"
@@ -1729,7 +1719,7 @@ function PriyaStudio({ active }: { active: ActiveAi }) {
         maxWidth: 1040,
         background: "var(--surface-1)",
         border: "1px solid rgba(109,86,164,0.25)",
-        boxShadow: "0 40px 100px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04), inset 0 1px 0 rgba(255,255,255,0.04)",
+        boxShadow: "var(--shadow-highest)",
       }}
     >
       {/* TOP BAR */}
@@ -1840,11 +1830,11 @@ function PriyaStudio({ active }: { active: ActiveAi }) {
               <div className="absolute top-2.5 left-2.5 inline-flex items-center gap-1.5 rounded-full" style={{ padding: "3px 9px", background: "rgba(0,0,0,0.55)", border: "1px solid rgba(255,255,255,0.12)" }}>
                 <motion.span
                   className="block rounded-full"
-                  style={{ width: 6, height: 6, background: "#ff5f57" }}
+                  style={{ width: 6, height: 6, background: "var(--amber)" }}
                   animate={{ opacity: [1, 0.2, 1] }}
                   transition={{ duration: 1.2, repeat: Infinity }}
                 />
-                <span style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "#F0EBFF", letterSpacing: "0.02em" }}>REC</span>
+                <span style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--text-1)", letterSpacing: "0.02em" }}>REC</span>
               </div>
             </div>
 
@@ -2059,7 +2049,7 @@ function ScoringMeter({ label, pct, color, hint, delay }: { label: string; pct: 
         <span style={{ fontFamily: "var(--font-body)", fontWeight: 500, fontSize: 12, color: "var(--text-1)" }}>{label}</span>
         <span style={{ fontFamily: "var(--font-mono)", fontWeight: 700, fontSize: 12, color }}>{pct}</span>
       </div>
-      <div className="h-1.5 rounded-full overflow-hidden" style={{ background: "rgba(240,235,255,0.05)" }}>
+      <div className="h-1.5 rounded-full overflow-hidden" style={{ background: "var(--hairline)" }}>
         <motion.div
           initial={{ width: 0 }}
           whileInView={{ width: `${pct}%` }}
@@ -2251,7 +2241,7 @@ export function Testimonials() {
               style={{
                 background: "var(--surface-1)",
                 border: "1px solid rgba(109,86,164,0.15)",
-                boxShadow: "inset 0 1px 0 rgba(255,255,255,0.04), 0 24px 48px rgba(0,0,0,0.4)",
+                boxShadow: "var(--shadow-elevated)",
               }}
             >
               <span
@@ -2359,7 +2349,7 @@ export function Bands() {
       accent: "var(--lime)",
       tag: "FOR COLLEGES",
       title: "Colleges get batch analytics.",
-      body: "Placement teams spot weak areas across departments before recruiters arrive.",
+      body: "Placement teams spot areas for focused support across departments before recruiters arrive.",
       img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
       alt: "Analytics charts displayed on a laptop screen",
     },
@@ -2381,7 +2371,7 @@ export function Bands() {
             <Eyebrow>04 / WHY JREE IS DIFFERENT</Eyebrow>
             <h2 className="mt-4" style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "clamp(34px,5.4vw,60px)", color: "var(--text-1)", letterSpacing: "-0.035em", lineHeight: 1.02 }}>
               Built{" "}
-              <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 400, color: "var(--lime)" }}>
+              <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 400, color: "var(--lime-text)" }}>
                 differently.
               </span>
               <br />
@@ -2411,7 +2401,7 @@ export function Bands() {
                 className={`relative grain rounded-[18px] overflow-hidden ${imgLeft ? "md:order-1" : "md:order-2"}`}
                 style={{
                   border: `1px solid ${borderFor(p.accent)}`,
-                  boxShadow: "0 28px 60px rgba(0,0,0,0.45)",
+                  boxShadow: "var(--shadow-highest)",
                 }}
               >
                 <ImageWithFallback
@@ -2422,7 +2412,7 @@ export function Bands() {
                 />
                 <div
                   className="absolute inset-0 pointer-events-none"
-                  style={{ background: "linear-gradient(180deg, transparent 55%, rgba(11,9,15,0.55))" }}
+                  style={{ background: "linear-gradient(180deg, transparent 55%, rgba(250,247,240,0.86))" }}
                 />
               </motion.div>
 
@@ -2477,7 +2467,7 @@ function ScoreThermometer({ bands }: { bands: any[] }) {
       style={{
         background: "var(--surface-1)",
         border: "1px solid rgba(109,86,164,0.18)",
-        boxShadow: "inset 0 1px 0 rgba(255,255,255,0.04), 0 24px 48px rgba(0,0,0,0.4)",
+        boxShadow: "var(--shadow-elevated)",
         padding: "20px 22px",
         minHeight: 540,
       }}
@@ -2503,7 +2493,7 @@ function ScoreThermometer({ bands }: { bands: any[] }) {
         </div>
 
         {/* Bar */}
-        <div className="relative flex-1 rounded-md overflow-hidden flex flex-col-reverse" style={{ border: "1px solid rgba(240,235,255,0.06)", background: "var(--bg-3)" }}>
+        <div className="relative flex-1 rounded-md overflow-hidden flex flex-col-reverse" style={{ border: "1px solid var(--hairline)", background: "var(--bg-3)" }}>
           {/* Zones (rendered bottom-up since flex-col-reverse) */}
           {bands.slice().reverse().map((b, i) => {
             const span = b.max - b.min + 1;
@@ -2518,7 +2508,7 @@ function ScoreThermometer({ bands }: { bands: any[] }) {
                 style={{
                   flex: `${span} 0 0`,
                   background: `linear-gradient(180deg, ${b.color}1A, ${b.color}44)`,
-                  borderTop: i < bands.length - 1 ? "1px dashed rgba(240,235,255,0.1)" : "none",
+                  borderTop: i < bands.length - 1 ? "1px dashed var(--hairline-strong)" : "none",
                   transformOrigin: "bottom",
                 }}
               >
@@ -2562,7 +2552,7 @@ function ScoreThermometer({ bands }: { bands: any[] }) {
             style={{ bottom: `${YOUR_SCORE}%` }}
           >
             <div className="relative" style={{ marginBottom: -1 }}>
-              <div className="absolute left-0 right-0" style={{ height: 1, background: "var(--lime)", boxShadow: "0 0 12px rgba(201,220,83,0.7)" }} />
+              <div className="absolute left-0 right-0" style={{ height: 1, background: "var(--lime)", boxShadow: "none" }} />
               <div
                 className="absolute inline-flex items-center gap-2 rounded-full whitespace-nowrap"
                 style={{
@@ -2571,7 +2561,7 @@ function ScoreThermometer({ bands }: { bands: any[] }) {
                   top: -16,
                   padding: "5px 12px",
                   background: "var(--lime)",
-                  boxShadow: "0 12px 28px rgba(201,220,83,0.35)",
+                  boxShadow: "var(--shadow-card)",
                 }}
               >
                 <span style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--on-lime)", letterSpacing: "0.02em", fontWeight: 700 }}>YOU</span>
@@ -2584,7 +2574,7 @@ function ScoreThermometer({ bands }: { bands: any[] }) {
                 style={{
                   left: -4, top: -3, width: 8, height: 8,
                   background: "var(--lime)",
-                  boxShadow: "0 0 12px rgba(201,220,83,0.9)",
+                  boxShadow: "none",
                 }}
                 animate={{ scale: [1, 1.4, 1] }}
                 transition={{ duration: 1.6, repeat: Infinity }}
@@ -2594,7 +2584,7 @@ function ScoreThermometer({ bands }: { bands: any[] }) {
 
           {/* MEDIAN dashed line at 64 */}
           <div className="absolute left-0 right-0 pointer-events-none" style={{ bottom: "64%" }}>
-            <div className="border-t border-dashed" style={{ borderColor: "rgba(240,235,255,0.25)" }} />
+            <div className="border-t border-dashed" style={{ borderColor: "var(--hairline-strong)" }} />
             <span
               className="absolute"
               style={{
@@ -2640,7 +2630,7 @@ function BandRow({ band, index, isYou }: { band: any; index: number; isYou: bool
       className="relative grain rounded-[14px] overflow-hidden"
       style={{
         background: "var(--surface-1)",
-        border: `1px solid ${isYou ? "var(--lime-border)" : "rgba(240,235,255,0.06)"}`,
+        border: `1px solid ${isYou ? "var(--lime-border)" : "var(--hairline)"}`,
         boxShadow: isYou
           ? "inset 0 1px 0 rgba(255,255,255,0.04), 0 18px 40px rgba(0,0,0,0.35), 0 0 0 1px rgba(201,220,83,0.12)"
           : "inset 0 1px 0 rgba(255,255,255,0.04), 0 18px 40px rgba(0,0,0,0.3)",
@@ -2789,7 +2779,7 @@ export function FinalCTA() {
             fontFamily: "var(--font-display)",
             fontWeight: 800,
             fontSize: "min(200px, 36vw)",
-            color: "var(--lime)",
+            color: "#91A33A",
             letterSpacing: "-0.05em",
             lineHeight: 0.9,
           }}
@@ -2814,12 +2804,12 @@ export function FinalCTA() {
             style={{
               height: 56,
               padding: "0 28px",
-              background: "var(--lime)",
-              color: "var(--on-lime)",
+              background: "var(--violet)",
+              color: "var(--on-violet)",
               fontFamily: "var(--font-display)",
               fontWeight: 700,
               fontSize: 15,
-              boxShadow: "0 12px 40px rgba(201,220,83,0.35)",
+              boxShadow: "var(--shadow-elevated)",
               letterSpacing: "-0.01em",
             }}
           >
@@ -2843,7 +2833,7 @@ export function Footer() {
     { title: "Company", links: ["About EduBridge", "Security Center", "Privacy Policy", "Terms and Conditions", "Help Center"] },
   ];
   return (
-    <footer style={{ background: "#070509", borderTop: "1px solid rgba(109,86,164,0.12)" }} className="pt-14 md:pt-16 pb-8">
+    <footer style={{ background: "var(--bg-2)", borderTop: "1px solid var(--hairline-strong)" }} className="pt-14 md:pt-16 pb-8">
       <div className={CONTAINER}>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-10">
           <div className="col-span-2 md:col-span-1">
@@ -2941,7 +2931,7 @@ function LearnerLifecycle() {
           }}>
             From blank page<br />
             to{" "}
-            <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 400, color: "var(--lime)" }}>
+            <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 400, color: "var(--lime-text)" }}>
               hired.
             </span>
           </h2>
@@ -3018,7 +3008,7 @@ function ConnectorLabel({ x, y, text, color, emphasize }: { x: number; y: number
   return (
     <g>
       <rect x={x - w/2} y={y - 9} width={w} height={16} rx={8}
-        fill="rgba(11,9,15,0.92)"
+        fill="var(--surface-1)"
         stroke={emphasize ? "var(--lime-border)" : "rgba(109,86,164,0.18)"}
       />
       <text x={x} y={y + 2} textAnchor="middle"
@@ -3054,7 +3044,7 @@ function NodeCard({ node, inView, delay, mobile, width, height }: { node: any; i
       sub: "Score out of 100, percentile rank & a breakdown across all 5 layers.",
       meta: "Instant",
       window: "jree.in/score",
-      highlights: ["0–100 score with Band A–D", "Your exact national percentile", "Layer-by-layer strengths & weak spots"],
+      highlights: ["0–100 score with Band A–D", "Your exact national percentile", "Layer-by-layer strengths & next-step areas"],
     },
     next: {
       title: "Know your next step",
@@ -3079,7 +3069,7 @@ function NodeCard({ node, inView, delay, mobile, width, height }: { node: any; i
         borderRadius: 14,
         background: "var(--surface-1)",
         border: `1px solid ${node.border}`,
-        boxShadow: "0 30px 70px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.03) inset",
+        boxShadow: "var(--shadow-highest)",
       }}
     >
       {/* ── macOS window title bar ── */}
@@ -3094,8 +3084,8 @@ function NodeCard({ node, inView, delay, mobile, width, height }: { node: any; i
       >
         {/* traffic lights */}
         <div className="flex items-center gap-2">
-          {["#ff5f57", "#febc2e", "#28c840"].map((c) => (
-            <span key={c} className="rounded-full" style={{ width: 12, height: 12, background: c, boxShadow: "inset 0 0 0 0.5px rgba(0,0,0,0.25)" }} />
+          {["var(--amber)", "#febc2e", "#28c840"].map((c) => (
+            <span key={c} className="rounded-full" style={{ width: 12, height: 12, background: c, boxShadow: "none" }} />
           ))}
         </div>
         {/* centered window title */}
@@ -3180,7 +3170,7 @@ function NodeCard({ node, inView, delay, mobile, width, height }: { node: any; i
                     One gap is keeping you in Band B.
                   </div>
                   <div className="mt-1.5" style={{ fontFamily: "var(--font-body)", fontSize: 12.5, color: "var(--text-2)", lineHeight: 1.5 }}>
-                    Lift <span style={{ color: "var(--lime)", fontWeight: 600 }}>Domain knowledge</span> — cross the line into Band A.
+                    Lift <span style={{ color: "var(--lime-text)", fontWeight: 600 }}>Domain knowledge</span> — cross the line into Band A.
                   </div>
                 </motion.div>
 
@@ -3189,7 +3179,7 @@ function NodeCard({ node, inView, delay, mobile, width, height }: { node: any; i
                   <div className="flex items-center justify-between mb-1.5">
                     <span style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "var(--violet)", letterSpacing: "0.06em" }}>● Band B · now</span>
                     <motion.span initial={{ opacity: 0 }} animate={inView ? { opacity: 1 } : {}} transition={{ delay: flipDelay + 0.1, duration: 0.3 }}
-                      style={{ fontFamily: "var(--font-mono)", fontWeight: 700, fontSize: 10, color: "var(--lime)", letterSpacing: "0.06em" }}>▲ Band A</motion.span>
+                      style={{ fontFamily: "var(--font-mono)", fontWeight: 700, fontSize: 10, color: "var(--lime-text)", letterSpacing: "0.06em" }}>▲ Band A</motion.span>
                   </div>
                   <div className="relative" style={{ height: 26 }}>
                     <div className="absolute inset-x-0 rounded-full" style={{ top: "50%", height: 5, background: "var(--surface-3)", transform: "translateY(-50%)" }} />
@@ -3211,7 +3201,7 @@ function NodeCard({ node, inView, delay, mobile, width, height }: { node: any; i
                             style={{ fontFamily: "var(--font-mono)", fontWeight: 700, fontSize: 11, color: "var(--text-1)" }}>{beforeAvg}</motion.span>
                           <motion.span className="absolute inset-0 flex items-center justify-center"
                             initial={{ opacity: 0, y: 5 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ delay: flipDelay + 0.1, duration: 0.25 }}
-                            style={{ fontFamily: "var(--font-mono)", fontWeight: 700, fontSize: 11, color: "var(--lime)" }}>{afterAvg}</motion.span>
+                            style={{ fontFamily: "var(--font-mono)", fontWeight: 700, fontSize: 11, color: "var(--lime-text)" }}>{afterAvg}</motion.span>
                         </span>
                       </div>
                     </motion.div>
@@ -3233,7 +3223,7 @@ function NodeCard({ node, inView, delay, mobile, width, height }: { node: any; i
                     </div>
                     <div className="text-right flex-shrink-0">
                       <div style={{ fontFamily: "var(--font-mono)", fontSize: 9, color: "var(--text-3)", letterSpacing: "0.04em" }}>projected</div>
-                      <div style={{ fontFamily: "var(--font-mono)", fontWeight: 700, fontSize: 14, color: "var(--lime)", letterSpacing: "-0.01em", lineHeight: 1 }}>+{liftedDomain - lever.v}</div>
+                      <div style={{ fontFamily: "var(--font-mono)", fontWeight: 700, fontSize: 14, color: "var(--lime-text)", letterSpacing: "-0.01em", lineHeight: 1 }}>+{liftedDomain - lever.v}</div>
                     </div>
                   </div>
                   <div className="mt-2" style={{ fontFamily: "var(--font-body)", fontSize: 12.5, color: "var(--text-2)", lineHeight: 1.5 }}>
@@ -3245,7 +3235,7 @@ function NodeCard({ node, inView, delay, mobile, width, height }: { node: any; i
                       transition={{ duration: 0.6, delay: baseD + 0.3, ease }} style={{ background: "var(--violet)", opacity: 0.45 }} />
                     <motion.div className="absolute inset-y-0 left-0 rounded-r-full"
                       initial={{ width: `${lever.v}%` }} animate={inView ? { width: `${liftedDomain}%` } : {}}
-                      transition={{ duration: 0.9, delay: climbDelay, ease }} style={{ background: "var(--lime)", boxShadow: "0 0 8px rgba(201,220,83,0.4)" }} />
+                      transition={{ duration: 0.9, delay: climbDelay, ease }} style={{ background: "var(--lime)", boxShadow: "none" }} />
                   </div>
                 </motion.div>
 
@@ -3532,7 +3522,7 @@ function GapMini({ inView, delay }: { inView: boolean; delay: number }) {
                 <div className="flex items-center justify-between mb-1">
                   <span style={{ fontFamily: "var(--font-body)", fontWeight: r.gap ? 600 : 500, fontSize: 12, color: r.gap ? "var(--amber)" : "var(--text-2)" }}>
                     {r.k}
-                    {r.gap && <span className="ml-1.5" style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--amber)", letterSpacing: "0.07em" }}>· GAP</span>}
+                    {r.gap && <span className="ml-1.5" style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--amber-text)", letterSpacing: "0.07em" }}>· GAP</span>}
                   </span>
                   <span style={{ fontFamily: "var(--font-mono)", fontWeight: 600, fontSize: 12, color: r.gap ? "var(--amber)" : "var(--text-1)" }}>{r.v}</span>
                 </div>
@@ -3562,7 +3552,7 @@ function GapMini({ inView, delay }: { inView: boolean; delay: number }) {
           );
         })}
       </div>
-      <div className="mt-3" style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontSize: 12, color: "var(--amber)" }}>
+      <div className="mt-3" style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontSize: 12, color: "var(--amber-text)" }}>
         Domain is your lever.
       </div>
     </>
@@ -3619,12 +3609,12 @@ function RetestMini({ inView, delay }: { inView: boolean; delay: number }) {
       <div className="flex-1 flex flex-col items-center justify-center">
         <div className="flex items-end justify-center gap-3">
           <RetestRing value={73} muted />
-          <span style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 20, color: "var(--lime)", paddingBottom: 18 }}>→</span>
+          <span style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 20, color: "var(--lime-text)", paddingBottom: 18 }}>→</span>
           <RetestRing value={82} inView={inView} delay={delay} glow />
         </div>
         <div className="mt-3 text-center" style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: 14, color: "var(--text-1)" }}>
           Band B →{" "}
-          <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 400, color: "var(--lime)", fontSize: 18 }}>Band A</span>
+          <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 400, color: "var(--lime-text)", fontSize: 18 }}>Band A</span>
         </div>
         <div className="mt-1.5 inline-flex items-center gap-1.5 rounded-full" style={{ padding: "3px 9px", background: "var(--lime-soft)", border: "1px solid var(--lime-border)" }}>
           <span style={{ fontFamily: "var(--font-mono)", fontWeight: 600, fontSize: 12, color: "var(--lime-text)" }}>+9 points</span>
@@ -3686,7 +3676,7 @@ function HiredMini({ inView, delay }: { inView: boolean; delay: number }) {
             className="flex items-center gap-2 rounded-lg"
             style={{ padding: "6px 8px", background: "rgba(109,86,164,0.06)", border: "1px solid rgba(109,86,164,0.16)" }}
           >
-            <div className="rounded-full flex items-center justify-center shrink-0" style={{ width: 22, height: 22, background: r.c, fontFamily: "var(--font-mono)", fontWeight: 700, fontSize: 12, color: "#0B090F" }}>
+            <div className="rounded-full flex items-center justify-center shrink-0" style={{ width: 22, height: 22, background: r.c, fontFamily: "var(--font-mono)", fontWeight: 700, fontSize: 12, color: "var(--text-1)" }}>
               {r.i}
             </div>
             <div className="min-w-0 flex-1">
@@ -3714,7 +3704,7 @@ function HiredMini({ inView, delay }: { inView: boolean; delay: number }) {
           onClick={() => { window.location.hash = "signup"; }}
           className="mt-2 w-full rounded-full"
           style={{
-            height: 30, background: "var(--lime)", color: "var(--on-lime)",
+            height: 30, background: "var(--violet)", color: "var(--on-violet)",
             fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 12,
             border: "none", letterSpacing: "-0.01em",
           }}

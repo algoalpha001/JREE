@@ -5,10 +5,10 @@ const ease = [0.16, 1, 0.3, 1] as const;
 
 /* Cohort spread — must sum to 100. Order: A (best) → D. */
 const BANDS = [
-  { key: "A", label: "Band A", count: 142, pct: 22, color: "var(--lime)" },
-  { key: "B", label: "Band B", count: 246, pct: 38, color: "var(--teal)" },
+  { key: "A", label: "Band A", count: 142, pct: 22, color: "var(--lime-text)" },
+  { key: "B", label: "Band B", count: 246, pct: 38, color: "var(--teal-text)" },
   { key: "C", label: "Band C", count: 181, pct: 28, color: "var(--violet)" },
-  { key: "D", label: "Band D", count: 77, pct: 12, color: "var(--slate)" },
+  { key: "D", label: "Needs Support", count: 77, pct: 12, color: "var(--amber-text)" },
 ] as const;
 
 const TOTAL = BANDS.reduce((s, b) => s + b.count, 0);
@@ -55,7 +55,7 @@ export function ForColleges() {
               }}
             >
               Know your batch{" "}
-              <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", color: "var(--lime)", fontWeight: 400 }}>
+              <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", color: "var(--lime-text)", fontWeight: 400 }}>
                 before recruiters
               </span>{" "}
               do.
@@ -148,7 +148,7 @@ export function ForColleges() {
                   className="relative w-full overflow-hidden rounded-[3px] flex"
                   style={{
                     height: 32,
-                    background: "rgba(240,235,255,0.04)",
+                    background: "var(--hairline)",
                     border: "1px solid var(--hairline-strong)",
                   }}
                 >
@@ -335,13 +335,13 @@ export function ForColleges() {
               style={{
                 height: 52,
                 padding: "0 24px",
-                background: "var(--lime)",
-                color: "var(--on-lime)",
+                background: "var(--violet)",
+                color: "var(--on-violet)",
                 fontFamily: "var(--font-display)",
                 fontWeight: 700,
                 fontSize: 15,
                 letterSpacing: "-0.01em",
-                boxShadow: "0 8px 32px rgba(201,220,83,0.25)",
+                boxShadow: "var(--shadow-card)",
               }}
             >
               Onboard Your College →

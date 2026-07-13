@@ -47,7 +47,7 @@ function SampleCandidateCard() {
       style={{
         background: "var(--surface-1)",
         border: "1px solid var(--hairline-strong)",
-        boxShadow: "inset 0 1px 0 rgba(255,255,255,0.04), 0 24px 48px rgba(0,0,0,0.45)",
+        boxShadow: "var(--shadow-elevated)",
       }}
     >
       {/* header row */}
@@ -262,7 +262,7 @@ export function ForEmployersPage() {
   return (
     <div className="min-h-screen" style={{ background: "var(--bg)", color: "var(--text-1)", fontFamily: "var(--font-body)" }}>
       {/* Slim back-nav */}
-      <div className="sticky top-0 z-50" style={{ background: "rgba(11,9,15,0.8)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)", borderBottom: "1px solid var(--hairline-strong)" }}>
+      <div className="sticky top-0 z-50" style={{ background: "rgba(250,247,240,0.92)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)", borderBottom: "1px solid var(--hairline-strong)" }}>
         <div className="max-w-[1080px] mx-auto px-5 sm:px-8 h-[54px] flex items-center justify-between">
           <button
             onClick={goBack}
@@ -299,7 +299,7 @@ export function ForEmployersPage() {
                 }}
               >
                 Stop screening.{" "}
-                <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 400, color: "var(--lime)" }}>
+                <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 400, color: "var(--lime-text)" }}>
                   Start hiring.
                 </span>
               </h1>
@@ -314,9 +314,9 @@ export function ForEmployersPage() {
                   href="#signup"
                   className="inline-flex items-center justify-center rounded-full transition-all hover:scale-[1.02] active:scale-[0.98]"
                   style={{
-                    height: 52, padding: "0 26px", background: "var(--lime)", color: "var(--on-lime)",
+                    height: 52, padding: "0 26px", background: "var(--violet)", color: "var(--on-violet)",
                     fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 15, letterSpacing: "-0.01em",
-                    boxShadow: "0 8px 32px rgba(201,220,83,0.22)", textDecoration: "none",
+                    boxShadow: "var(--shadow-card)", textDecoration: "none",
                   }}
                 >
                   Register your company free
@@ -570,12 +570,12 @@ export function ForEmployersPage() {
         {/* ─── 7. Final CTA band ─── */}
         <div
           className="mt-24 rounded-[18px] overflow-hidden"
-          style={{ background: "var(--bg-3, #080610)", border: "1px solid var(--hairline-strong)" }}
+          style={{ background: "var(--bg-3, var(--bg-3))", border: "1px solid var(--hairline-strong)" }}
         >
           <div className="px-7 md:px-14 py-14 md:py-20 max-w-[820px]">
             <h2 style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "clamp(32px,5vw,52px)", color: "var(--text-1)", letterSpacing: "-0.03em", lineHeight: 1.04 }}>
               Ready to hire{" "}
-              <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 400, color: "var(--lime)" }}>
+              <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 400, color: "var(--lime-text)" }}>
                 smarter?
               </span>
             </h2>
@@ -587,9 +587,9 @@ export function ForEmployersPage() {
                 href="#signup"
                 className="inline-flex items-center justify-center rounded-full transition-all hover:scale-[1.02] active:scale-[0.98]"
                 style={{
-                  height: 52, padding: "0 26px", background: "var(--lime)", color: "var(--on-lime)",
+                  height: 52, padding: "0 26px", background: "var(--violet)", color: "var(--on-violet)",
                   fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 15, letterSpacing: "-0.01em",
-                  boxShadow: "0 8px 32px rgba(201,220,83,0.22)", textDecoration: "none",
+                  boxShadow: "var(--shadow-card)", textDecoration: "none",
                 }}
               >
                 Register your company

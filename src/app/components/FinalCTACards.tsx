@@ -82,7 +82,7 @@ export function FinalCTACards() {
             }}
           >
             Your move.{" "}
-            <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", color: "var(--lime)", fontWeight: 400 }}>
+            <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", color: "var(--lime-text)", fontWeight: 400 }}>
               Right now.
             </span>
           </h2>
@@ -128,7 +128,7 @@ function ConvertPanel({ panel, index, inView }: { panel: typeof panels[number]; 
       style={{
         background: "var(--surface-1)",
         border: "1px solid rgba(109,86,164,0.18)",
-        boxShadow: "inset 0 1px 0 rgba(255,255,255,0.04), 0 24px 48px rgba(0,0,0,0.4)",
+        boxShadow: "var(--shadow-elevated)",
       }}
     >
       {/* Photo */}
@@ -202,14 +202,14 @@ function ConvertPanel({ panel, index, inView }: { panel: typeof panels[number]; 
           style={{
             height: 48,
             padding: "0 22px",
-            background: panel.ctaBg !== "transparent" ? "var(--lime)" : panel.ctaBg,
-            color: panel.ctaBg !== "transparent" ? "var(--on-lime)" : panel.ctaColor,
+            background: panel.ctaBg !== "transparent" ? "var(--violet)" : panel.ctaBg,
+            color: panel.ctaBg !== "transparent" ? "var(--on-violet)" : panel.ctaColor,
             border: panel.ctaBg === "transparent" ? `1px solid ${panel.accent}` : "none",
             fontFamily: "var(--font-display)",
             fontWeight: 700,
             fontSize: 14,
             letterSpacing: "-0.01em",
-            boxShadow: panel.ctaBg !== "transparent" ? "0 8px 28px rgba(201,220,83,0.25)" : "none",
+            boxShadow: panel.ctaBg !== "transparent" ? "var(--shadow-card)" : "none",
             textDecoration: "none",
             whiteSpace: "nowrap",
           }}

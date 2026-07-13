@@ -62,7 +62,7 @@ function Field({
           style={{
             height: 54,
             borderRadius: 8,
-            border: `1px solid ${error ? "var(--danger)" : (valid || locked) ? "var(--lime-border)" : "rgba(240,235,255,0.08)"}`,
+            border: `1px solid ${error ? "var(--danger)" : (valid || locked) ? "var(--lime-border)" : "var(--hairline-strong)"}`,
             background: locked ? "var(--bg-3)" : "var(--surface-3)",
             padding: `0 18px 0 ${Icon ? 46 : 18}px`,
             paddingRight: (valid || locked) ? 100 : 18,
@@ -74,7 +74,7 @@ function Field({
         {(valid || locked) && (
           <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1.5 px-2 py-1 rounded-md bg-[rgba(81,193,181,0.08)] border border-[rgba(81,193,181,0.2)]">
             {locked && <Lock size={12} className="text-[var(--amber)]" />}
-            <span style={{ color: "var(--teal)", fontSize: 11, fontWeight: 600, fontFamily: "var(--font-mono)" }}>VERIFIED</span>
+            <span style={{ color: "var(--teal-text)", fontSize: 11, fontWeight: 600, fontFamily: "var(--font-mono)" }}>VERIFIED</span>
           </div>
         )}
       </div>
@@ -88,8 +88,7 @@ function Field({
   );
 }
 
-function PrimaryButton({ children, disabled, onClick, loading, accent = "violet" }: { children: React.ReactNode; disabled?: boolean; onClick?: () => void; loading?: boolean; accent?: "violet" | "lime" }) {
-  const isLime = accent === "lime";
+function PrimaryButton({ children, disabled, onClick, loading }: { children: React.ReactNode; disabled?: boolean; onClick?: () => void; loading?: boolean }) {
   return (
     <button
       disabled={disabled || loading}
@@ -97,15 +96,15 @@ function PrimaryButton({ children, disabled, onClick, loading, accent = "violet"
       className="w-full rounded-full transition-all hover:scale-[1.02] active:scale-[0.98]"
       style={{
         height: 54,
-        background: isLime ? "var(--lime)" : "var(--violet)",
-        color: isLime ? "var(--on-lime)" : "var(--text-1)",
+        background: "var(--violet)",
+        color: "var(--on-violet)",
         fontFamily: "var(--font-display)",
         fontWeight: 700,
         fontSize: 15,
         letterSpacing: "-0.01em",
         opacity: disabled || loading ? 0.4 : 1,
         cursor: disabled || loading ? "not-allowed" : "pointer",
-        boxShadow: isLime ? "0 8px 32px rgba(201,220,83,0.22)" : "none",
+        boxShadow: "var(--shadow-card)",
       }}
     >
       {loading ? (
@@ -155,9 +154,9 @@ function ProgressDots({ step }: { step: number }) {
                 style={{
                   width: 28,
                   height: 28,
-                  background: isDone ? "var(--lime)" : isCurrent ? "var(--violet)" : "var(--surface-3)",
-                  border: active ? "none" : "1px solid rgba(240,235,255,0.12)",
-                  color: isDone ? "var(--bg)" : isCurrent ? "var(--text-1)" : "var(--text-3)",
+                  background: isDone || isCurrent ? "var(--violet)" : "var(--surface-3)",
+                  border: active ? "none" : "1px solid var(--hairline-strong)",
+                  color: active ? "var(--on-violet)" : "var(--text-3)",
                   fontFamily: "var(--font-mono)",
                   fontWeight: 600,
                   fontSize: 12,
@@ -168,7 +167,7 @@ function ProgressDots({ step }: { step: number }) {
               {n < 4 && (
                 <div
                   className="flex-1 h-px transition-colors"
-                  style={{ background: isDone ? "var(--lime)" : "rgba(240,235,255,0.08)" }}
+                  style={{ background: isDone ? "var(--violet)" : "var(--hairline-strong)" }}
                 />
               )}
             </div>
@@ -313,8 +312,8 @@ export function Onboarding() {
           {/* Form Card */}
           <div className="grain relative p-7 sm:p-9 rounded-[24px]" style={{
             background: "var(--surface-1)",
-            border: "1px solid rgba(240,235,255,0.06)",
-            boxShadow: "0 20px 40px rgba(0,0,0,0.3)"
+            border: "1px solid var(--hairline)",
+            boxShadow: "var(--shadow-elevated)"
           }}>
             {done ? (
               <SuccessState />
@@ -333,7 +332,7 @@ export function Onboarding() {
                           We will scan your document to verify your identity. The document is not stored.
                         </p>
                         
-                        <label className="mt-8 relative block rounded-[16px] border-2 border-dashed border-[rgba(240,235,255,0.1)] p-10 text-center cursor-pointer hover:border-[var(--violet)] transition-colors group">
+                        <label className="mt-8 relative block rounded-[16px] border-2 border-dashed border-[var(--hairline-strong)] p-10 text-center cursor-pointer hover:border-[var(--violet)] transition-colors group">
                           <input type="file" className="sr-only" onChange={(e) => setCollegeIdFile(e.target.files?.[0]?.name || null)} />
                           <div className="flex flex-col items-center">
                             <Upload size={32} className="text-violet mb-4 group-hover:scale-110 transition-transform" />
@@ -376,7 +375,7 @@ export function Onboarding() {
                           <select 
                             value={stream} 
                             onChange={(e) => { setStream(e.target.value); setTrack(""); }}
-                            className="w-full h-[54px] rounded-[8px] px-4 mt-2 bg-[var(--surface-3)] border border-[rgba(240,235,255,0.08)] outline-none text-[var(--text-1)]"
+                            className="w-full h-[54px] rounded-[8px] px-4 mt-2 bg-[var(--surface-3)] border border-[var(--hairline-strong)] outline-none text-[var(--text-1)]"
                           >
                             <option value="">Select your stream</option>
                             {streams.map(s => <option key={s.value} value={s.value}>{s.label}</option>)}
@@ -389,7 +388,7 @@ export function Onboarding() {
                             <select 
                               value={track} 
                               onChange={(e) => setTrack(e.target.value)}
-                              className="w-full h-[54px] rounded-[8px] px-4 mt-2 bg-[var(--surface-3)] border border-[rgba(240,235,255,0.08)] outline-none text-[var(--text-1)]"
+                              className="w-full h-[54px] rounded-[8px] px-4 mt-2 bg-[var(--surface-3)] border border-[var(--hairline-strong)] outline-none text-[var(--text-1)]"
                             >
                               <option value="">Select your track</option>
                               {selectedStreamObj?.tracks.map(t => <option key={t} value={t}>{t}</option>)}
@@ -438,7 +437,7 @@ export function Onboarding() {
                                   value={d}
                                   readOnly={otpVerified}
                                   onChange={(e) => handleOtpChange(i, e.target.value.slice(-1))}
-                                  className={`w-full h-12 text-center bg-[var(--surface-3)] border rounded-md outline-none text-[var(--text-1)] font-mono text-xl transition-all ${otpVerified ? "border-[var(--lime-border)]" : "border-[rgba(240,235,255,0.08)]"}`}
+                                  className={`w-full h-12 text-center bg-[var(--surface-3)] border rounded-md outline-none text-[var(--text-1)] font-mono text-xl transition-all ${otpVerified ? "border-[var(--lime-border)]" : "border-[var(--hairline-strong)]"}`}
                                 />
                               ))}
                             </div>
@@ -448,11 +447,11 @@ export function Onboarding() {
                               className={`h-12 px-4 rounded-md font-bold text-xs transition-all flex items-center justify-center min-w-[80px] ${
                                 otpVerified 
                                   ? "bg-[rgba(81,193,181,0.1)] text-[var(--teal)] border border-[rgba(81,193,181,0.3)]" 
-                                  : "bg-[var(--violet)] text-white hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
+                                  : "bg-[var(--violet)] text-[var(--on-violet)] hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
                               }`}
                             >
                               {otpLoading ? (
-                                <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                                <span className="w-4 h-4 border-2 border-[var(--on-violet)] border-t-transparent rounded-full animate-spin" />
                               ) : otpVerified ? (
                                 <Check size={16} strokeWidth={3} />
                               ) : (
@@ -488,7 +487,7 @@ export function Onboarding() {
                           Almost there. Review your profile and give consent.
                         </p>
 
-                        <div className="p-5 rounded-xl bg-[var(--surface-3)] border border-[rgba(240,235,255,0.04)] mb-8 space-y-4">
+                        <div className="p-5 rounded-xl bg-[var(--surface-3)] border border-[var(--hairline)] mb-8 space-y-4">
                           <div className="flex justify-between items-start gap-4">
                             <span className="text-[var(--text-3)] text-xs font-mono uppercase">Name</span>
                             <span className="font-bold text-[var(--text-1)] text-right">{name}</span>
@@ -513,16 +512,16 @@ export function Onboarding() {
                               type="checkbox" 
                               checked={consent} 
                               onChange={(e) => setConsent(e.target.checked)} 
-                              className="w-5 h-5 rounded border-2 border-[rgba(240,235,255,0.12)] bg-transparent appearance-none checked:bg-[var(--violet)] checked:border-[var(--violet)] transition-all cursor-pointer" 
+                              className="w-5 h-5 rounded border-2 border-[var(--hairline-strong)] bg-transparent appearance-none checked:bg-[var(--violet)] checked:border-[var(--violet)] transition-all cursor-pointer" 
                             />
-                            {consent && <Check size={14} className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 -mt-0.5 text-white pointer-events-none" strokeWidth={4} />}
+                            {consent && <Check size={14} className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 -mt-0.5 text-[var(--on-violet)] pointer-events-none" strokeWidth={4} />}
                           </div>
                           <span className="text-[13px] leading-relaxed text-[var(--text-2)] group-hover:text-[var(--text-1)] transition-colors">
                             I consent to EduBridge Technologies collecting and processing my personal data for the purpose of employability assessment as per the <span className="text-[var(--violet)] font-bold">DPDP Act 2023</span>. I confirm that all details are accurate.
                           </span>
                         </label>
 
-                        <PrimaryButton disabled={!consent} loading={loading} onClick={submit} accent="lime">
+                        <PrimaryButton disabled={!consent} loading={loading} onClick={submit}>
                           Create Account & Start →
                         </PrimaryButton>
                       </motion.div>
@@ -586,8 +585,8 @@ function LivePass({
   })();
   const candidateID = hasID ? idFromName : step >= 2 ? "JR-26-•••••—" : "JR-26-—————";
 
-  const status = verified ? { label: "VERIFIED ✓", color: "var(--teal)", bg: "rgba(81,193,181,0.12)", border: "rgba(81,193,181,0.4)" }
-    : step === 4 ? { label: "CONSENT PENDING", color: "#F59E0B", bg: "rgba(245,158,11,0.1)", border: "rgba(245,158,11,0.4)" }
+  const status = verified ? { label: "VERIFIED ✓", color: "var(--teal-text)", bg: "rgba(81,193,181,0.12)", border: "rgba(81,193,181,0.4)" }
+    : step === 4 ? { label: "CONSENT PENDING", color: "var(--amber)", bg: "rgba(245,158,11,0.1)", border: "rgba(245,158,11,0.4)" }
     : { label: "DRAFT PASS", color: "var(--violet)", bg: "var(--violet-soft)", border: "var(--violet-border)" };
 
   const progress = ((step - 1) + (verified ? 1 : 0)) / 4;
@@ -609,15 +608,15 @@ function LivePass({
       className="relative grain rounded-[18px] overflow-hidden w-full mx-auto"
       style={{
         maxWidth: 400,
-        background: "linear-gradient(180deg,#15101F 0%,#0E0B17 100%)",
+        background: "linear-gradient(180deg,var(--surface-1) 0%,var(--bg-2) 100%)",
         border: "1px solid rgba(109,86,164,0.28)",
-        boxShadow: "0 32px 80px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.04), inset 0 1px 0 rgba(255,255,255,0.04)",
+        boxShadow: "var(--shadow-elevated)",
         transform: "rotate(0.6deg)",
       }}
     >
       <div className="flex items-center justify-between px-5 pt-3">
         {[0, 1, 2, 3].map((i) => (
-          <span key={i} className="block rounded-full" style={{ width: 6, height: 6, background: "rgba(240,235,255,0.06)" }} />
+          <span key={i} className="block rounded-full" style={{ width: 6, height: 6, background: "var(--hairline)" }} />
         ))}
       </div>
 
@@ -654,7 +653,7 @@ function LivePass({
           <span style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--text-3)", letterSpacing: "0.02em" }}>CARD PRINT</span>
           <span style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--text-2)" }}>{Math.round(progress * 100)}%</span>
         </div>
-        <div className="h-[3px] rounded-full overflow-hidden" style={{ background: "rgba(240,235,255,0.05)" }}>
+        <div className="h-[3px] rounded-full overflow-hidden" style={{ background: "var(--hairline)" }}>
           <motion.div
             className="h-full"
             style={{ background: "linear-gradient(90deg,var(--violet),var(--lime))" }}
@@ -748,11 +747,11 @@ function SuccessState() {
   return (
     <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="text-center py-4">
       <div className="mx-auto w-16 h-16 rounded-full bg-[var(--teal)] flex items-center justify-center mb-6">
-        <Check size={32} className="text-white" strokeWidth={3} />
+        <Check size={32} className="text-[var(--on-teal)]" strokeWidth={3} />
       </div>
       <h3 className="text-2xl font-display font-extrabold text-[var(--text-1)] mb-2">Registration Complete</h3>
       <p className="text-[var(--text-3)] text-sm mb-8 max-w-[300px] mx-auto">Your JREE account is verified and ready. Start your journey today.</p>
-      <PrimaryButton onClick={() => window.location.hash = "#dashboard"} accent="lime">Enter Dashboard →</PrimaryButton>
+      <PrimaryButton onClick={() => window.location.hash = "dashboard"}>Enter Dashboard →</PrimaryButton>
     </motion.div>
   );
 }

@@ -63,7 +63,7 @@ export function ForStudents() {
           }}
         >
           Where you stand.{" "}
-          <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", color: "var(--lime)", fontWeight: 400 }}>
+          <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", color: "var(--lime-text)", fontWeight: 400 }}>
             What to do next.
           </span>
         </h2>
@@ -120,7 +120,7 @@ export function ForStudents() {
                     fontSize: 10,
                     letterSpacing: "0.05em",
                     background: "var(--lime)",
-                    color: "var(--on-lime)",
+                    color: "var(--lime-text)",
                     fontWeight: 600,
                     textTransform: "uppercase",
                   }}
@@ -164,13 +164,13 @@ export function ForStudents() {
               style={{
                 height: 52,
                 padding: "0 24px",
-                background: "var(--lime)",
-                color: "var(--on-lime)",
+                background: "var(--violet)",
+                color: "var(--on-violet)",
                 fontFamily: "var(--font-display)",
                 fontWeight: 700,
                 fontSize: 15,
                 letterSpacing: "-0.01em",
-                boxShadow: "0 8px 32px rgba(201,220,83,0.25)",
+                boxShadow: "var(--shadow-card)",
                 textDecoration: "none",
               }}
             >

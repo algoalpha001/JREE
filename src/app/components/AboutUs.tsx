@@ -72,7 +72,7 @@ export function AboutUs() {
             }}
           >
             Built to close India's{" "}
-            <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", color: "var(--lime)", fontWeight: 400 }}>
+            <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", color: "var(--lime-text)", fontWeight: 400 }}>
               employability gap
             </span>
             .

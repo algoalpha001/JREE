@@ -50,7 +50,7 @@ export type PostRoute =
   | "dashboard" | "exam/check" | "exam/active" | "exam/transition"
   | "exam/priya" | "exam/processing" | "results";
 
-function go(route: PostRoute) { window.location.hash = `#${route}`; }
+function go(route: PostRoute) { window.location.hash = route; }
 
 export function PostSignup({ route }: { route: PostRoute }) {
   return (
@@ -79,7 +79,7 @@ export function PostSignup({ route }: { route: PostRoute }) {
 function DashboardNav() {
   return (
     <header className="fixed top-0 left-0 right-0 z-50" style={{
-      background: "rgba(11,9,15,0.75)", backdropFilter: "blur(24px) saturate(1.5)",
+      background: "rgba(250,247,240,0.92)", backdropFilter: "blur(24px) saturate(1.5)",
       WebkitBackdropFilter: "blur(24px) saturate(1.5)",
       borderBottom: "1px solid var(--hairline)",
     }}>
@@ -89,7 +89,7 @@ function DashboardNav() {
           <span className="inline-block rounded-full ml-0.5 mb-1.5" style={{ width: 6, height: 6, background: "var(--lime)" }} />
         </button>
         <div className="flex items-center gap-3">
-          <button className="rounded-full flex items-center justify-center transition-colors hover:bg-[rgba(240,235,255,0.06)]" style={{ width: 36, height: 36, border: "1px solid var(--hairline)" }}>
+          <button className="rounded-full flex items-center justify-center transition-colors hover:bg-[var(--hairline)]" style={{ width: 36, height: 36, border: "1px solid var(--hairline)" }}>
             <Settings size={15} color="var(--text-2)" />
           </button>
           <button className="rounded-full flex items-center justify-center" style={{
@@ -118,7 +118,7 @@ function Dashboard() {
           color: "var(--text-1)",
         }}>
           Your JREE is{" "}
-          <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 400, color: "var(--lime)" }}>ready.</span>
+          <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 400, color: "var(--lime-text)" }}>ready.</span>
         </h1>
         <p className="mt-5 max-w-[540px]" style={{ fontFamily: "var(--font-body)", fontSize: "var(--fs-body-lg)", lineHeight: "var(--lh-body)", color: "var(--text-2)" }}>
           Six layers. About 90 minutes. One score that companies will actually read.
@@ -168,9 +168,9 @@ function Dashboard() {
               onClick={() => go("exam/check")}
               className="w-full rounded-full transition-all hover:scale-[1.01] active:scale-[0.99]"
               style={{
-                height: 56, background: "var(--lime)", color: "var(--on-lime)",
+                height: 56, background: "var(--violet)", color: "var(--on-violet)",
                 fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 15,
-                boxShadow: "0 8px 32px rgba(201,220,83,0.22)",
+                boxShadow: "var(--shadow-card)",
               }}
             >
               Begin system check →
@@ -205,14 +205,14 @@ function Dashboard() {
             </Card>
 
             <button 
-              onClick={() => window.location.hash = "#resume-builder"}
+              onClick={() => window.location.hash = "resume-builder"}
               className="relative w-full overflow-hidden group transition-all duration-500 hover:scale-[1.02] active:scale-[0.98]" style={{
-              background: "linear-gradient(135deg, #1A1721 0%, #0F0C16 100%)",
+              background: "linear-gradient(135deg, var(--surface-1) 0%, var(--bg-2) 100%)",
               border: "1px solid rgba(109, 86, 164, 0.3)",
               borderRadius: 20,
               padding: "24px",
               textAlign: "left",
-              boxShadow: "0 20px 40px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.05)"
+              boxShadow: "var(--shadow-elevated)"
             }}>
               <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
                 <Sparkles size={48} color="var(--lime)" />
@@ -231,7 +231,7 @@ function Dashboard() {
                 </div>
                 
                 <div className="flex-1">
-                  <div style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "var(--lime)", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 6 }}>
+                  <div style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "var(--lime-text)", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 6 }}>
                     New Feature
                   </div>
                   <h3 style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 18, color: "var(--text-1)", marginBottom: 4 }}>
@@ -243,8 +243,8 @@ function Dashboard() {
                 </div>
                 
                 <div className="self-center">
-                  <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center group-hover:bg-[var(--lime)] group-hover:border-[var(--lime)] transition-all">
-                    <ArrowRight size={14} className="text-white group-hover:text-[var(--bg)] transition-colors" />
+                  <div className="w-8 h-8 rounded-full border border-[var(--hairline-strong)] flex items-center justify-center group-hover:bg-[var(--violet)] group-hover:border-[var(--violet)] transition-all">
+                    <ArrowRight size={14} className="text-[var(--text-2)] group-hover:text-[var(--on-violet)] transition-colors" />
                   </div>
                 </div>
               </div>
@@ -305,7 +305,7 @@ function ExamShell({
   return (
     <div className="min-h-screen" style={{ background: "var(--bg)" }}>
       <header className="fixed top-0 left-0 right-0 z-50 flex items-center px-6 md:px-10" style={{
-        height: 52, background: "rgba(11,9,15,0.85)",
+        height: 52, background: "rgba(250,247,240,0.94)",
         backdropFilter: "blur(24px) saturate(1.5)",
         WebkitBackdropFilter: "blur(24px) saturate(1.5)",
         borderBottom: "1px solid var(--hairline)",
@@ -428,7 +428,7 @@ function SystemCheck() {
           color: "var(--text-1)",
         }}>
           Let's make sure your setup is{" "}
-          <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 400, color: "var(--lime)" }}>ready.</span>
+          <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 400, color: "var(--lime-text)" }}>ready.</span>
         </h1>
         <p className="mt-3 mb-10" style={{ fontFamily: "var(--font-body)", fontSize: "var(--fs-body)", color: "var(--text-2)", lineHeight: "var(--lh-body)" }}>
           This takes about 20 seconds. Nothing is recorded yet.
@@ -445,16 +445,17 @@ function SystemCheck() {
           <button onClick={() => go("dashboard")} className="flex items-center gap-2" style={{ fontFamily: "var(--font-body)", fontSize: "var(--fs-body-sm)", color: "var(--text-2)" }}>
             <ChevronLeft size={16} /> Back to dashboard
           </button>
+          {!allDone && <button onClick={() => window.location.reload()} className="mr-3 rounded-full px-4 py-2" style={{ border: "1px solid var(--violet-border)", color: "var(--violet)", fontSize: 13 }}>Run checks again</button>}
           <button
             disabled={!allDone}
             onClick={() => go("exam/active")}
             className="rounded-full transition-all hover:scale-[1.01] active:scale-[0.99] flex items-center gap-2 px-7"
             style={{
               height: 52,
-              background: allDone ? "var(--lime)" : "var(--surface-2)",
-              color: allDone ? "var(--on-lime)" : "var(--text-3)",
+              background: allDone ? "var(--violet)" : "var(--surface-2)",
+              color: allDone ? "var(--on-violet)" : "var(--text-3)",
               fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 15,
-              boxShadow: allDone ? "0 8px 32px rgba(201,220,83,0.22)" : "none",
+              boxShadow: allDone ? "var(--shadow-card)" : "none",
               cursor: allDone ? "pointer" : "not-allowed",
             }}
           >
@@ -579,9 +580,9 @@ function ExamActive() {
               }}
               className="rounded-full flex items-center gap-2 px-6"
               style={{
-                height: 46, background: "var(--lime)", color: "var(--on-lime)",
+                height: 46, background: "var(--violet)", color: "var(--on-violet)",
                 fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "var(--fs-body)",
-                boxShadow: "0 6px 22px rgba(201,220,83,0.20)",
+                boxShadow: "var(--shadow-card)",
               }}
             >{q === total ? "Finish layer" : "Next"} <ChevronRight size={16} /></button>
           </div>
@@ -685,7 +686,7 @@ function LayerTransition() {
             }}
           >
             Next up:{" "}
-            <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 400, color: "var(--lime)" }}>
+            <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 400, color: "var(--lime-text)" }}>
               Priya.
             </span>
           </motion.h1>
@@ -723,11 +724,11 @@ function LayerTransition() {
 /* ───────────────────────── Screen E: AI Interview ───────────────────────── */
 
 const AI_ROSTER = [
-  { id: "priya",  name: "Priya",  accent: "Neutral Indian",   tone: "Warm",   color: "var(--lime)" },
-  { id: "arjun",  name: "Arjun",  accent: "Neutral Indian",   tone: "Crisp",  color: "var(--teal)" },
+  { id: "priya",  name: "Priya",  accent: "Neutral Indian",   tone: "Warm",   color: "var(--lime-text)" },
+  { id: "arjun",  name: "Arjun",  accent: "Neutral Indian",   tone: "Crisp",  color: "var(--teal-text)" },
   { id: "meera",  name: "Meera",  accent: "South Indian",     tone: "Calm",   color: "var(--violet)" },
-  { id: "rohan",  name: "Rohan",  accent: "North Indian",     tone: "Direct", color: "var(--lime)" },
-  { id: "ananya", name: "Ananya", accent: "Bengali · Indian", tone: "Gentle", color: "var(--teal)" },
+  { id: "rohan",  name: "Rohan",  accent: "North Indian",     tone: "Direct", color: "var(--lime-text)" },
+  { id: "ananya", name: "Ananya", accent: "Bengali · Indian", tone: "Gentle", color: "var(--teal-text)" },
   { id: "vikram", name: "Vikram", accent: "Marathi · Indian", tone: "Formal", color: "var(--violet)" },
 ] as const;
 type AiId = typeof AI_ROSTER[number]["id"];
@@ -742,13 +743,13 @@ function WebcamPreview({ muted }: { muted: boolean }) {
         <Camera size={20} color="var(--text-3)" />
         <Mono color="var(--text-3)" size="var(--fs-mono-xs)">YOUR VIDEO</Mono>
       </div>
-      <div className="absolute top-2 left-2 flex items-center gap-1.5 rounded-full px-2 py-0.5" style={{ background: "rgba(11,9,15,0.7)", backdropFilter: "blur(8px)" }}>
+      <div className="absolute top-2 left-2 flex items-center gap-1.5 rounded-full px-2 py-0.5" style={{ background: "rgba(250,247,240,0.90)", backdropFilter: "blur(8px)" }}>
         <span className="rounded-full" style={{ width: 5, height: 5, background: "var(--danger)" }} />
         <Mono color="var(--text-1)" size="var(--fs-mono-xs)">YOU</Mono>
       </div>
       {muted && (
         <div className="absolute bottom-2 right-2 rounded-full flex items-center gap-1 px-2 py-0.5" style={{ background: "var(--amber-soft)", border: "1px solid var(--amber-border)" }}>
-          <Mono color="var(--amber)" size="var(--fs-mono-xs)">MUTED</Mono>
+          <Mono color="var(--amber-text)" size="var(--fs-mono-xs)">MUTED</Mono>
         </div>
       )}
     </div>
@@ -779,7 +780,7 @@ function AvatarCharacter({ aiId, speaking, female }: { aiId: AiId; speaking: boo
           <stop offset="100%" stopColor={p.skinShade} />
         </linearGradient>
         <linearGradient id={`shirt-${aiId}`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#F0EBFF" stopOpacity="0.95" />
+          <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.95" />
           <stop offset="100%" stopColor="#C9C3D9" stopOpacity="0.9" />
         </linearGradient>
       </defs>
@@ -821,8 +822,8 @@ function AvatarCharacter({ aiId, speaking, female }: { aiId: AiId; speaking: boo
 
       {/* eyes */}
       <motion.g animate={speaking ? {} : { opacity: [1, 1, 0.1, 1, 1] }} transition={{ duration: 4, repeat: Infinity, times: [0, 0.92, 0.95, 0.98, 1] }}>
-        <ellipse cx="98" cy="112" rx="2.2" ry="2.8" fill="#0B090F" />
-        <ellipse cx="122" cy="112" rx="2.2" ry="2.8" fill="#0B090F" />
+        <ellipse cx="98" cy="112" rx="2.2" ry="2.8" fill="var(--text-1)" />
+        <ellipse cx="122" cy="112" rx="2.2" ry="2.8" fill="var(--text-1)" />
       </motion.g>
       {/* brows */}
       <rect x="92" y="103" width="12" height="1.6" rx="1" fill={p.hair} />
@@ -885,7 +886,7 @@ function AvatarOrb({ aiId, color, speaking }: { aiId: AiId; color: string; speak
       </motion.div>
 
       {/* corner mono tag */}
-      <div className="absolute top-3 left-3 flex items-center gap-1.5 rounded-full px-2 py-1" style={{ background: "rgba(11,9,15,0.55)", backdropFilter: "blur(8px)", border: "1px solid var(--hairline)" }}>
+      <div className="absolute top-3 left-3 flex items-center gap-1.5 rounded-full px-2 py-1" style={{ background: "rgba(250,247,240,0.86)", backdropFilter: "blur(8px)", border: "1px solid var(--hairline)" }}>
         <span className="rounded-full" style={{ width: 5, height: 5, background: speaking ? color : "var(--text-3)" }} />
         <Mono color={speaking ? "var(--text-1)" : "var(--text-3)"} size="var(--fs-mono-xs)">AI INTERVIEWER</Mono>
       </div>
@@ -1039,9 +1040,9 @@ function PriyaInterview() {
               onClick={() => go("exam/processing")}
               className="rounded-full flex items-center gap-2 px-6"
               style={{
-                height: 46, background: "var(--lime)", color: "var(--on-lime)",
+                height: 46, background: "var(--violet)", color: "var(--on-violet)",
                 fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "var(--fs-body)",
-                boxShadow: "0 6px 22px rgba(201,220,83,0.20)",
+                boxShadow: "var(--shadow-card)",
               }}
             >Finish & submit <ArrowRight size={16} /></button>
           </div>
@@ -1157,7 +1158,7 @@ function Processing() {
             color: "var(--text-1)",
           }}>
             Reading your{" "}
-            <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 400, color: "var(--lime)" }}>work.</span>
+            <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 400, color: "var(--lime-text)" }}>work.</span>
           </h1>
         </div>
 
@@ -1208,9 +1209,9 @@ function Processing() {
                   onClick={() => go("results")}
                   className="relative rounded-full flex items-center gap-2 px-7 transition-transform hover:scale-[1.02] active:scale-[0.98]"
                   style={{
-                    height: 54, background: "var(--lime)", color: "var(--on-lime)",
+                    height: 54, background: "var(--violet)", color: "var(--on-violet)",
                     fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 15,
-                    boxShadow: "0 10px 40px rgba(201,220,83,0.32)",
+                    boxShadow: "var(--shadow-elevated)",
                   }}
                 >
                   View my results <ArrowRight size={18} />
@@ -1294,7 +1295,7 @@ function JourneyPath({ score, displayScore, phase }: { score: number, displaySco
           transition={{ duration: 1, delay: 0, times: [0, 0.5, 1] }}
           style={{ width: 18, height: 18, borderRadius: "50%", background: "var(--lime)", border: "3px solid var(--bg)" }}
         />
-        <div className="absolute bottom-full mb-2" style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--lime)", whiteSpace: "nowrap", letterSpacing: "0.07em", fontWeight: 700 }}>
+        <div className="absolute bottom-full mb-2" style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--lime-text)", whiteSpace: "nowrap", letterSpacing: "0.07em", fontWeight: 700 }}>
           YOU · {displayScore}
         </div>
       </div>
@@ -1311,7 +1312,7 @@ function JourneyPath({ score, displayScore, phase }: { score: number, displaySco
           transform: "translate(-50%, -180%)",
         }}
       >
-        <div className="rounded-full px-2.5 py-1 whitespace-nowrap shadow-lg" style={{ background: "rgba(201,220,83,0.15)", border: "1px solid var(--lime)", boxShadow: "0 0 12px rgba(201,220,83,0.2)" }}>
+        <div className="rounded-full px-2.5 py-1 whitespace-nowrap shadow-lg" style={{ background: "rgba(201,220,83,0.15)", border: "1px solid var(--lime)", boxShadow: "var(--shadow-card)" }}>
           <span style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "var(--lime-text)", letterSpacing: "0.05em", fontWeight: 600 }}>2 pts to Band A</span>
         </div>
       </motion.div>
@@ -1336,7 +1337,7 @@ function CompactScore({ displayScore, percentile, band, phase }: { displayScore:
           transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
           style={{ background: "radial-gradient(circle, rgba(201,220,83,0.2) 0%, transparent 70%)" }}
         />
-        <div style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 48, color: "var(--lime)", letterSpacing: "-0.04em", textShadow: "0 0 16px rgba(201,220,83,0.5)", position: "relative", zIndex: 10 }}>
+        <div style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 48, color: "var(--lime-text)", letterSpacing: "-0.04em", textShadow: "0 0 16px rgba(201,220,83,0.5)", position: "relative", zIndex: 10 }}>
           {displayScore}
         </div>
       </div>
@@ -1347,7 +1348,7 @@ function CompactScore({ displayScore, percentile, band, phase }: { displayScore:
             Band {band}
           </h2>
           <span className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1" style={{ background: "rgba(201,220,83,0.1)", border: "1px solid rgba(201,220,83,0.2)" }}>
-            <span style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--lime)", display: "inline-block", boxShadow: "0 0 8px var(--lime)" }} />
+            <span style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--lime)", display: "inline-block", boxShadow: "none" }} />
             <span style={{ fontFamily: "var(--font-mono)", fontWeight: 600, fontSize: 10, color: "var(--lime-text)", letterSpacing: "0.06em", textTransform: "uppercase" }}>Interview-Ready</span>
           </span>
         </div>
@@ -1360,12 +1361,12 @@ function CompactScore({ displayScore, percentile, band, phase }: { displayScore:
 }
 function SignalMeter({ score, displayScore, percentile, band, phase }: { score: number, displayScore: number, percentile: number, band: string, phase: number }) {
   const layers = [
-    { name: "Aptitude", score: 82, color: "var(--lime)" },
-    { name: "Comm", score: 88, color: "var(--lime)" },
-    { name: "Domain", score: 71, color: "var(--teal)" },
-    { name: "Practical", score: 79, color: "var(--lime)" },
-    { name: "Interview", score: 84, color: "var(--lime)" },
-    { name: "Reflect", score: 64, color: "var(--amber)" },
+    { name: "Aptitude", score: 82, color: "var(--lime-text)" },
+    { name: "Comm", score: 88, color: "var(--lime-text)" },
+    { name: "Domain", score: 71, color: "var(--teal-text)" },
+    { name: "Practical", score: 79, color: "var(--lime-text)" },
+    { name: "Interview", score: 84, color: "var(--lime-text)" },
+    { name: "Reflect", score: 64, color: "var(--amber-text)" },
   ];
 
   // Determine the status text based on the phase and score completion
@@ -1375,7 +1376,7 @@ function SignalMeter({ score, displayScore, percentile, band, phase }: { score: 
   }
 
   return (
-    <div className="relative w-full flex flex-col items-center justify-center overflow-hidden rounded-3xl mt-2 mb-8" style={{ height: 420, background: "linear-gradient(180deg, var(--surface-1), var(--surface-2))", border: "1px solid var(--hairline)", boxShadow: "inset 0 0 40px rgba(0,0,0,0.2)" }}>
+    <div className="relative w-full flex flex-col items-center justify-center overflow-hidden rounded-3xl mt-2 mb-8" style={{ height: 420, background: "linear-gradient(180deg, var(--surface-1), var(--surface-2))", border: "1px solid var(--hairline)", boxShadow: "var(--shadow-card)" }}>
       {/* Status text */}
       <motion.div
         initial={{ opacity: 0 }}
@@ -1447,7 +1448,7 @@ function SignalMeter({ score, displayScore, percentile, band, phase }: { score: 
         style={{ top: 24, right: 32 }}
       >
         <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1" style={{ background: "rgba(201,220,83,0.1)", border: "1px solid rgba(201,220,83,0.25)" }}>
-          <span style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--lime)", display: "inline-block", boxShadow: "0 0 8px var(--lime)" }} />
+          <span style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--lime)", display: "inline-block", boxShadow: "none" }} />
           <span style={{ fontFamily: "var(--font-mono)", fontWeight: 700, fontSize: 11, color: "var(--lime-text)", letterSpacing: "0.08em" }}>BAND {band}</span>
         </span>
       </motion.div>
@@ -1473,12 +1474,12 @@ function SignalMeter({ score, displayScore, percentile, band, phase }: { score: 
 }
 function LayerConstellation({ phase, displayScore }: { phase: number, displayScore: number }) {
   const layers = [
-    { name: "Communication", score: 88, strongest: true,  color: "var(--lime)" },
-    { name: "Interview",     score: 84, strongest: false, color: "var(--lime)" },
-    { name: "Aptitude",      score: 82, strongest: false, color: "var(--lime)" },
-    { name: "Practical",     score: 79, strongest: false, color: "var(--teal)" },
-    { name: "Domain",        score: 71, strongest: false, color: "var(--teal)" },
-    { name: "Reflection",    score: 64, strongest: false, color: "var(--amber)", weakest: true },
+    { name: "Communication", score: 88, strongest: true,  color: "var(--lime-text)" },
+    { name: "Interview",     score: 84, strongest: false, color: "var(--lime-text)" },
+    { name: "Aptitude",      score: 82, strongest: false, color: "var(--lime-text)" },
+    { name: "Practical",     score: 79, strongest: false, color: "var(--teal-text)" },
+    { name: "Domain",        score: 71, strongest: false, color: "var(--teal-text)" },
+    { name: "Reflection",    score: 64, strongest: false, color: "var(--amber-text)", weakest: true },
   ];
 
   return (
@@ -1727,7 +1728,7 @@ function Results() {
           </p>
           <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "var(--fs-h2)", letterSpacing: "var(--ls-display)", lineHeight: "var(--lh-tight)", color: "var(--text-1)" }}>
             You're{" "}
-            <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 400, color: "var(--lime)" }}>
+            <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 400, color: "var(--lime-text)" }}>
               interview-ready.
             </span>
           </h1>
@@ -1795,7 +1796,7 @@ function Results() {
                         <div className="flex items-start justify-between gap-3 mb-2">
                           <div>
                             <div className="flex items-center gap-2 mb-1">
-                              <span style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--lime)", display: "inline-block", boxShadow: "0 0 8px var(--lime)" }} />
+                              <span style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--lime)", display: "inline-block", boxShadow: "none" }} />
                               <span style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 18, color: "var(--text-1)" }}>Product Engineer</span>
                             </div>
                             <p style={{ fontFamily: "var(--font-body)", fontSize: 13, color: "var(--lime-text)", fontWeight: 500 }}>This door is open to you</p>
@@ -1835,14 +1836,14 @@ function Results() {
                         </div>
                       ))}
                     </div>
-                    <button className="mt-8 w-full rounded-full transition-colors hover:bg-[rgba(255,255,255,0.03)]" style={{ height: 44, background: "transparent", border: "1px solid var(--hairline-strong)", color: "var(--text-1)", fontFamily: "var(--font-body)", fontWeight: 500, fontSize: "var(--fs-body-sm)" }}>
+                    <button className="mt-8 w-full rounded-full transition-colors hover:bg-[var(--violet-soft)]" style={{ height: 44, background: "transparent", border: "1px solid var(--hairline-strong)", color: "var(--text-1)", fontFamily: "var(--font-body)", fontWeight: 500, fontSize: "var(--fs-body-sm)" }}>
                       See all 12 role matches →
                     </button>
                   </Card>
 
                   {/* RIGHT BLOCK: Your Next Unlock */}
                   <Card style={{ padding: 40, background: "linear-gradient(180deg, var(--surface-1), var(--surface-2))", display: "flex", flexDirection: "column" }}>
-                    <Eyebrow color="var(--amber)">YOUR NEXT UNLOCK</Eyebrow>
+                    <Eyebrow color="var(--amber-text)">YOUR NEXT UNLOCK</Eyebrow>
                     <h3 className="mt-3" style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 32, color: "var(--text-1)", letterSpacing: "-0.01em", lineHeight: 1.1 }}>
                       Domain Knowledge
                     </h3>
@@ -1859,13 +1860,13 @@ function Results() {
                         </div>
                         <ul className="space-y-3">
                           <li className="flex items-start gap-3">
-                            <span className="rounded bg-[var(--amber)] text-black px-1.5 py-0.5 shrink-0" style={{ fontFamily: "var(--font-mono)", fontSize: 10, fontWeight: 700, marginTop: 2 }}>+4 PTS</span>
+                            <span className="rounded bg-[var(--amber)] text-[var(--on-lime)] px-1.5 py-0.5 shrink-0" style={{ fontFamily: "var(--font-mono)", fontSize: 10, fontWeight: 700, marginTop: 2 }}>+4 PTS</span>
                             <span style={{ fontFamily: "var(--font-body)", fontSize: 14, color: "var(--text-2)", lineHeight: 1.4 }}>
                               Data Analyst jumps to <strong style={{ color: "var(--text-1)", fontWeight: 500 }}>80%+ fit</strong>
                             </span>
                           </li>
                           <li className="flex items-start gap-3">
-                            <span className="rounded bg-[var(--amber)] text-black px-1.5 py-0.5 shrink-0" style={{ fontFamily: "var(--font-mono)", fontSize: 10, fontWeight: 700, marginTop: 2 }}>+8 PTS</span>
+                            <span className="rounded bg-[var(--amber)] text-[var(--on-lime)] px-1.5 py-0.5 shrink-0" style={{ fontFamily: "var(--font-mono)", fontSize: 10, fontWeight: 700, marginTop: 2 }}>+8 PTS</span>
                             <span style={{ fontFamily: "var(--font-body)", fontSize: 14, color: "var(--text-2)", lineHeight: 1.4 }}>
                               You reach <strong style={{ color: "var(--text-1)", fontWeight: 500 }}>Band A</strong> (Top 10% nationally)
                             </span>
@@ -1913,9 +1914,9 @@ function Results() {
                   className="mt-10 flex flex-wrap items-center gap-3"
                 >
                   <button className="rounded-full px-6 flex items-center gap-2 transition-transform hover:scale-[1.02] active:scale-[0.98]" style={{
-                    height: 52, background: "var(--lime)", color: "var(--on-lime)",
+                    height: 52, background: "var(--violet)", color: "var(--on-violet)",
                     fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 15,
-                    boxShadow: "0 8px 32px rgba(201,220,83,0.28)",
+                    boxShadow: "var(--shadow-card)",
                   }}>
                     Download certificate <ArrowRight size={16} />
                   </button>
@@ -1946,16 +1947,16 @@ function Results() {
 function ResultsBreakdown() {
   const layers = [
     { n: "L1", name: "Cognitive Ability",          weight: 25, score: 79, avg: 68, sub: "Logical reasoning, pattern recognition, numerical ability",    color: "var(--violet)", strongest: false },
-    { n: "L2", name: "Professional Communication", weight: 20, score: 74, avg: 65, sub: "Written clarity, verbal articulation, business English",        color: "var(--lime)",   strongest: false },
-    { n: "L3", name: "Domain Knowledge",           weight: 25, score: 68, avg: 72, sub: "Engineering fundamentals — your stream's core knowledge",       color: "var(--amber)",  strongest: false },
+    { n: "L2", name: "Professional Communication", weight: 20, score: 74, avg: 65, sub: "Written clarity, verbal articulation, business English",        color: "var(--lime-text)",   strongest: false },
+    { n: "L3", name: "Domain Knowledge",           weight: 25, score: 68, avg: 72, sub: "Engineering fundamentals — your stream's core knowledge",       color: "var(--amber-text)",  strongest: false },
     { n: "L4", name: "Workplace Decision Making",  weight: 15, score: 71, avg: 64, sub: "Situational judgement, prioritisation, professional ethics",    color: "var(--violet)", strongest: false },
-    { n: "L5", name: "AI Video Interview (Priya)", weight: 15, score: 77, avg: 62, sub: "Content, clarity, composure under structured questions",         color: "var(--lime)",   strongest: true },
+    { n: "L5", name: "AI Video Interview (Priya)", weight: 15, score: 77, avg: 62, sub: "Content, clarity, composure under structured questions",         color: "var(--lime-text)",   strongest: true },
   ];
 
   const bandFor = (s: number) =>
     s >= 80 ? { label: "Strong",    color: "var(--lime-text)", bg: "var(--lime-soft)",   bd: "var(--lime-border)" }
     : s >= 60 ? { label: "Good",     color: "var(--text-1)",   bg: "var(--violet-soft)", bd: "var(--violet-border)" }
-    : s >= 40 ? { label: "Developing", color: "var(--amber)",  bg: "var(--amber-soft)",  bd: "rgba(217,119,6,0.32)" }
+    : s >= 40 ? { label: "Developing", color: "var(--amber-text)",  bg: "var(--amber-soft)",  bd: "rgba(217,119,6,0.32)" }
     : { label: "Needs Work", color: "var(--text-3)", bg: "var(--surface-2)", bd: "var(--hairline)" };
 
   return (
@@ -1963,7 +1964,7 @@ function ResultsBreakdown() {
       <Eyebrow color="var(--violet)">YOUR 5-LAYER BREAKDOWN</Eyebrow>
       <h2 className="mt-3" style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 40, color: "var(--text-1)", letterSpacing: "var(--ls-display)", lineHeight: 1.1 }}>
         You've already{" "}
-        <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 400, color: "var(--lime)" }}>built</span>{" "}
+        <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 400, color: "var(--lime-text)" }}>built</span>{" "}
         a lot.
       </h2>
       <p className="mt-3 max-w-[560px]" style={{ fontFamily: "var(--font-body)", fontSize: 15, color: "var(--text-2)", lineHeight: 1.65 }}>
@@ -2014,8 +2015,8 @@ function ResultsBreakdown() {
                       className="rounded-full"
                       style={{ height: "100%", background: l.color }}
                     />
-                    <div className="absolute" style={{ left: `${l.avg}%`, top: -4, bottom: -4, width: 0, borderLeft: "2px dashed rgba(255,255,255,0.25)" }} />
-                    <div className="absolute rounded-full" style={{ left: `calc(${l.score}% - 8px)`, top: -2, width: 16, height: 16, background: "var(--lime)", boxShadow: "0 0 8px rgba(201,220,83,0.4)" }} />
+                    <div className="absolute" style={{ left: `${l.avg}%`, top: -4, bottom: -4, width: 0, borderLeft: "2px dashed var(--hairline-strong)" }} />
+                    <div className="absolute rounded-full" style={{ left: `calc(${l.score}% - 8px)`, top: -2, width: 16, height: 16, background: "var(--lime)", boxShadow: "none" }} />
                   </div>
                   <p className="mt-3" style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontSize: 13, color: above ? "var(--teal)" : "var(--text-3)", lineHeight: 1.5 }}>
                     {above
@@ -2072,7 +2073,7 @@ function ResultsRoles() {
       <Eyebrow color="var(--violet)">YOUR ROLE FIT PROFILE</Eyebrow>
       <h2 className="mt-3" style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 40, color: "var(--text-1)", letterSpacing: "var(--ls-display)", lineHeight: 1.1 }}>
         Doors{" "}
-        <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 400, color: "var(--lime)" }}>already</span>{" "}
+        <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 400, color: "var(--lime-text)" }}>already</span>{" "}
         open to you.
       </h2>
       <p className="mt-3 max-w-[540px]" style={{ fontFamily: "var(--font-body)", fontSize: 15, color: "var(--text-2)", lineHeight: 1.65 }}>
@@ -2102,7 +2103,7 @@ function RoleCard({ tier, name, score, sub }: { tier: "best" | "good" | "dev" | 
     best: { border: "1.5px solid var(--teal)",               badge: "BEST FIT",   bColor: "var(--teal)",   bBg: "rgba(81,193,181,0.12)",  bBorder: "rgba(81,193,181,0.3)",  fill: "var(--teal)",   bg: "var(--surface-1)" },
     good: { border: "1px solid var(--violet-border)",         badge: "GOOD FIT",   bColor: "var(--violet)", bBg: "var(--violet-soft)",     bBorder: "var(--violet-border)",  fill: "var(--violet)", bg: "var(--surface-1)" },
     dev:  { border: "1px solid rgba(217,119,6,0.2)",          badge: "DEVELOPING", bColor: "var(--amber)",  bBg: "var(--amber-soft)",      bBorder: "rgba(217,119,6,0.32)",  fill: "var(--amber)",  bg: "var(--surface-1)" },
-    lock: { border: "1px solid rgba(109,86,164,0.08)",        badge: "NEXT GOAL",  bColor: "var(--text-3)", bBg: "var(--surface-2)",       bBorder: "var(--hairline)",       fill: "var(--text-3)", bg: "#0F0D14" },
+    lock: { border: "1px solid rgba(109,86,164,0.08)",        badge: "NEXT GOAL",  bColor: "var(--text-3)", bBg: "var(--surface-2)",       bBorder: "var(--hairline)",       fill: "var(--text-3)", bg: "var(--surface-2)" },
   }[tier];
 
   const locked = tier === "lock";
@@ -2131,7 +2132,7 @@ function RoleCard({ tier, name, score, sub }: { tier: "best" | "good" | "dev" | 
       </div>
 
       {tier === "dev" && (
-        <p className="mt-3" style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontSize: 12, color: "var(--amber)" }}>+5 points in Domain unlocks this role fully</p>
+        <p className="mt-3" style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontSize: 12, color: "var(--amber-text)" }}>+5 points in Domain unlocks this role fully</p>
       )}
 
       {locked && (
@@ -2196,7 +2197,7 @@ function ResultsPlan() {
       <Eyebrow color="var(--violet)">YOUR NEXT UNLOCKS</Eyebrow>
       <h2 className="mt-3" style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 40, color: "var(--text-1)", letterSpacing: "var(--ls-display)", lineHeight: 1.1 }}>
         From Band B to{" "}
-        <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 400, color: "var(--lime)" }}>Band A.</span>
+        <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 400, color: "var(--lime-text)" }}>Band A.</span>
       </h2>
       <p className="mt-3 max-w-[520px]" style={{ fontFamily: "var(--font-body)", fontSize: 15, color: "var(--text-2)", lineHeight: 1.65 }}>
         You're 2 points away. Three small, focused moves — each one opens something specific.
@@ -2212,7 +2213,7 @@ function ResultsPlan() {
         </div>
         <div className="flex items-center gap-4">
           <div className="text-center">
-            <div style={{ fontFamily: "var(--font-mono)", fontWeight: 700, fontSize: 40, color: "var(--lime)", lineHeight: 1 }}>4</div>
+            <div style={{ fontFamily: "var(--font-mono)", fontWeight: 700, fontSize: 40, color: "var(--lime-text)", lineHeight: 1 }}>4</div>
             <div style={{ fontFamily: "var(--font-body)", fontSize: 12, color: "var(--lime-text)" }}>day streak</div>
           </div>
           <div className="flex gap-1.5">
@@ -2221,7 +2222,7 @@ function ResultsPlan() {
             ))}
           </div>
         </div>
-        <button className="rounded-full" style={{ height: 36, padding: "0 18px", background: "var(--lime)", color: "var(--on-lime)", fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 13, border: "none" }}>
+        <button className="rounded-full" style={{ height: 36, padding: "0 18px", background: "var(--violet)", color: "var(--on-violet)", fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 13, border: "none" }}>
           Today's 5-question drill →
         </button>
       </div>
@@ -2253,7 +2254,7 @@ function ResultsPlan() {
                   {/* Three columns: strength / next action / what it unlocks */}
                   <div className="mt-5 grid md:grid-cols-3 gap-5">
                     <div className="rounded-xl p-4" style={{ background: "rgba(81,193,181,0.06)", border: "1px solid rgba(81,193,181,0.18)" }}>
-                      <div style={{ fontFamily: "var(--font-mono)", fontSize: 9, fontWeight: 700, color: "var(--teal)", letterSpacing: "0.09em", textTransform: "uppercase", marginBottom: 8 }}>Where you are</div>
+                      <div style={{ fontFamily: "var(--font-mono)", fontSize: 9, fontWeight: 700, color: "var(--teal-text)", letterSpacing: "0.09em", textTransform: "uppercase", marginBottom: 8 }}>Where you are</div>
                       <p style={{ fontFamily: "var(--font-body)", fontSize: 13, color: "var(--text-2)", lineHeight: 1.6 }}>{u.currentStrength}</p>
                     </div>
                     <div className="rounded-xl p-4" style={{ background: "rgba(109,86,164,0.07)", border: "1px solid var(--violet-border)" }}>
@@ -2292,7 +2293,7 @@ function ResultsCertificate() {
       <Eyebrow color="var(--violet)">YOUR VERIFIED CREDENTIAL</Eyebrow>
       <h2 className="mt-3" style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 40, color: "var(--text-1)", letterSpacing: "var(--ls-display)", lineHeight: 1.1 }}>
         Now you can{" "}
-        <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 400, color: "var(--lime)" }}>show it.</span>
+        <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 400, color: "var(--lime-text)" }}>show it.</span>
       </h2>
       <p className="mt-3 max-w-[480px]" style={{ fontFamily: "var(--font-body)", fontSize: 15, color: "var(--text-2)", lineHeight: 1.65 }}>
         Your certificate is locked to this attempt and verified by QR code. Any recruiter can check it in under five seconds.
@@ -2301,7 +2302,7 @@ function ResultsCertificate() {
       {/* Certificate */}
       <div className="mx-auto mt-10" style={{
         maxWidth: 680, background: "#FEFEFE", border: "1px solid #E5E7EB",
-        borderRadius: 8, boxShadow: "0 24px 64px rgba(0,0,0,0.4)", padding: 48,
+        borderRadius: 8, boxShadow: "var(--shadow-highest)", padding: 48,
       }}>
         <div className="flex items-center justify-between">
           <span style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 18, color: "#1E1B4B" }}>JREE</span>
@@ -2364,7 +2365,7 @@ function ResultsCertificate() {
 
       {/* Actions */}
       <div className="mt-8 flex flex-wrap items-center gap-3 justify-center">
-        <button className="rounded-full flex items-center gap-2" style={{ height: 44, padding: "0 28px", background: "var(--lime)", color: "var(--on-lime)", fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 14, border: "none" }}>
+        <button className="rounded-full flex items-center gap-2" style={{ height: 44, padding: "0 28px", background: "var(--violet)", color: "var(--on-violet)", fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 14, border: "none" }}>
           ↓ Download PDF
         </button>
         <button className="rounded-full" style={{ height: 44, padding: "0 22px", background: "transparent", color: "var(--text-1)", border: "1px solid var(--violet-border)", fontFamily: "var(--font-body)", fontWeight: 500, fontSize: 14 }}>
@@ -2398,7 +2399,7 @@ function ResultsCertificate() {
           <button className="rounded-xl" style={{ height: 44, padding: "0 22px", background: "var(--violet)", color: "var(--on-violet)", fontFamily: "var(--font-body)", fontWeight: 600, fontSize: 14, border: "none" }}>Verify →</button>
         </div>
         <div className="mt-4 rounded-xl" style={{ background: "rgba(81,193,181,0.06)", border: "1px solid rgba(81,193,181,0.2)", padding: "16px 20px" }}>
-          <div style={{ fontFamily: "var(--font-body)", fontWeight: 600, fontSize: 14, color: "var(--teal)" }}>✓ Verified</div>
+          <div style={{ fontFamily: "var(--font-body)", fontWeight: 600, fontSize: 14, color: "var(--teal-text)" }}>✓ Verified</div>
           <div className="mt-1" style={{ fontFamily: "var(--font-body)", fontSize: 13, color: "var(--text-2)" }}>This certificate is authentic, unaltered, and currently valid.</div>
           <div className="mt-1" style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--text-3)" }}>Certificate status: Active · Valid until: May 2028</div>
         </div>

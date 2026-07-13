@@ -1,209 +1,35 @@
 @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,700;12..96,800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400;1,9..40,500&display=swap');
 
-/* ─── Theme-invariant tokens ─── */
 :root {
-  --font-display: 'Bricolage Grotesque', system-ui, sans-serif;
-  --font-serif:   'DM Sans', system-ui, sans-serif;
-  --font-mono:    'DM Sans', system-ui, sans-serif;
-  --font-body:    'DM Sans', system-ui, sans-serif;
-
-  /* On-fill text — always readable on their fill, never change with theme */
-  --on-lime:   #1A1525;  /* dark ink on lime fill */
-  --on-violet: #FFFFFF;  /* white on violet fill */
-  --on-teal:   #0B0F0E;  /* dark on teal fill */
-
-  /* Type scale */
-  --fs-eyebrow: 11px;
-  --fs-mono-xs: 10px;
-  --fs-mono-sm: 11px;
-  --fs-body-sm: 13px;
-  --fs-body:    15px;
-  --fs-body-lg: 16px;
-  --fs-h3: clamp(26px, 3.6vw, 36px);
-  --fs-h2: clamp(32px, 6vw, 56px);
-  --fs-quote: clamp(20px, 2.6vw, 26px);
-
-  /* Letter spacing */
-  --ls-mono:       0.07em;
-  --ls-mono-tight: 0.05em;
-  --ls-display:    -0.03em;
-  --ls-display-sm: -0.02em;
-  --ls-display-xs: -0.01em;
-
-  /* Line heights */
-  --lh-tight: 1.05;
-  --lh-snug:  1.2;
-  --lh-body:  1.6;
-  --lh-loose: 1.7;
-  --lh-quote: 1.4;
-
-  --op-hairline: 0.06;
-  --op-hairline-strong: 0.12;
-}
-
-/* ══════════════════════════════════════════
-   DARK THEME  (default)
-═══════════════════════════════════════════ */
-:root,
-[data-theme="dark"] {
-  color-scheme: dark;
-
-  --bg:   #0B090F;
-  --bg-2: #0F0C16;
-  --bg-3: #080610;
-
-  --surface-1: #131018;
-  --surface-2: #1D1826;
-  --surface-3: #241F30;
-
-  --violet:              #6D56A4;
-  --violet-soft:         rgba(109, 86, 164, 0.15);
-  --violet-border:       rgba(109, 86, 164, 0.22);
-  --violet-border-hover: rgba(109, 86, 164, 0.40);
-
-  --lime:        #C9DC53;
-  --lime-text:   #C9DC53;
-  --lime-soft:   rgba(201, 220, 83, 0.14);
-  --lime-border: rgba(201, 220, 83, 0.32);
-
-  --teal:        #51C1B5;
-  --teal-text:   #51C1B5;
-  --teal-soft:   rgba(81, 193, 181, 0.14);
-  --teal-border: rgba(81, 193, 181, 0.32);
-
-  --amber:        #D97706;
-  --amber-text:   #D97706;
-  --amber-soft:   rgba(217, 119, 6, 0.14);
-  --amber-border: rgba(217, 119, 6, 0.35);
-
-  --danger: #F87171;
-  --slate:  #64748B;
-
-  --text-1: #F0EBFF;
-  --text-2: #BFB6D0;
-  --text-3: #948AAB;
-
-  --hairline:        rgba(240, 235, 255, 0.06);
-  --hairline-strong: rgba(240, 235, 255, 0.12);
-
-  /* Shadows — dark mode signals depth via glow/border; near-transparent shadows */
-  --shadow-card:     0 1px 2px rgba(0, 0, 0, 0.12);
-  --shadow-elevated: 0 4px 16px rgba(0, 0, 0, 0.30);
-  --shadow-highest:  0 8px 32px rgba(0, 0, 0, 0.45);
-
-  /* Hero Specific */
-  --hero-spotlight-1: radial-gradient(75% 70% at 82% 28%, rgba(240,235,255,0.10) 0%, rgba(240,235,255,0.05) 28%, rgba(240,235,255,0.018) 52%, rgba(11, 9, 15, 0) 78%);
-  --hero-spotlight-2: linear-gradient(100deg, #000 0%, rgba(0,0,0,0.55) 32%, rgba(0,0,0,0) 58%);
-  --hero-card-bg: linear-gradient(165deg, #16121F 0%, #0F0C16 100%);
-  --hero-card-border: rgba(109, 86, 164, 0.3);
-  --hero-card-shadow: 0 40px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04), 0 0 60px rgba(109, 86, 164, 0.15);
-  --hero-ticker-bg: rgba(109, 86, 164, 0.08);
-  --hero-ticker-border: rgba(109, 86, 164, 0.18);
-  --hero-secondary-btn-border: rgba(240, 235, 255, 0.15);
-  --hero-secondary-btn-hover: rgba(240, 235, 255, 0.3);
-
-  /* Handoff Section */
-  --handoff-img-filter: grayscale(1) contrast(1.05) brightness(0.62);
-  --handoff-img-overlay: rgba(36,28,58,0.55);
-  --handoff-img-gradient: linear-gradient(180deg, rgba(12,10,16,0.25) 0%, rgba(12,10,16,0.35) 45%, var(--surface-1) 100%);
-}
-
-/* ══════════════════════════════════════════
-   LIGHT THEME
-═══════════════════════════════════════════ */
-[data-theme="light"] {
   color-scheme: light;
-
-  /* Warm cream — never pure white */
-  --bg:   #FAF7F0;
-  --bg-2: #F4F0E6;
-  --bg-3: #EFEAE0;
-
-  /* Cards are white; surface-2/3 are also white — depth via shadow */
-  --surface-1: #FFFFFF;
-  --surface-2: #FFFFFF;
-  --surface-3: #FFFFFF;
-
-  /* Violet darkened so it passes AA as text on white */
-  --violet:              #5E4A9E;
-  --violet-soft:         rgba(109, 86, 164, 0.10);
-  --violet-border:       rgba(109, 86, 164, 0.30);
-  --violet-border-hover: rgba(109, 86, 164, 0.50);
-
-  --lime:        #C9DC53;                    /* fill stays bright */
-  --lime-text:   #6E7B1F;                    /* olive — AA as text on white */
-  --lime-soft:   rgba(201, 220, 83, 0.20);
-  --lime-border: rgba(110, 123, 31,  0.30);  /* olive — raw lime invisible on white */
-
-  --teal:        #51C1B5;                    /* fill */
-  --teal-text:   #1F7A6F;                    /* darkened — AA as text on white */
-  --teal-soft:   rgba(81, 193, 181, 0.16);
-  --teal-border: rgba(81, 193, 181, 0.42);
-
-  --amber:        #D97706;                   /* fill */
-  --amber-text:   #B45309;                   /* darkened — AA as text on white */
-  --amber-soft:   rgba(217, 119, 6, 0.12);
-  --amber-border: rgba(217, 119, 6, 0.42);
-
-  --danger: #DC2626;
-  --slate:  #64748B;
-
-  --text-1: #1A1525;
-  --text-2: #312B3D;
-  --text-3: #4D465C;
-
-  --hairline:        rgba(26, 21, 37, 0.08);
-  --hairline-strong: rgba(26, 21, 37, 0.14);
-
-  /* Shadows — light mode signals depth via real box-shadow */
-  --shadow-card:     0 1px 3px rgba(26, 21, 37, 0.06), 0 4px 12px rgba(26, 21, 37, 0.05);
-  --shadow-elevated: 0 2px 6px rgba(26, 21, 37, 0.08), 0 8px 24px rgba(26, 21, 37, 0.06);
-  --shadow-highest:  0 4px 12px rgba(26, 21, 37, 0.10), 0 16px 40px rgba(26, 21, 37, 0.08);
-
-  /* Hero Specific */
-  --hero-spotlight-1: radial-gradient(75% 70% at 82% 28%, rgba(109, 86, 164, 0.05) 0%, rgba(109, 86, 164, 0.02) 40%, transparent 70%);
-  --hero-spotlight-2: linear-gradient(100deg, var(--bg) 0%, rgba(250, 247, 240, 0.4) 40%, transparent 70%);
-  --hero-card-bg: #FFFFFF;
-  --hero-card-border: var(--hairline-strong);
-  --hero-card-shadow: var(--shadow-highest);
-  --hero-ticker-bg: rgba(109, 86, 164, 0.04);
-  --hero-ticker-border: var(--hairline);
-  --hero-secondary-btn-border: var(--violet-border);
-  --hero-secondary-btn-hover: var(--violet-border-hover);
-
-  /* Handoff Section */
-  --handoff-img-filter: none;
-  --handoff-img-overlay: transparent;
-  --handoff-img-gradient: linear-gradient(180deg, transparent 0%, rgba(26,21,37,0.02) 45%, transparent 100%);
+  --font-display: 'Bricolage Grotesque', system-ui, sans-serif;
+  --font-serif: 'DM Sans', system-ui, sans-serif;
+  --font-mono: 'DM Sans', system-ui, sans-serif;
+  --font-body: 'DM Sans', system-ui, sans-serif;
+  --on-lime: #1A1525;
+  --on-violet: #FFFFFF;
+  --on-teal: #0B0F0E;
+  --fs-eyebrow: 11px; --fs-mono-xs: 10px; --fs-mono-sm: 11px; --fs-body-sm: 13px; --fs-body: 15px; --fs-body-lg: 16px; --fs-h3: clamp(26px,3.6vw,36px); --fs-h2: clamp(32px,6vw,56px); --fs-quote: clamp(20px,2.6vw,26px);
+  --ls-mono: .07em; --ls-mono-tight: .05em; --ls-display: -.03em; --ls-display-sm: -.02em; --ls-display-xs: -.01em;
+  --lh-tight: 1.05; --lh-snug: 1.2; --lh-body: 1.6; --lh-loose: 1.7; --lh-quote: 1.4;
+  --op-hairline: .08; --op-hairline-strong: .14;
+  --bg: #FAF7F0; --bg-2: #F4F0E6; --bg-3: #EFEAE0;
+  --surface-1: #FFFFFF; --surface-2: #FFFFFF; --surface-3: #FFFFFF;
+  --violet: #5E4A9E; --violet-soft: rgba(94,74,158,.10); --violet-border: rgba(94,74,158,.30); --violet-border-hover: rgba(94,74,158,.50);
+  --lime: #C9DC53; --lime-text: #6E7B1F; --lime-soft: rgba(201,220,83,.20); --lime-border: rgba(110,123,31,.30);
+  --teal: #51C1B5; --teal-text: #1F7A6F; --teal-soft: rgba(81,193,181,.16); --teal-border: rgba(31,122,111,.36);
+  --amber: #D97706; --amber-text: #B45309; --amber-soft: rgba(217,119,6,.12); --amber-border: rgba(180,83,9,.36); --danger: #B45309; --slate: #64748B;
+  --text-1: #1A1525; --text-2: #312B3D; --text-3: #4D465C;
+  --hairline: rgba(26,21,37,.08); --hairline-strong: rgba(26,21,37,.14);
+  --shadow-card: 0 1px 3px rgba(47,36,23,.07),0 4px 12px rgba(47,36,23,.06);
+  --shadow-elevated: 0 2px 6px rgba(47,36,23,.09),0 8px 24px rgba(47,36,23,.08);
+  --shadow-highest: 0 4px 12px rgba(47,36,23,.10),0 16px 40px rgba(47,36,23,.10);
+  --hero-spotlight-1: radial-gradient(75% 70% at 82% 28%,rgba(94,74,158,.06) 0%,rgba(94,74,158,.025) 40%,transparent 70%);
+  --hero-spotlight-2: linear-gradient(100deg,var(--bg) 0%,rgba(250,247,240,.55) 40%,transparent 70%);
+  --hero-card-bg: #FFF; --hero-card-border: var(--hairline-strong); --hero-card-shadow: var(--shadow-highest); --hero-ticker-bg: rgba(94,74,158,.04); --hero-ticker-border: var(--hairline); --hero-secondary-btn-border: var(--violet-border); --hero-secondary-btn-hover: var(--violet-border-hover);
+  --handoff-img-filter: none; --handoff-img-overlay: transparent; --handoff-img-gradient: linear-gradient(180deg,transparent 0%,rgba(26,21,37,.025) 45%,transparent 100%);
 }
-
-/* ─── Base ─── */
-html, body {
-  background: var(--bg);
-  color: var(--text-1);
-  font-family: var(--font-body);
-  transition: background-color 240ms ease, color 240ms ease;
-}
-
-/* ─── Grain texture — theme-aware ─── */
-.grain::before {
-  content: "";
-  position: absolute; inset: 0;
-  pointer-events: none;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.6 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/></svg>");
-  mix-blend-mode: overlay;
-  border-radius: inherit;
-}
-
-[data-theme="light"] .grain::before {
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.6 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/></svg>");
-  mix-blend-mode: multiply;
-}
-
-/* ─── Light-mode card elevation via shadow (opt-in helpers) ─── */
-[data-theme="light"] .surface-card     { box-shadow: var(--shadow-card); }
-[data-theme="light"] .surface-elevated { box-shadow: var(--shadow-elevated); }
-[data-theme="light"] .surface-highest  { box-shadow: var(--shadow-highest); }
-
-/* ─── Light-mode global polish: soften deep box-shadows used in dark cards ─── */
-[data-theme="light"] body { background: var(--bg); }
+html { position: relative; }
+body { position: relative; background: var(--bg); color: var(--text-1); font-family: var(--font-body); }
+.grain::before { content:""; position:absolute; inset:0; pointer-events:none; background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.6 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/></svg>"); mix-blend-mode:multiply; border-radius:inherit; }
+.surface-card { box-shadow: var(--shadow-card); }.surface-elevated { box-shadow: var(--shadow-elevated); }.surface-highest { box-shadow: var(--shadow-highest); }

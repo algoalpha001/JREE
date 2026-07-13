@@ -51,7 +51,7 @@ function BatchDistribution() {
     { label: "D", range: "0–34",  pct: 8,  color: "var(--text-3)" },
     { label: "C", range: "35–54", pct: 22, color: "var(--violet)" },
     { label: "B", range: "55–74", pct: 42, color: "#B9A4E8" },
-    { label: "A", range: "75–100", pct: 28, color: "var(--lime)" },
+    { label: "A", range: "75–100", pct: 28, color: "var(--lime-text)" },
   ];
   const benchmarkPct = 36; // national B-median position
 
@@ -61,7 +61,7 @@ function BatchDistribution() {
       style={{
         background: "var(--surface-1)",
         border: "1px solid var(--hairline-strong)",
-        boxShadow: "inset 0 1px 0 rgba(255,255,255,0.04), 0 24px 48px rgba(0,0,0,0.45)",
+        boxShadow: "var(--shadow-elevated)",
       }}
     >
       <div className="flex items-center justify-between">
@@ -166,7 +166,7 @@ function StepGraphic01({ active }: { active: boolean }) {
       {/* document mock */}
       <div className="absolute inset-0 flex items-center justify-center p-5">
         <motion.div className="grain rounded-[10px] w-[180px] px-4 py-4 flex flex-col gap-2"
-          style={{ background: "var(--surface-1)", border: "1px solid var(--hairline-strong)", boxShadow: "0 12px 32px rgba(0,0,0,0.4)" }}
+          style={{ background: "var(--surface-1)", border: "1px solid var(--hairline-strong)", boxShadow: "var(--shadow-elevated)" }}
           initial={{ opacity: 0, y: 14, rotate: -2 }}
           animate={active ? { opacity: 1, y: 0, rotate: -1.5 } : {}}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}>
@@ -205,7 +205,7 @@ function StepGraphic01({ active }: { active: boolean }) {
               transition={{ delay: 1.6, duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
               className="rounded-full flex items-center justify-center"
               style={{ width: 38, height: 38, border: "1.5px solid var(--lime)", background: "rgba(201,220,83,0.06)" }}>
-              <span style={{ fontFamily: "var(--font-mono)", fontSize: 7, color: "var(--lime)", fontWeight: 700, letterSpacing: "0.06em", lineHeight: 1 }}>
+              <span style={{ fontFamily: "var(--font-mono)", fontSize: 7, color: "var(--lime-text)", fontWeight: 700, letterSpacing: "0.06em", lineHeight: 1 }}>
                 EDU<br/>BRIDGE
               </span>
             </motion.div>
@@ -220,10 +220,10 @@ function StepGraphic01({ active }: { active: boolean }) {
         transition={{ delay: 1.9, duration: 0.35 }}>
         <div className="rounded-full flex items-center justify-center" style={{ width: 11, height: 11, background: "var(--lime)" }}>
           <svg width="6" height="5" viewBox="0 0 6 5" fill="none">
-            <path d="M1 2.5L2.4 4L5 1" stroke="#0B090F" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M1 2.5L2.4 4L5 1" stroke="var(--text-1)" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </div>
-        <span style={{ fontFamily: "var(--font-mono)", fontSize: 9, color: "var(--lime)", letterSpacing: "0.06em" }}>EXECUTED</span>
+        <span style={{ fontFamily: "var(--font-mono)", fontSize: 9, color: "var(--lime-text)", letterSpacing: "0.06em" }}>EXECUTED</span>
       </motion.div>
     </div>
   );
@@ -250,7 +250,7 @@ function StepGraphic02({ active }: { active: boolean }) {
           <span style={{ fontFamily: "var(--font-mono)", fontSize: 9, color: "var(--text-2)", letterSpacing: "0.05em" }}>batch_2026.csv</span>
         </div>
         <motion.span initial={{ opacity: 0 }} animate={active ? { opacity: 1 } : {}} transition={{ delay: 1.4 }}
-          style={{ fontFamily: "var(--font-mono)", fontSize: 9, color: "var(--lime)", letterSpacing: "0.06em" }}>
+          style={{ fontFamily: "var(--font-mono)", fontSize: 9, color: "var(--lime-text)", letterSpacing: "0.06em" }}>
           ✓ 248 rows
         </motion.span>
       </div>
@@ -275,7 +275,7 @@ function StepGraphic02({ active }: { active: boolean }) {
             transition={{ delay: 0.3 + i * 0.12, duration: 0.32, ease: [0.16, 1, 0.3, 1] }}>
             <span style={{ fontFamily: "var(--font-body)", fontSize: 10, color: "var(--text-1)" }}>{r.name}</span>
             <span style={{ fontFamily: "var(--font-body)", fontSize: 10, color: "var(--text-2)" }}>{r.prog}</span>
-            <span style={{ fontFamily: "var(--font-mono)", fontSize: 9, color: "var(--teal)", letterSpacing: "0.04em" }}>{r.id}</span>
+            <span style={{ fontFamily: "var(--font-mono)", fontSize: 9, color: "var(--teal-text)", letterSpacing: "0.04em" }}>{r.id}</span>
           </motion.div>
         ))}
       </div>
@@ -353,9 +353,9 @@ function StepGraphic03({ active }: { active: boolean }) {
               <span style={{ fontFamily: "var(--font-mono)", fontSize: 9, color: "var(--text-2)", letterSpacing: "0.04em" }}>{e.id}</span>
             </div>
             {e.state === "sent" ? (
-              <span style={{ fontFamily: "var(--font-mono)", fontSize: 8, color: "var(--lime)", letterSpacing: "0.06em" }}>✓ DELIVERED</span>
+              <span style={{ fontFamily: "var(--font-mono)", fontSize: 8, color: "var(--lime-text)", letterSpacing: "0.06em" }}>✓ DELIVERED</span>
             ) : (
-              <motion.span style={{ fontFamily: "var(--font-mono)", fontSize: 8, color: "var(--teal)", letterSpacing: "0.06em" }}
+              <motion.span style={{ fontFamily: "var(--font-mono)", fontSize: 8, color: "var(--teal-text)", letterSpacing: "0.06em" }}
                 animate={{ opacity: [1, 0.4, 1] }}
                 transition={{ duration: 1.2, repeat: Infinity }}>
                 ● SENDING
@@ -404,7 +404,7 @@ function StepGraphic04({ active }: { active: boolean }) {
               74
             </motion.span>
             <motion.span initial={{ opacity: 0 }} animate={active ? { opacity: 1 } : {}} transition={{ delay: 1.5 }}
-              style={{ fontFamily: "var(--font-mono)", fontSize: 7, color: "var(--lime)", letterSpacing: "0.07em", marginTop: 2 }}>
+              style={{ fontFamily: "var(--font-mono)", fontSize: 7, color: "var(--lime-text)", letterSpacing: "0.07em", marginTop: 2 }}>
               BAND B
             </motion.span>
           </div>
@@ -415,7 +415,7 @@ function StepGraphic04({ active }: { active: boolean }) {
           initial={{ opacity: 0, y: 4 }} animate={active ? { opacity: 1, y: 0 } : {}} transition={{ delay: 1.6, duration: 0.35 }}>
           <span className="inline-flex items-center gap-1 rounded-full px-2 py-0.5"
             style={{ background: "rgba(201,220,83,0.1)", border: "1px solid rgba(201,220,83,0.3)" }}>
-            <span style={{ fontFamily: "var(--font-mono)", fontSize: 8, color: "var(--lime)", letterSpacing: "0.06em" }}>RANK 4,217</span>
+            <span style={{ fontFamily: "var(--font-mono)", fontSize: 8, color: "var(--lime-text)", letterSpacing: "0.06em" }}>RANK 4,217</span>
           </span>
           <span style={{ fontFamily: "var(--font-mono)", fontSize: 8, color: "var(--text-3)", letterSpacing: "0.05em" }}>TOP 23%</span>
         </motion.div>
@@ -464,8 +464,8 @@ function StepGraphic04({ active }: { active: boolean }) {
 
 function StepGraphic05({ active }: { active: boolean }) {
   const bars = [
-    { pct: 0.55, color: "var(--lime)",    label: "A", count: "21%" },
-    { pct: 0.92, color: "var(--teal)",    label: "B", count: "38%" },
+    { pct: 0.55, color: "var(--lime-text)",    label: "A", count: "21%" },
+    { pct: 0.92, color: "var(--teal-text)",    label: "B", count: "38%" },
     { pct: 0.72, color: "var(--violet)",  label: "C", count: "29%" },
     { pct: 0.32, color: "var(--text-3)",  label: "D", count: "12%" },
   ];
@@ -480,7 +480,7 @@ function StepGraphic05({ active }: { active: boolean }) {
           initial={{ opacity: 0 }} animate={active ? { opacity: 1 } : {}} transition={{ delay: 1.0 }}>
           <motion.span className="rounded-full" style={{ width: 5, height: 5, background: "var(--teal)" }}
             animate={{ opacity: [1, 0.3, 1] }} transition={{ duration: 1.4, repeat: Infinity }} />
-          <span style={{ fontFamily: "var(--font-mono)", fontSize: 9, color: "var(--teal)", letterSpacing: "0.06em" }}>LIVE</span>
+          <span style={{ fontFamily: "var(--font-mono)", fontSize: 9, color: "var(--teal-text)", letterSpacing: "0.06em" }}>LIVE</span>
         </motion.span>
       </div>
       {/* chart */}
@@ -743,10 +743,10 @@ function CallbackForm() {
           type="submit"
           className="inline-flex items-center justify-center rounded-full transition-all hover:scale-[1.02] active:scale-[0.98]"
           style={{
-            height: 50, padding: "0 26px", background: "var(--lime)", color: "var(--on-lime)",
+            height: 50, padding: "0 26px", background: "var(--violet)", color: "var(--on-violet)",
             fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 14, letterSpacing: "-0.01em",
             border: "none", cursor: "pointer",
-            boxShadow: "0 8px 32px rgba(201,220,83,0.22)",
+            boxShadow: "var(--shadow-card)",
           }}
         >
           Request a callback
@@ -774,7 +774,7 @@ export function ForCollegesPage() {
   return (
     <div className="min-h-screen" style={{ background: "var(--bg)", color: "var(--text-1)", fontFamily: "var(--font-body)" }}>
       {/* Slim back-nav */}
-      <div className="sticky top-0 z-50" style={{ background: "rgba(11,9,15,0.8)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)", borderBottom: "1px solid var(--hairline-strong)" }}>
+      <div className="sticky top-0 z-50" style={{ background: "rgba(250,247,240,0.92)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)", borderBottom: "1px solid var(--hairline-strong)" }}>
         <div className="max-w-[1080px] mx-auto px-5 sm:px-8 h-[54px] flex items-center justify-between">
           <button
             onClick={goBack}
@@ -811,7 +811,7 @@ export function ForCollegesPage() {
                 }}
               >
                 Give every student a placement score{" "}
-                <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 400, color: "var(--lime)" }}>
+                <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 400, color: "var(--lime-text)" }}>
                   before placement season begins.
                 </span>
               </h1>
@@ -826,9 +826,9 @@ export function ForCollegesPage() {
                   href="#colleges-cta"
                   className="inline-flex items-center justify-center rounded-full transition-all hover:scale-[1.02] active:scale-[0.98]"
                   style={{
-                    height: 52, padding: "0 26px", background: "var(--lime)", color: "var(--on-lime)",
+                    height: 52, padding: "0 26px", background: "var(--violet)", color: "var(--on-violet)",
                     fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 15, letterSpacing: "-0.01em",
-                    boxShadow: "0 8px 32px rgba(201,220,83,0.22)", textDecoration: "none",
+                    boxShadow: "var(--shadow-card)", textDecoration: "none",
                   }}
                 >
                   Request a demo
@@ -921,11 +921,11 @@ export function ForCollegesPage() {
                       style={{ filter: "grayscale(30%) brightness(0.82)" }}
                     />
                     {/* violet duotone wash */}
-                    <div className="absolute inset-0" style={{ background: "linear-gradient(135deg, rgba(109,86,164,0.28) 0%, rgba(11,9,15,0.18) 100%)", mixBlendMode: "multiply" }} />
+                    <div className="absolute inset-0" style={{ background: "linear-gradient(135deg, rgba(109,86,164,0.28) 0%, rgba(250,247,240,.24) 100%)", mixBlendMode: "multiply" }} />
                     {/* bottom fade into surface */}
-                    <div className="absolute bottom-0 left-0 right-0 h-16" style={{ background: "linear-gradient(to top, rgba(11,9,15,0.55), transparent)" }} />
+                    <div className="absolute bottom-0 left-0 right-0 h-16" style={{ background: "linear-gradient(to top, rgba(250,247,240,0.86), transparent)" }} />
                     {/* index number */}
-                    <div className="absolute top-4 left-4" style={{ fontFamily: "var(--font-mono)", fontSize: 11, fontWeight: 600, letterSpacing: "0.07em", color: "rgba(240,235,255,0.45)" }}>
+                    <div className="absolute top-4 left-4" style={{ fontFamily: "var(--font-mono)", fontSize: 11, fontWeight: 600, letterSpacing: "0.07em", color: "var(--text-2)" }}>
                       0{i + 1}
                     </div>
                   </div>
@@ -992,7 +992,7 @@ export function ForCollegesPage() {
             <div className="p-7 md:p-10 flex flex-col justify-center">
               <h3 className="mt-0" style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "clamp(26px,4vw,42px)", color: "var(--text-1)", letterSpacing: "-0.03em", lineHeight: 1.05 }}>
                 A{" "}
-                <span style={{ color: "var(--lime)" }}>national rank</span>
+                <span style={{ color: "var(--lime-text)" }}>national rank</span>
                 {" "}for every one of your students.
               </h3>
               <p className="mt-4 max-w-[420px]" style={{ fontFamily: "var(--font-body)", fontSize: "clamp(15px,1.7vw,17px)", color: "var(--text-2)", lineHeight: 1.65 }}>
@@ -1003,7 +1003,7 @@ export function ForCollegesPage() {
               <div className="mt-7 max-w-[360px]">
                 <div className="flex justify-between mb-1.5">
                   <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text-3)", letterSpacing: "0.06em" }}>PERCENTILE</span>
-                  <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--lime)", letterSpacing: "0.04em" }}>TOP 2%</span>
+                  <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--lime-text)", letterSpacing: "0.04em" }}>TOP 2%</span>
                 </div>
                 <div className="rounded-full overflow-hidden" style={{ height: 5, background: "var(--surface-3)" }}>
                   <motion.div
@@ -1031,8 +1031,8 @@ export function ForCollegesPage() {
               <div className="absolute inset-0" style={{ background: "linear-gradient(160deg, rgba(109,86,164,0.35) 0%, transparent 60%)" }} />
               {/* Rank number */}
               <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6">
-                <div className="rounded-2xl px-6 py-5 flex flex-col items-center" style={{ background: "rgba(8,6,16,0.72)", backdropFilter: "blur(12px)", border: "1px solid rgba(240,235,255,0.07)" }}>
-                  <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "rgba(240,235,255,0.55)", letterSpacing: "0.07em", textTransform: "uppercase" }}>
+                <div className="rounded-2xl px-6 py-5 flex flex-col items-center" style={{ background: "rgba(255,255,255,.88)", backdropFilter: "blur(12px)", border: "1px solid var(--hairline)" }}>
+                  <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text-2)", letterSpacing: "0.07em", textTransform: "uppercase" }}>
                     Sample rank · CSE 2025
                   </div>
                   <div className="mt-2 flex items-baseline gap-2">
@@ -1045,7 +1045,7 @@ export function ForCollegesPage() {
                   </div>
                   <div className="mt-3 inline-flex items-center gap-2 rounded-full px-3 py-1" style={{ background: "rgba(201,220,83,0.15)", border: "1px solid rgba(201,220,83,0.4)" }}>
                     <span className="block rounded-full" style={{ width: 6, height: 6, background: "var(--lime)" }} />
-                    <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--lime)", letterSpacing: "0.05em" }}>TOP 2% NATIONALLY</span>
+                    <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--lime-text)", letterSpacing: "0.05em" }}>TOP 2% NATIONALLY</span>
                   </div>
                 </div>
               </div>
@@ -1056,11 +1056,11 @@ export function ForCollegesPage() {
           <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {[
               { icon: BarChart2,   color: "var(--violet)", label: "Batch analytics dashboard", body: "Live cohort distribution, band-wise breakdown, drill into any individual student." },
-              { icon: Eye,         color: "var(--teal)",   label: "Employer-pool visibility",  body: "Your Band A and B students appear in the same talent pool 50+ employers already search." },
-              { icon: Sparkles,    color: "var(--lime)",   label: "AI batch insight",          body: "Plain-English summary of where your batch is strong, where it's not, and what to address before drives." },
+              { icon: Eye,         color: "var(--teal-text)",   label: "Employer-pool visibility",  body: "Your Band A and B students appear in the same talent pool 50+ employers already search." },
+              { icon: Sparkles,    color: "var(--lime-text)",   label: "AI batch insight",          body: "Plain-English summary of where your batch is strong, where it's not, and what to address before drives." },
               { icon: Layers,      color: "var(--violet)", label: "Gap map",                   body: "Layer-by-layer weakness map across the batch — directly actionable by your training team." },
-              { icon: TrendingUp,  color: "var(--teal)",   label: "Year-over-year tracking",   body: "Compare this year's batch against last year's on the same rubric. Real improvement is now measurable." },
-              { icon: CalendarClock, color: "var(--lime)", label: "Exam-window control",       body: "You set the dates, you set the integrity requirements. EduBridge runs the operational side." },
+              { icon: TrendingUp,  color: "var(--teal-text)",   label: "Year-over-year tracking",   body: "Compare this year's batch against last year's on the same rubric. Real improvement is now measurable." },
+              { icon: CalendarClock, color: "var(--lime-text)", label: "Exam-window control",       body: "You set the dates, you set the integrity requirements. EduBridge runs the operational side." },
             ].map((f) => {
               const Icon = f.icon;
               return (
@@ -1163,7 +1163,7 @@ export function ForCollegesPage() {
               }}
             >
               A batch of 200 at ₹3,000 = ₹6,00,000 —{" "}
-              <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 400, color: "var(--lime)" }}>
+              <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 400, color: "var(--lime-text)" }}>
                 less than two campus drives,
               </span>{" "}
               and it gives employers a reason to come to you.
@@ -1199,16 +1199,16 @@ export function ForCollegesPage() {
               href="#colleges-cta"
               className="inline-flex items-center justify-center rounded-full transition-all hover:scale-[1.02] active:scale-[0.98]"
               style={{
-                height: 50, padding: "0 24px", background: "var(--lime)", color: "var(--on-lime)",
+                height: 50, padding: "0 24px", background: "var(--violet)", color: "var(--on-violet)",
                 fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 14, letterSpacing: "-0.01em",
-                boxShadow: "0 8px 32px rgba(201,220,83,0.22)", textDecoration: "none",
+                boxShadow: "var(--shadow-card)", textDecoration: "none",
               }}
             >
               Get a quote for your college
             </a>
             <a
               href="#colleges-cta"
-              className="inline-flex items-center justify-center rounded-full transition-all hover:bg-[rgba(240,235,255,0.06)]"
+              className="inline-flex items-center justify-center rounded-full transition-all hover:bg-[var(--hairline)]"
               style={{
                 height: 50, padding: "0 22px", background: "transparent", border: "1px solid var(--violet)",
                 color: "var(--text-1)", fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 14, letterSpacing: "-0.01em",
@@ -1279,7 +1279,7 @@ export function ForCollegesPage() {
           <Eyebrow>Get started</Eyebrow>
           <h2 className="mt-5 max-w-[820px]" style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "clamp(32px,5vw,52px)", color: "var(--text-1)", letterSpacing: "-0.03em", lineHeight: 1.04 }}>
             Give your batch the edge{" "}
-            <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 400, color: "var(--lime)" }}>
+            <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 400, color: "var(--lime-text)" }}>
               they deserve.
             </span>
           </h2>

@@ -84,13 +84,13 @@ export function ResumeBuilder() {
 
       {/* Persistent Nav */}
       <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-10" style={{
-        height: 64, background: "rgba(11,9,15,0.85)",
+        height: 64, background: "rgba(250,247,240,0.94)",
         backdropFilter: "blur(24px) saturate(1.5)",
         WebkitBackdropFilter: "blur(24px) saturate(1.5)",
         borderBottom: "1px solid var(--hairline)",
       }}>
         <div className="flex items-center gap-4">
-          <button onClick={() => window.location.hash = "#dashboard"} className="flex items-end leading-none">
+          <button onClick={() => window.location.hash = "dashboard"} className="flex items-end leading-none">
             <span style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 20, color: "var(--text-1)", letterSpacing: "var(--ls-display)" }}>JREE</span>
           </button>
           <div className="h-4 w-px bg-white/10 mx-2" />
@@ -101,11 +101,11 @@ export function ResumeBuilder() {
         </div>
 
         <div className="flex items-center gap-4">
-          <button className="flex items-center gap-2 px-3 py-1.5 rounded-full hover:bg-white/5 transition-colors">
+          <button className="flex items-center gap-2 px-3 py-1.5 rounded-full hover:bg-[var(--violet-soft)] transition-colors">
             <Save size={14} color="var(--text-3)" />
             <span style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "var(--text-3)", letterSpacing: "0.05em" }}>SAVE DRAFT</span>
           </button>
-          <button onClick={() => window.location.hash = "#dashboard"} className="p-2 rounded-full hover:bg-white/5 transition-colors">
+          <button onClick={() => window.location.hash = "dashboard"} className="p-2 rounded-full hover:bg-[var(--violet-soft)] transition-colors">
             <X size={20} color="var(--text-2)" />
           </button>
         </div>
@@ -133,11 +133,11 @@ export function ResumeBuilder() {
              </div>
              <div className="flex gap-1.5">
                {STEPS.map(s => (
-                 <div key={s.n} className="w-1.5 h-1.5 rounded-full" style={{ background: s.n <= step ? "var(--lime)" : "rgba(255,255,255,0.05)" }} />
+                 <div key={s.n} className="w-1.5 h-1.5 rounded-full" style={{ background: s.n <= step ? "var(--lime)" : "var(--hairline)" }} />
                ))}
              </div>
           </div>
-          <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
+          <div className="h-1 w-full bg-[var(--violet-soft)] rounded-full overflow-hidden">
             <motion.div 
               animate={{ width: `${(step / 8) * 100}%` }}
               transition={{ duration: 0.5, ease }}
@@ -173,13 +173,13 @@ export function ResumeBuilder() {
       </main>
 
       {/* Sticky Bottom Actions */}
-      <footer className="fixed bottom-0 left-0 right-0 z-50 border-t border-[rgba(255,255,255,0.05)]" style={{ 
-        background: "rgba(11,9,15,0.9)", backdropFilter: "blur(16px)"
+      <footer className="fixed bottom-0 left-0 right-0 z-50 border-t border-[var(--hairline)]" style={{ 
+        background: "rgba(250,247,240,.94)", backdropFilter: "blur(16px)"
       }}>
         <div className="max-w-[800px] mx-auto px-6 h-20 flex items-center justify-between">
            <button 
              onClick={back}
-             className="flex items-center gap-2 px-6 h-12 rounded-full border border-white/10 hover:bg-white/5 transition-all text-sm font-medium text-[var(--text-1)]"
+             className="flex items-center gap-2 px-6 h-12 rounded-full border border-[var(--hairline-strong)] hover:bg-[var(--violet-soft)] transition-all text-sm font-medium text-[var(--text-1)]"
            >
              <ChevronLeft size={18} /> Back
            </button>
@@ -188,13 +188,13 @@ export function ResumeBuilder() {
              {step < 8 ? (
                <button 
                  onClick={advance}
-                 className="flex items-center gap-2 px-8 h-12 rounded-full bg-[var(--violet)] hover:scale-[1.02] active:scale-[0.98] transition-all text-sm font-bold text-white shadow-xl shadow-violet-900/20"
+                 className="flex items-center gap-2 px-8 h-12 rounded-full bg-[var(--violet)] hover:scale-[1.02] active:scale-[0.98] transition-all text-sm font-bold text-[var(--on-violet)] shadow-[var(--shadow-card)]"
                >
                  Next Section <ChevronRight size={18} />
                </button>
              ) : (
                <button 
-                 className="flex items-center gap-2 px-10 h-14 rounded-full bg-[var(--lime)] hover:scale-[1.02] active:scale-[0.98] transition-all text-base font-black text-[var(--bg)] shadow-xl shadow-lime-900/20"
+                 className="flex items-center gap-2 px-10 h-14 rounded-full bg-[var(--violet)] hover:scale-[1.02] active:scale-[0.98] transition-all text-base font-black text-[var(--on-violet)] shadow-[var(--shadow-card)]"
                >
                  <Download size={20} /> DOWNLOAD VERIFIED PDF
                </button>
@@ -223,7 +223,7 @@ function EntryScreen({ onChoice }: { onChoice: () => void }) {
             className="mb-12"
           >
              <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "clamp(32px, 5vw, 56px)", color: "var(--text-1)", letterSpacing: "-0.03em" }}>
-                How do we <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", color: "var(--lime)" }}>start?</span>
+                How do we <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", color: "var(--lime-text)" }}>start?</span>
              </h1>
              <p className="mt-4 text-[var(--text-3)] text-lg">Choose your building experience.</p>
           </motion.div>
@@ -256,8 +256,8 @@ function ChoiceCard({ title, desc, icon: Icon, color, onClick }: any) {
       className="group relative text-left p-10 rounded-[32px] overflow-hidden grain transition-all duration-500 hover:-translate-y-2"
       style={{ 
         background: "var(--surface-1)",
-        border: "1px solid rgba(255,255,255,0.05)",
-        boxShadow: "0 24px 60px rgba(0,0,0,0.4)"
+        border: "1px solid var(--hairline)",
+        boxShadow: "var(--shadow-elevated)"
       }}
     >
        <div className="absolute top-0 right-0 w-48 h-48 pointer-events-none opacity-[0.03] group-hover:opacity-[0.08] transition-opacity translate-x-12 -translate-y-12">
@@ -335,9 +335,9 @@ function LiveField({ label, value, active, color }: any) {
        <span className="text-[10px] font-mono text-[var(--text-3)] uppercase tracking-[0.2em]">{label}</span>
        <div className="h-14 flex items-center px-5 rounded-xl border border-white/5 transition-all relative overflow-hidden" style={{ 
          background: active ? "rgba(255,255,255,0.02)" : "transparent",
-         borderColor: active ? "rgba(255,255,255,0.1)" : "rgba(255,255,255,0.05)"
+         borderColor: active ? "var(--hairline-strong)" : "var(--hairline)"
        }}>
-          {!active && <motion.div animate={{ opacity: [0.3, 0.6, 0.3] }} transition={{ repeat: Infinity }} className="h-2 w-32 bg-white/5 rounded-full" />}
+          {!active && <motion.div animate={{ opacity: [0.3, 0.6, 0.3] }} transition={{ repeat: Infinity }} className="h-2 w-32 bg-[var(--violet-soft)] rounded-full" />}
           {active && (
             <motion.span 
               initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
@@ -346,7 +346,7 @@ function LiveField({ label, value, active, color }: any) {
               {value}
             </motion.span>
           )}
-          {active && <motion.div initial={{ x: "-100%" }} animate={{ x: "100%" }} transition={{ duration: 0.6 }} className="absolute inset-0 bg-white/5" />}
+          {active && <motion.div initial={{ x: "-100%" }} animate={{ x: "100%" }} transition={{ duration: 0.6 }} className="absolute inset-0 bg-[var(--violet-soft)]" />}
        </div>
     </div>
   );
@@ -371,7 +371,7 @@ function Step2Objective({ value, onGenerate, isTyping, onChange }: any) {
             style={{ fontFamily: "var(--font-body)" }}
           />
           {isTyping && (
-             <div className="absolute inset-0 flex items-center justify-center bg-black/20 backdrop-blur-[1px] pointer-events-none rounded-3xl">
+             <div className="absolute inset-0 flex items-center justify-center bg-[rgba(94,74,158,0.08)] backdrop-blur-[1px] pointer-events-none rounded-3xl">
                 <div className="flex gap-2">
                    <div className="w-2 h-2 rounded-full bg-[var(--lime)] animate-bounce" />
                    <div className="w-2 h-2 rounded-full bg-[var(--lime)] animate-bounce delay-100" />
@@ -428,8 +428,8 @@ function Step3Education() {
 
 function EmptyStateCard({ icon: Icon, label }: any) {
   return (
-    <button className="w-full p-10 rounded-2xl border-2 border-dashed border-white/10 hover:border-[var(--violet)] hover:bg-white/2 transition-all flex flex-col items-center justify-center gap-4 group">
-       <div className="w-12 h-12 rounded-full flex items-center justify-center bg-white/5 text-[var(--text-3)] group-hover:bg-[var(--violet-soft)] group-hover:text-[var(--violet)] transition-colors">
+    <button className="w-full p-10 rounded-2xl border-2 border-dashed border-[var(--hairline-strong)] hover:border-[var(--violet)] hover:bg-white/2 transition-all flex flex-col items-center justify-center gap-4 group">
+       <div className="w-12 h-12 rounded-full flex items-center justify-center bg-[var(--violet-soft)] text-[var(--text-3)] group-hover:bg-[var(--violet-soft)] group-hover:text-[var(--violet)] transition-colors">
           <Icon size={24} />
        </div>
        <span style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 16, color: "var(--text-2)" }} className="group-hover:text-[var(--text-1)]">
@@ -465,7 +465,7 @@ function Step4Skills({ skills, setSkills }: any) {
           ))}
           <button className="px-5 py-2.5 rounded-xl border border-dashed border-white/20 hover:border-[var(--lime)] transition-colors flex items-center gap-2">
              <Plus size={16} color="var(--lime)" />
-             <span style={{ fontFamily: "var(--font-body)", fontWeight: 600, color: "var(--lime)", fontSize: 14 }}>Add more</span>
+             <span style={{ fontFamily: "var(--font-body)", fontWeight: 600, color: "var(--lime-text)", fontSize: 14 }}>Add more</span>
           </button>
        </div>
 
@@ -533,7 +533,7 @@ function Step7Template({ selected, onSelect }: any) {
               className="group text-left"
             >
                <div className="relative aspect-[3/4] rounded-2xl overflow-hidden border transition-all duration-300" style={{ 
-                 borderColor: selected === t.id ? "var(--lime)" : "rgba(255,255,255,0.05)",
+                 borderColor: selected === t.id ? "var(--lime)" : "var(--hairline)",
                  background: "var(--surface-3)",
                  boxShadow: selected === t.id ? "0 20px 40px rgba(0,0,0,0.4), 0 0 0 4px rgba(201, 220, 83, 0.1)" : "none",
                  transform: selected === t.id ? "scale(1.02)" : "scale(1)"
@@ -542,13 +542,13 @@ function Step7Template({ selected, onSelect }: any) {
                   <div className="p-6 space-y-4">
                      <div className={`h-4 w-1/2 bg-white/10 rounded ${t.layout === 'center' ? 'mx-auto' : ''}`} />
                      <div className="space-y-2">
-                        <div className="h-1.5 w-full bg-white/5 rounded" />
-                        <div className="h-1.5 w-full bg-white/5 rounded" />
-                        <div className="h-1.5 w-3/4 bg-white/5 rounded" />
+                        <div className="h-1.5 w-full bg-[var(--violet-soft)] rounded" />
+                        <div className="h-1.5 w-full bg-[var(--violet-soft)] rounded" />
+                        <div className="h-1.5 w-3/4 bg-[var(--violet-soft)] rounded" />
                      </div>
                      <div className="pt-4 grid grid-cols-2 gap-2">
-                        <div className="h-10 bg-white/5 rounded-lg" />
-                        <div className="h-10 bg-white/5 rounded-lg" />
+                        <div className="h-10 bg-[var(--violet-soft)] rounded-lg" />
+                        <div className="h-10 bg-[var(--violet-soft)] rounded-lg" />
                      </div>
                   </div>
                   
@@ -578,7 +578,7 @@ function Step8Preview({ data }: { data: any }) {
              <Check size={32} color="var(--lime)" strokeWidth={3} />
           </motion.div>
           <h2 style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 32, color: "var(--text-1)" }}>
-            The finish <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", color: "var(--lime)" }}>line.</span>
+            The finish <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", color: "var(--lime-text)" }}>line.</span>
           </h2>
           <p className="mt-2 text-[var(--text-3)] max-w-[400px] mx-auto">Your verified JREE resume is ready. Review and download your PDF.</p>
        </div>
@@ -596,7 +596,7 @@ function Step8Preview({ data }: { data: any }) {
 
        {/* Physical Artifact Preview */}
        <div className="relative mx-auto max-w-[500px]">
-          <div className="absolute inset-0 bg-black/40 blur-3xl -z-10 translate-y-8" />
+          <div className="absolute inset-0 bg-[rgba(94,74,158,0.12)] blur-3xl -z-10 translate-y-8" />
           <div 
             className="bg-white rounded-sm overflow-hidden p-12 shadow-2xl"
             style={{ aspectRatio: "1 / 1.414" }}
@@ -609,7 +609,7 @@ function Step8Preview({ data }: { data: any }) {
                       <div className="h-3 w-32 bg-gray-200 rounded" />
                    </div>
                    <div className="w-12 h-12 bg-[var(--violet)] rounded flex items-center justify-center">
-                      <span className="text-white text-[8px] font-black leading-none text-center">JREE<br/>87</span>
+                      <span className="text-[var(--on-violet)] text-[8px] font-black leading-none text-center">JREE<br/>87</span>
                    </div>
                 </div>
                 

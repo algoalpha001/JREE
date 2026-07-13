@@ -28,7 +28,7 @@ export function Login() {
       setLoading(false);
       setSuccess(true);
       setTimeout(() => {
-        window.location.hash = "#dashboard";
+        window.location.hash = "dashboard";
       }, 1000);
     }, 1500);
   };
@@ -38,7 +38,7 @@ export function Login() {
       <div className="flex flex-col lg:flex-row min-h-screen relative z-10">
         
         {/* MOBILE TEASER STRIP */}
-        <div className="lg:hidden w-full px-6 py-4 flex items-center justify-between border-b border-[rgba(240,235,255,0.06)]" style={{ background: "var(--surface-1)" }}>
+        <div className="lg:hidden w-full px-6 py-4 flex items-center justify-between border-b border-[var(--hairline)]" style={{ background: "var(--surface-1)" }}>
           <div className="flex items-center gap-3">
              <div className="w-8 h-8 rounded-full border-2 border-[var(--lime)] flex items-center justify-center text-[10px] font-bold text-[var(--lime)]">87</div>
              <div>
@@ -52,7 +52,7 @@ export function Login() {
         </div>
 
         {/* LEFT SIDE — THE HOOK (Product Preview) */}
-        <div className="hidden lg:flex flex-1 relative flex-col items-center justify-center px-12 overflow-hidden border-r border-[rgba(240,235,255,0.06)]">
+        <div className="hidden lg:flex flex-1 relative flex-col items-center justify-center px-12 overflow-hidden border-r border-[var(--hairline)]">
           {/* RADIAL GLOW */}
           <div 
             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
@@ -92,7 +92,7 @@ export function Login() {
                   marginTop: 80
                 }}>
                   Step into your{" "}
-                  <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", color: "var(--lime)", fontWeight: 400 }}>
+                  <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", color: "var(--lime-text)", fontWeight: 400 }}>
                     next
                   </span>{" "}
                   chapter.
@@ -110,7 +110,7 @@ export function Login() {
                      style={{ 
                        background: "var(--surface-1)", 
                        border: "1px solid rgba(109,86,164,0.3)",
-                       boxShadow: "0 40px 100px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.05)" 
+                       boxShadow: "var(--shadow-highest)" 
                      }}>
                    
                    {/* Background Glow within frame */}
@@ -137,7 +137,7 @@ export function Login() {
                       <motion.div 
                         animate={{ rotate: 360 }}
                         transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] rounded-full border border-dashed border-white/5"
+                        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] rounded-full border border-dashed border-[var(--hairline)]"
                       />
                    </div>
                 </div>
@@ -147,10 +147,10 @@ export function Login() {
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 1.2 }}
-                  className="absolute -right-6 top-1/3 px-4 py-2 rounded-2xl glass border border-white/10 shadow-2xl backdrop-blur-xl flex items-center gap-3"
-                  style={{ background: "rgba(19,16,24,0.8)" }}
+                  className="absolute -right-6 top-1/3 px-4 py-2 rounded-2xl border border-[var(--hairline-strong)] backdrop-blur-xl flex items-center gap-3"
+                  style={{ background: "rgba(255,255,255,0.92)", boxShadow: "var(--shadow-elevated)" }}
                 >
-                   <div className="w-2 h-2 rounded-full bg-[var(--lime)] animate-pulse shadow-[0_0_10px_var(--lime)]" />
+                   <div className="w-2 h-2 rounded-full bg-[var(--lime)] animate-pulse " />
                    <div className="text-left">
                       <div className="text-[9px] font-mono text-[var(--text-3)] uppercase tracking-[0.15em]">Live Pulse</div>
                       <div className="text-xs font-bold text-[var(--text-1)]">EMPLOYER VIEW ACTIVE</div>
@@ -162,13 +162,13 @@ export function Login() {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 1.4 }}
-                  className="absolute -left-6 bottom-1/4 px-4 py-3 rounded-2xl glass border border-white/10 shadow-2xl backdrop-blur-xl"
-                  style={{ background: "rgba(19,16,24,0.8)" }}
+                  className="absolute -left-6 bottom-1/4 px-4 py-3 rounded-2xl border border-[var(--hairline-strong)] backdrop-blur-xl"
+                  style={{ background: "rgba(255,255,255,0.92)", boxShadow: "var(--shadow-elevated)" }}
                 >
                    <div className="text-[10px] font-mono text-[var(--text-3)] uppercase tracking-wider mb-1 text-left">Your Score</div>
                    <div className="flex items-center gap-2">
-                      <span className="text-2xl font-display font-black text-[var(--lime)]">87</span>
-                      <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-[var(--lime)] text-[var(--bg)]">BAND A</span>
+                      <span className="text-2xl font-display font-black text-[var(--lime-text)]">87</span>
+                      <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-[var(--lime)] text-[var(--on-lime)]">BAND A</span>
                    </div>
                 </motion.div>
              </motion.div>
@@ -224,7 +224,7 @@ export function Login() {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="name@college.edu"
-                      className={`w-full h-[56px] pl-12 pr-4 bg-[var(--surface-3)] border border-[rgba(240,235,255,0.08)] rounded-xl outline-none text-[var(--text-1)] text-sm transition-all focus:border-[var(--violet)] focus:ring-4 focus:ring-[rgba(109,86,164,0.1)] ${error && !email ? "border-[var(--danger)] bg-[rgba(248,113,113,0.02)]" : ""}`}
+                      className={`w-full h-[56px] pl-12 pr-4 bg-[var(--surface-3)] border border-[var(--hairline-strong)] rounded-xl outline-none text-[var(--text-1)] text-sm transition-all focus:border-[var(--violet)] focus:ring-4 focus:ring-[rgba(109,86,164,0.1)] ${error && !email ? "border-[var(--danger)] bg-[var(--amber-soft)]" : ""}`}
                     />
                   </div>
                 </div>
@@ -246,7 +246,7 @@ export function Login() {
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       placeholder="••••••••"
-                      className={`w-full h-[56px] pl-12 pr-12 bg-[var(--surface-3)] border border-[rgba(240,235,255,0.08)] rounded-xl outline-none text-[var(--text-1)] text-sm transition-all focus:border-[var(--violet)] focus:ring-4 focus:ring-[rgba(109,86,164,0.1)] ${error && !password ? "border-[var(--danger)] bg-[rgba(248,113,113,0.02)]" : ""}`}
+                      className={`w-full h-[56px] pl-12 pr-12 bg-[var(--surface-3)] border border-[var(--hairline-strong)] rounded-xl outline-none text-[var(--text-1)] text-sm transition-all focus:border-[var(--violet)] focus:ring-4 focus:ring-[rgba(109,86,164,0.1)] ${error && !password ? "border-[var(--danger)] bg-[var(--amber-soft)]" : ""}`}
                     />
                     <button 
                       type="button"
@@ -265,8 +265,8 @@ export function Login() {
                   animate={error ? { x: [-4, 4, -4, 4, 0] } : {}}
                   className={`w-full h-[60px] rounded-full font-display font-extrabold text-base flex items-center justify-center gap-2 transition-all active:scale-[0.98] relative overflow-hidden ${
                     success 
-                      ? "bg-[var(--teal)] text-white" 
-                      : "bg-[var(--lime)] text-[var(--bg)] hover:shadow-[0_12px_40px_rgba(201,220,83,0.2)]"
+                      ? "bg-[var(--teal)] text-[var(--on-teal)]" 
+                      : "bg-[var(--violet)] text-[var(--on-violet)]"
                   }`}
                 >
                   {loading ? (
@@ -297,15 +297,15 @@ export function Login() {
 
               {/* Divider */}
               <div className="my-8 flex items-center gap-4">
-                <div className="h-px flex-1 bg-[rgba(240,235,255,0.06)]" />
+                <div className="h-px flex-1 bg-[var(--hairline)]" />
                 <span className="text-[10px] font-mono text-[var(--text-3)] uppercase tracking-widest">or</span>
-                <div className="h-px flex-1 bg-[rgba(240,235,255,0.06)]" />
+                <div className="h-px flex-1 bg-[var(--hairline)]" />
               </div>
 
               {/* Google Button */}
               <button 
                 type="button"
-                className="w-full h-[56px] rounded-full border border-[rgba(240,235,255,0.12)] flex items-center justify-center gap-3 hover:bg-[rgba(240,235,255,0.03)] transition-all text-[var(--text-2)] text-sm font-medium"
+                className="w-full h-[56px] rounded-full border border-[var(--hairline-strong)] flex items-center justify-center gap-3 hover:bg-[var(--hairline)] transition-all text-[var(--text-2)] text-sm font-medium"
               >
                 <svg width="18" height="18" viewBox="0 0 24 24">
                   <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
@@ -320,8 +320,8 @@ export function Login() {
                 <p className="text-sm text-[var(--text-3)]">
                   Don't have an account?{" "}
                   <button 
-                    onClick={() => window.location.hash = "#signup"}
-                    className="font-bold text-[var(--lime)] hover:underline ml-1"
+                    onClick={() => window.location.hash = "signup"}
+                    className="font-bold text-[var(--violet)] hover:underline ml-1"
                   >
                     Register Free
                   </button>
