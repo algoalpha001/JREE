@@ -134,12 +134,12 @@ function StudentPage() {
     <div className="min-h-screen" style={{ background: "var(--bg)", color: "var(--text-1)", fontFamily: "var(--font-body)", overflowX: "clip" }}>
       <Nav />
       <Hero />
-      <div id="colleges"><WhoFor /></div>
+      <div id="score"><WhoFor /></div>
       <div id="how-it-works"><HowItWorks /></div>
       <div id="about"><MeetPriya /></div>
       <ForStudents />
       <div id="scoring"><Bands /></div>
-      <div id="employers"><Stats /></div>
+      <div id="stats"><Stats /></div>
       <Testimonials />
       <AboutUs />
       <div id="faq"><FAQ /></div>

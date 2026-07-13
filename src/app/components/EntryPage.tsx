@@ -36,7 +36,7 @@ export function EntryPage() { return <div className="min-h-screen flex flex-col"
           <div className="h-full overflow-hidden">
             <img src={visual.image} alt={visual.alt} className="h-full w-full object-cover object-[62%_42%] transition-transform duration-[400ms] ease-out group-hover:scale-[1.03]" style={{ filter: "saturate(100%) contrast(96%) brightness(96%)" }} />
             <div className="absolute inset-0" style={{ background: "rgba(94,74,158,.05)", mixBlendMode: "multiply" }} />
-            <div className="absolute inset-x-0 bottom-0 h-[72%]" style={{ background: "linear-gradient(180deg, transparent 18%, rgba(255,255,255,.28) 60%, var(--surface-1) 100%)" }} />
+            <div className="absolute inset-x-0 bottom-0 h-[72%]" style={{ background: "linear-gradient(180deg, transparent 38%, rgba(255,255,255,.12) 72%, var(--surface-1) 100%)" }} />
           </div>
           <span className="absolute bottom-[-20px] left-7 z-30 flex items-center justify-center rounded-full" style={{ width: 48, height: 48, background: "var(--surface-1)", color: "var(--violet)", boxShadow: "var(--shadow-elevated)", border: "1px solid var(--violet-border)" }}><Icon size={24} strokeWidth={2} /></span>
         </div>

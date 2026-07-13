@@ -334,7 +334,7 @@ function LiveField({ label, value, active, color }: any) {
     <div className="space-y-2">
        <span className="text-[10px] font-mono text-[var(--text-3)] uppercase tracking-[0.2em]">{label}</span>
        <div className="h-14 flex items-center px-5 rounded-xl border border-white/5 transition-all relative overflow-hidden" style={{ 
-         background: active ? "rgba(255,255,255,0.02)" : "transparent",
+         background: active ? "var(--surface-2)" : "transparent",
          borderColor: active ? "var(--hairline-strong)" : "var(--hairline)"
        }}>
           {!active && <motion.div animate={{ opacity: [0.3, 0.6, 0.3] }} transition={{ repeat: Infinity }} className="h-2 w-32 bg-[var(--violet-soft)] rounded-full" />}
@@ -533,9 +533,9 @@ function Step7Template({ selected, onSelect }: any) {
               className="group text-left"
             >
                <div className="relative aspect-[3/4] rounded-2xl overflow-hidden border transition-all duration-300" style={{ 
-                 borderColor: selected === t.id ? "var(--lime)" : "var(--hairline)",
+                 borderColor: selected === t.id ? "var(--violet-border)" : "var(--hairline)",
                  background: "var(--surface-3)",
-                 boxShadow: selected === t.id ? "0 20px 40px rgba(0,0,0,0.4), 0 0 0 4px rgba(201, 220, 83, 0.1)" : "none",
+                 boxShadow: selected === t.id ? "var(--shadow-elevated)" : "none",
                  transform: selected === t.id ? "scale(1.02)" : "scale(1)"
                }}>
                   {/* Template preview lines */}

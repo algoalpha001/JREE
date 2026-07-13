@@ -15,9 +15,9 @@ const panels = [
     cta: "Register Free",
     href: "#signup",
     accent: "var(--lime)",
-    accentText: "var(--lime)",
-    ctaBg: "var(--lime)",
-    ctaColor: "var(--bg)",
+    accentText: "var(--lime-text)",
+    ctaBg: "var(--violet)",
+    ctaColor: "var(--on-violet)",
     img: "https://images.unsplash.com/photo-1585661417298-8236a5f449aa?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwyfHxzaW5nbGUlMjBmb2N1c2VkJTIwc3R1ZGVudCUyMHN0dWR5aW5nJTIwY29uY2VudHJhdGlvbnxlbnwxfHx8fDE3ODEyMTE1NzV8MA&ixlib=rb-4.1.0&q=80&w=1080",
     alt: "A focused student preparing for their assessment",
   },
@@ -29,9 +29,9 @@ const panels = [
     cta: "Onboard Your College",
     href: "#for-colleges",
     accent: "var(--violet)",
-    accentText: "#B9A4E8",
+    accentText: "var(--violet)",
     ctaBg: "transparent",
-    ctaColor: "#B9A4E8",
+    ctaColor: "var(--violet)",
     img: "https://images.unsplash.com/photo-1702952058716-1496a3c1e7f5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx1bml2ZXJzaXR5JTIwY2FtcHVzJTIwY29ycmlkb3IlMjBwbGFjZW1lbnQlMjBvZmZpY2V8ZW58MXx8fHwxNzgxMjExNTc2fDA&ixlib=rb-4.1.0&q=80&w=1080",
     alt: "A university campus corridor",
   },
@@ -42,10 +42,10 @@ const panels = [
     support: "Every candidate arrives pre-assessed. Filter by JREE score, domain strength, and role-fit — and call only the ones who are ready.",
     cta: "Access Talent Pool",
     href: "#for-employers",
-    accent: "#51C1B5",
-    accentText: "#51C1B5",
+    accent: "var(--teal)",
+    accentText: "var(--teal-text)",
     ctaBg: "transparent",
-    ctaColor: "#51C1B5",
+    ctaColor: "var(--teal-text)",
     img: "https://images.unsplash.com/photo-1571624436279-b272aff752b5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxpbnRlcnZpZXclMjBoaXJpbmclMjBkZXNrJTIwb2ZmaWNlJTIwbWVldGluZyUyMHJvb218ZW58MXx8fHwxNzgxMjExNTc2fDA&ixlib=rb-4.1.0&q=80&w=1080",
     alt: "A hiring desk in a modern office",
   },
@@ -137,17 +137,17 @@ function ConvertPanel({ panel, index, inView }: { panel: typeof panels[number]; 
           src={panel.img}
           alt={panel.alt}
           className="absolute inset-0 w-full h-full object-cover"
-          style={{ filter: "grayscale(1) contrast(1.05) brightness(0.55)" }}
+          style={{ filter: "saturate(.72) contrast(.94) brightness(.92)" }}
         />
-        <div className="absolute inset-0" style={{ background: "rgba(36,28,58,0.55)", mixBlendMode: "multiply" }} />
-        <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(12,10,16,0.1) 0%, rgba(12,10,16,0.5) 100%)" }} />
+        <div className="absolute inset-0" style={{ background: "rgba(94,74,158,0.12)", mixBlendMode: "multiply" }} />
+        <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, transparent 38%, rgba(26,21,37,0.10) 100%)" }} />
 
         {/* Audience tag */}
         <span
           className="absolute top-3.5 left-3.5 inline-flex items-center rounded-full"
           style={{
             padding: "4px 10px",
-            background: "rgba(0,0,0,0.5)",
+            background: "rgba(26,21,37,0.06)",
             backdropFilter: "blur(8px)",
             border: `1px solid ${panel.accent}44`,
             fontFamily: "var(--font-mono)",

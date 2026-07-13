@@ -758,12 +758,12 @@ function WebcamPreview({ muted }: { muted: boolean }) {
 
 type AiPalette = { skin: string; skinShade: string; hair: string; blazer: string; blazerDark: string; accent: string; bg1: string; bg2: string };
 const PALETTES: Record<AiId, AiPalette> = {
-  priya:  { skin: "#E8C9A8", skinShade: "#C9A582", hair: "#1A0F1F", blazer: "#6D56A4", blazerDark: "#4C1D95", accent: "#C9DC53", bg1: "#2A1745", bg2: "#0F0820" },
-  arjun:  { skin: "#D4A574", skinShade: "#B6885A", hair: "#0F0A14", blazer: "#0F766E", blazerDark: "#134E4A", accent: "#51C1B5", bg1: "#0F2D2A", bg2: "#06120F" },
-  meera:  { skin: "#C99775", skinShade: "#A77A5A", hair: "#0B0710", blazer: "#5B21B6", blazerDark: "#3B0F73", accent: "#C9DC53", bg1: "#1F0F38", bg2: "#0A0418" },
-  rohan:  { skin: "#E0B58A", skinShade: "#BF9268", hair: "#15090B", blazer: "#15803D", blazerDark: "#14532D", accent: "#C9DC53", bg1: "#0F2A1A", bg2: "#06120C" },
-  ananya: { skin: "#D9AA85", skinShade: "#B98966", hair: "#100712", blazer: "#0E7490", blazerDark: "#155E75", accent: "#51C1B5", bg1: "#062B36", bg2: "#03141A" },
-  vikram: { skin: "#CFA079", skinShade: "#AE825A", hair: "#0D080E", blazer: "#6D28D9", blazerDark: "#3B0F73", accent: "#C9DC53", bg1: "#1A0E33", bg2: "#080414" },
+  priya:  { skin: "#E8C9A8", skinShade: "#C9A582", hair: "#1A0F1F", blazer: "#6D56A4", blazerDark: "#4C1D95", accent: "#C9DC53", bg1: "rgba(109,86,164,0.12)", bg2: "var(--bg)" },
+  arjun:  { skin: "#D4A574", skinShade: "#B6885A", hair: "#0F0A14", blazer: "#0F766E", blazerDark: "#134E4A", accent: "#51C1B5", bg1: "rgba(15,118,110,0.10)", bg2: "var(--bg)" },
+  meera:  { skin: "#C99775", skinShade: "#A77A5A", hair: "#0B0710", blazer: "#5B21B6", blazerDark: "#3B0F73", accent: "#C9DC53", bg1: "rgba(91,33,182,0.10)", bg2: "var(--bg)" },
+  rohan:  { skin: "#E0B58A", skinShade: "#BF9268", hair: "#15090B", blazer: "#15803D", blazerDark: "#14532D", accent: "#C9DC53", bg1: "rgba(21,128,61,0.10)", bg2: "var(--bg)" },
+  ananya: { skin: "#D9AA85", skinShade: "#B98966", hair: "#100712", blazer: "#0E7490", blazerDark: "#155E75", accent: "#51C1B5", bg1: "rgba(14,116,144,0.10)", bg2: "var(--bg)" },
+  vikram: { skin: "#CFA079", skinShade: "#AE825A", hair: "#0D080E", blazer: "#6D28D9", blazerDark: "#3B0F73", accent: "#C9DC53", bg1: "rgba(109,40,217,0.10)", bg2: "var(--bg)" },
 };
 
 function AvatarCharacter({ aiId, speaking, female }: { aiId: AiId; speaking: boolean; female: boolean }) {
@@ -858,7 +858,7 @@ function AvatarOrb({ aiId, color, speaking }: { aiId: AiId; color: string; speak
   return (
     <div className="relative overflow-hidden grain" style={{
       width: 300, height: 360, borderRadius: 22,
-      background: `radial-gradient(120% 80% at 50% 0%, ${p.bg1} 0%, ${p.bg2} 70%, #050309 100%)`,
+      background: `radial-gradient(120% 80% at 50% 0%, ${p.bg1} 0%, ${p.bg2} 70%, var(--bg) 100%)`,
       border: `1px solid ${color === "var(--lime)" ? "rgba(201,220,83,0.18)" : color === "var(--teal)" ? "rgba(81,193,181,0.22)" : "rgba(109,86,164,0.28)"}`,
       boxShadow: `0 30px 80px ${color === "var(--lime)" ? "rgba(201,220,83,0.18)" : color === "var(--teal)" ? "rgba(81,193,181,0.20)" : "rgba(109,86,164,0.32)"}`,
     }}>
@@ -1312,7 +1312,7 @@ function JourneyPath({ score, displayScore, phase }: { score: number, displaySco
           transform: "translate(-50%, -180%)",
         }}
       >
-        <div className="rounded-full px-2.5 py-1 whitespace-nowrap shadow-lg" style={{ background: "rgba(201,220,83,0.15)", border: "1px solid var(--lime)", boxShadow: "var(--shadow-card)" }}>
+        <div className="rounded-full px-2.5 py-1 whitespace-nowrap shadow-lg" style={{ background: "rgba(201,220,83,0.15)", border: "1px solid var(--lime-border)", boxShadow: "var(--shadow-card)" }}>
           <span style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "var(--lime-text)", letterSpacing: "0.05em", fontWeight: 600 }}>2 pts to Band A</span>
         </div>
       </motion.div>
@@ -1337,7 +1337,7 @@ function CompactScore({ displayScore, percentile, band, phase }: { displayScore:
           transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
           style={{ background: "radial-gradient(circle, rgba(201,220,83,0.2) 0%, transparent 70%)" }}
         />
-        <div style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 48, color: "var(--lime-text)", letterSpacing: "-0.04em", textShadow: "0 0 16px rgba(201,220,83,0.5)", position: "relative", zIndex: 10 }}>
+        <div style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 48, color: "var(--lime-text)", letterSpacing: "-0.04em", textShadow: "none", position: "relative", zIndex: 10 }}>
           {displayScore}
         </div>
       </div>
@@ -1382,7 +1382,7 @@ function SignalMeter({ score, displayScore, percentile, band, phase }: { score: 
         initial={{ opacity: 0 }}
         animate={{ opacity: phase >= 1 ? 1 : 0 }}
         transition={{ duration: 0.5 }}
-        style={{ fontFamily: "var(--font-mono)", fontSize: 13, color: displayScore === score ? "var(--lime)" : "var(--text-3)", letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: 24, transition: "color 0.3s ease" }}
+        style={{ fontFamily: "var(--font-mono)", fontSize: 13, color: displayScore === score ? "var(--lime-text)" : "var(--text-3)", letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: 24, transition: "color 0.3s ease" }}
       >
         {statusText}
       </motion.div>
@@ -1394,7 +1394,7 @@ function SignalMeter({ score, displayScore, percentile, band, phase }: { score: 
         animate={{ opacity: phase >= 1 ? 1 : 0, scale: phase >= 1 ? 1 : 0.9 }}
         transition={{ duration: 0.8 }}
       >
-        <div style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 110, color: "var(--text-1)", lineHeight: 1, letterSpacing: "-0.04em", textShadow: displayScore === score ? "0 0 40px rgba(201,220,83,0.3)" : "none", transition: "text-shadow 0.4s ease" }}>
+        <div style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 110, color: "var(--text-1)", lineHeight: 1, letterSpacing: "-0.04em", textShadow: "none", transition: "text-shadow 0.4s ease" }}>
           {displayScore}
         </div>
       </motion.div>

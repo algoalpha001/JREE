@@ -345,7 +345,7 @@ function AlphaSwatch({ token, rgba, label }: { token: string; rgba: string; labe
     <div className="rounded-[12px] overflow-hidden" style={{ border: "1px solid var(--hairline-strong)" }}>
       <div className="relative" style={{ height: 72 }}>
         {/* checkerboard pattern to show alpha */}
-        <div className="absolute inset-0" style={{ backgroundImage: "repeating-conic-gradient(#3a3350 0% 25%, #1a1525 0% 50%)", backgroundSize: "16px 16px" }} />
+        <div className="absolute inset-0" style={{ backgroundImage: "repeating-conic-gradient(var(--bg-2) 0% 25%, var(--surface-2) 0% 50%)", backgroundSize: "16px 16px" }} />
         <div className="absolute inset-0" style={{ background: rgba }} />
       </div>
       <div className="p-3" style={{ background: "var(--surface-1)" }}>
@@ -372,15 +372,15 @@ function ColorPaletteBlock() {
   return (
     <div className="space-y-12">
       <ColorGroup title="Backgrounds">
-        <Swatch token="--bg"    hex="var(--text-1)" label="Page background" />
-        <Swatch token="--bg-2"  hex="#0F0C16" label="Section alternate" />
-        <Swatch token="--bg-3"  hex="var(--bg-3)" label="Darkest background" />
+        <Swatch token="--bg"    hex="var(--bg)" label="Page background" />
+        <Swatch token="--bg-2"  hex="var(--bg-2)" label="Section alternate" />
+        <Swatch token="--bg-3"  hex="var(--bg-3)" label="Deepest cream background" />
       </ColorGroup>
 
       <ColorGroup title="Surfaces">
-        <Swatch token="--surface-1" hex="#131018" label="Card surface" />
-        <Swatch token="--surface-2" hex="#1D1826" label="Elevated surface" />
-        <Swatch token="--surface-3" hex="#241F30" label="Highest surface" />
+        <Swatch token="--surface-1" hex="var(--surface-1)" label="Card surface" />
+        <Swatch token="--surface-2" hex="var(--surface-2)" label="Elevated surface" />
+        <Swatch token="--surface-3" hex="var(--surface-3)" label="Highest surface" />
       </ColorGroup>
 
       <ColorGroup title="Brand — Violet">
@@ -427,8 +427,8 @@ function ColorPaletteBlock() {
 
       <ColorGroup title="Text">
         <Swatch token="--text-1" hex="#1A1525" label="Primary text" />
-        <Swatch token="--text-2" hex="#BFB6D0" label="Secondary text" />
-        <Swatch token="--text-3" hex="#948AAB" label="Tertiary / muted" />
+        <Swatch token="--text-2" hex="var(--text-2)" label="Secondary text" />
+        <Swatch token="--text-3" hex="var(--text-3)" label="Tertiary / muted" />
       </ColorGroup>
 
       {/* Light mode note */}
@@ -442,7 +442,7 @@ function ColorPaletteBlock() {
             { token: "--text-3",  hex: "#645C75" }, { token: "--lime-text",hex: "#6E7B1F" },
           ].map((s) => (
             <div key={s.token} className="flex items-center gap-3">
-              <div className="rounded-md flex-shrink-0" style={{ width: 32, height: 32, background: s.hex, border: "1px solid rgba(0,0,0,0.1)" }} />
+              <div className="rounded-md flex-shrink-0" style={{ width: 32, height: 32, background: s.hex, border: "1px solid var(--hairline-strong)" }} />
               <div>
                 <div style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "var(--text-1)" }}>{s.token}</div>
                 <div style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "var(--text-3)" }}>{s.hex}</div>
@@ -774,7 +774,7 @@ function UIElementsBlock() {
             { name: "Rohan",  tone: "DIRECT", accent: "North Indian",    active: false, color: "var(--lime-text)"   },
           ].map((a) => (
             <div key={a.name} className="flex items-center gap-2.5 rounded-[12px]" style={{ padding: "9px 11px", background: a.active ? "rgba(109,86,164,0.18)" : "transparent", border: `1px solid ${a.active ? a.color : "var(--hairline-strong)"}` }}>
-              <span className="block rounded-full flex-shrink-0" style={{ width: 28, height: 28, background: `radial-gradient(circle at 35% 30%, rgba(255,255,255,0.5), ${a.color} 40%, #1A0E2E 100%)` }} />
+              <span className="block rounded-full flex-shrink-0" style={{ width: 28, height: 28, background: `radial-gradient(circle at 35% 30%, rgba(255,255,255,0.5), ${a.color} 40%, var(--surface-2) 100%)` }} />
               <div>
                 <div style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 13, color: "var(--text-1)", letterSpacing: "-0.01em", lineHeight: 1 }}>{a.name}</div>
                 <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: a.active ? a.color : "var(--text-3)", letterSpacing: "0.03em", marginTop: 3 }}>{a.tone} · {a.accent.toUpperCase()}</div>

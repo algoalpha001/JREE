@@ -13,7 +13,7 @@ export function MiniScoreRing({ size = 80 }: { size?: number }) {
             <stop offset="100%" stopColor="#C9DC53" />
           </linearGradient>
         </defs>
-        <circle cx={size / 2} cy={size / 2} r={radius} fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth={4} />
+        <circle cx={size / 2} cy={size / 2} r={radius} fill="none" stroke="var(--hairline-strong)" strokeWidth={4} />
         <motion.circle
           cx={size / 2}
           cy={size / 2}

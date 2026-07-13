@@ -128,7 +128,7 @@ export function Login() {
                      <ImageWithFallback 
                        src={avatarImg} 
                        alt="Professional 3D Avatar" 
-                       className="w-full h-full object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
+                       className="w-full h-full object-contain drop-shadow-[0_16px_40px_rgba(26,21,37,0.10)]"
                      />
                    </motion.div>
 

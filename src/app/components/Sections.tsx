@@ -1240,7 +1240,7 @@ function StepRow({ step, index }: { step: any; index: number }) {
           }}
           whileHover={{
             borderColor: step.color,
-            boxShadow: `inset 0 1px 0 rgba(255,255,255,0.06), 0 30px 64px rgba(0,0,0,0.5), 0 0 0 1px ${step.color === "var(--lime)" ? "rgba(201,220,83,0.4)" : step.color === "var(--violet)" ? "rgba(109,86,164,0.4)" : "rgba(109,86,164,0.4)"}, 0 0 40px ${step.color === "var(--lime)" ? "rgba(201,220,83,0.2)" : step.color === "var(--violet)" ? "rgba(109,86,164,0.2)" : "rgba(109,86,164,0.2)"}`,
+            boxShadow: `var(--shadow-highest)`,
           }}
           transition={{ duration: 0.3 }}
         >
@@ -1591,8 +1591,8 @@ function AiRosterPicker({ selected, onSelect }: { selected: AiId; onSelect: (id:
                 <span
                   className="absolute inset-0 rounded-full"
                   style={{
-                    background: `radial-gradient(circle at 35% 30%, rgba(255,255,255,0.5), ${a.color} 40%, #1A0E2E 100%)`,
-                    boxShadow: isActive ? `0 0 16px ${a.color}80, inset 0 0 8px rgba(255,255,255,0.2)` : "inset 0 0 6px rgba(0,0,0,0.4)",
+                    background: `radial-gradient(circle at 35% 30%, rgba(255,255,255,0.5), ${a.color} 40%, var(--surface-2) 100%)`,
+                    boxShadow: isActive ? "var(--shadow-card)" : "none",
                   }}
                 />
                 {isActive && (
@@ -1806,9 +1806,9 @@ function PriyaStudio({ active }: { active: ActiveAi }) {
               className="relative rounded-[12px] overflow-hidden"
               style={{
                 aspectRatio: "16 / 10",
-                background: "#0B0712",
+                background: "var(--surface-2)",
                 border: "1px solid var(--violet-border)",
-                boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.03)",
+                boxShadow: "var(--shadow-card)",
               }}
             >
               {/* camera preview disabled on landing page */}
@@ -1827,7 +1827,7 @@ function PriyaStudio({ active }: { active: ActiveAi }) {
               </div>
 
               {/* REC badge */}
-              <div className="absolute top-2.5 left-2.5 inline-flex items-center gap-1.5 rounded-full" style={{ padding: "3px 9px", background: "rgba(0,0,0,0.55)", border: "1px solid rgba(255,255,255,0.12)" }}>
+              <div className="absolute top-2.5 left-2.5 inline-flex items-center gap-1.5 rounded-full" style={{ padding: "3px 9px", background: "var(--surface-1)", border: "1px solid var(--hairline-strong)", boxShadow: "var(--shadow-card)" }}>
                 <motion.span
                   className="block rounded-full"
                   style={{ width: 6, height: 6, background: "var(--amber)" }}
@@ -1914,8 +1914,8 @@ function PriyaAvatar({ accent = "var(--lime)" }: { accent?: string }) {
         className="absolute rounded-full overflow-hidden"
         style={{
           left: 24, top: 24, width: 112, height: 112,
-          background: `radial-gradient(circle at 35% 30%, rgba(255,255,255,0.6), ${accent} 25%, rgba(109,86,164,0.9) 55%, #1A0E2E 100%)`,
-          boxShadow: `0 0 60px ${accent}80, inset 0 0 40px ${accent}40, inset 0 -20px 60px rgba(0,0,0,0.5)`,
+          background: `radial-gradient(circle at 35% 30%, rgba(255,255,255,0.6), ${accent} 25%, rgba(109,86,164,0.38) 55%, var(--surface-2) 100%)`,
+          boxShadow: "var(--shadow-elevated)",
         }}
         animate={{ scale: [1, 1.04, 1] }}
         transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
@@ -2632,8 +2632,8 @@ function BandRow({ band, index, isYou }: { band: any; index: number; isYou: bool
         background: "var(--surface-1)",
         border: `1px solid ${isYou ? "var(--lime-border)" : "var(--hairline)"}`,
         boxShadow: isYou
-          ? "inset 0 1px 0 rgba(255,255,255,0.04), 0 18px 40px rgba(0,0,0,0.35), 0 0 0 1px rgba(201,220,83,0.12)"
-          : "inset 0 1px 0 rgba(255,255,255,0.04), 0 18px 40px rgba(0,0,0,0.3)",
+          ? "var(--shadow-elevated)"
+          : "var(--shadow-card)",
       }}
     >
       {/* Color accent bar */}
@@ -3078,7 +3078,7 @@ function NodeCard({ node, inView, delay, mobile, width, height }: { node: any; i
         style={{
           height: mobile ? 40 : 48,
           padding: "0 16px",
-          background: "linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02))",
+          background: "var(--surface-2)",
           borderBottom: "1px solid var(--hairline)",
         }}
       >
@@ -3091,7 +3091,7 @@ function NodeCard({ node, inView, delay, mobile, width, height }: { node: any; i
         {/* centered window title */}
         <div
           className="absolute left-1/2 -translate-x-1/2 inline-flex items-center gap-2 rounded-md"
-          style={{ padding: "4px 12px", background: "rgba(0,0,0,0.18)", border: "1px solid var(--hairline)" }}
+          style={{ padding: "4px 12px", background: "var(--surface-2)", border: "1px solid var(--hairline)" }}
         >
           <span className="rounded-full" style={{ width: 5, height: 5, background: node.chipColor }} />
           <span className="truncate max-w-[140px] sm:max-w-none" style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--text-3)", letterSpacing: "0.04em" }}>

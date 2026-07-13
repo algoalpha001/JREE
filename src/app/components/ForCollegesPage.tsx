@@ -691,7 +691,7 @@ function CallbackForm() {
     return (
       <div
         className="rounded-[14px] p-8 md:p-10"
-        style={{ background: "var(--surface-1)", border: "1px solid var(--lime)", boxShadow: "inset 0 1px 0 rgba(255,255,255,0.04)" }}
+        style={{ background: "var(--surface-1)", border: "1px solid var(--lime-border)", boxShadow: "var(--shadow-card)" }}
       >
         <MonoLabel color="var(--lime-text, var(--lime))">Request received</MonoLabel>
         <div className="mt-4" style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "clamp(22px,2.6vw,28px)", color: "var(--text-1)", letterSpacing: "-0.02em", lineHeight: 1.2 }}>
@@ -1036,7 +1036,7 @@ export function ForCollegesPage() {
                     Sample rank · CSE 2025
                   </div>
                   <div className="mt-2 flex items-baseline gap-2">
-                    <span style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "clamp(56px,9vw,88px)", color: "var(--text-1)", letterSpacing: "-0.04em", lineHeight: 0.9, textShadow: "0 2px 24px rgba(0,0,0,0.8)" }}>
+                    <span style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "clamp(56px,9vw,88px)", color: "var(--text-1)", letterSpacing: "-0.04em", lineHeight: 0.9, textShadow: "none" }}>
                       4,217
                     </span>
                     <span style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: 20, color: "var(--text-3)" }}>
@@ -1147,7 +1147,7 @@ export function ForCollegesPage() {
             style={{
               background: "var(--surface-1)",
               border: "1px solid var(--violet)",
-              boxShadow: "inset 0 1px 0 rgba(255,255,255,0.04)",
+              boxShadow: "var(--shadow-card)",
             }}
           >
             <MonoLabel color="var(--violet)">The ROI math</MonoLabel>
