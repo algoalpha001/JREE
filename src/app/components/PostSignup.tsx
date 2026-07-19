@@ -3,8 +3,14 @@ import { motion, AnimatePresence } from "motion/react";
 import {
   Check, Camera, Mic, Wifi, Monitor, Clock, Save, Settings,
   ChevronRight, ChevronLeft, Flag, Bookmark, Volume2, Pause,
-  ArrowRight, X, AlertCircle, Sparkles,
+  ArrowRight, ArrowLeft, X, AlertCircle, Sparkles, BookOpen, Brain, BadgeCheck, Bell, Play, Lightbulb,
+  ChevronDown, MicOff, TrendingUp, Target, Zap, MessageSquare, Radio,
 } from "lucide-react";
+
+import {
+  BarChart, Bar, XAxis, YAxis, Cell, ResponsiveContainer, Tooltip,
+  PieChart, Pie, LabelList, ScatterChart, Scatter, ZAxis, CartesianGrid, ReferenceLine, ReferenceArea
+} from "recharts";
 
 const ease = [0.16, 1, 0.3, 1] as const;
 
@@ -89,8 +95,12 @@ function DashboardNav() {
           <span className="inline-block rounded-full ml-0.5 mb-1.5" style={{ width: 6, height: 6, background: "var(--lime)" }} />
         </button>
         <div className="flex items-center gap-3">
-          <button className="rounded-full flex items-center justify-center transition-colors hover:bg-[var(--hairline)]" style={{ width: 36, height: 36, border: "1px solid var(--hairline)" }}>
-            <Settings size={15} color="var(--text-2)" />
+          <button onClick={() => go("dashboard")} className="rounded-full px-4 h-9 transition-colors hover:bg-[var(--hairline)] hidden sm:flex items-center" style={{ fontFamily: "var(--font-mono)", fontSize: 11, fontWeight: 600, color: "var(--text-1)", letterSpacing: "0.05em", border: "1px solid var(--hairline)" }}>
+             DASHBOARD
+          </button>
+          <button onClick={() => window.location.hash = "resume-builder"} className="rounded-full flex items-center gap-2 px-4 h-9 transition-colors hover:bg-[var(--hairline)]" style={{ border: "1px solid var(--hairline)" }}>
+            <BadgeCheck size={15} color="var(--violet)" />
+            <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, fontWeight: 600, color: "var(--text-1)", letterSpacing: "0.05em" }}>RESUME BUILDER</span>
           </button>
           <button className="rounded-full flex items-center justify-center" style={{
             width: 36, height: 36, background: "var(--violet-soft)",
@@ -105,7 +115,277 @@ function DashboardNav() {
 
 /* ───────────────────────── Screen A: Dashboard ───────────────────────── */
 
+/* Vertical A–D band ladder — a recurring "where you stand" motif. */
+function BandLadder({ current }: { current: string }) {
+  const bands = [
+    { band: "A", range: "75–100", color: "var(--lime)", text: "var(--lime-text)" },
+    { band: "B", range: "55–74", color: "var(--teal)", text: "var(--teal-text)" },
+    { band: "C", range: "35–54", color: "var(--violet)", text: "var(--violet)" },
+    { band: "D", range: "0–34", color: "var(--text-3)", text: "var(--text-3)" },
+  ];
+  return (
+    <div className="flex flex-col gap-1.5">
+      {bands.map((b) => {
+        const active = b.band === current;
+        return (
+          <div
+            key={b.band}
+            className="flex items-center gap-3 rounded-[10px] px-3 py-2 transition-colors"
+            style={{
+              background: active ? "var(--surface-3)" : "transparent",
+              border: `1px solid ${active ? "var(--hairline-strong)" : "transparent"}`,
+              opacity: active ? 1 : 0.5,
+            }}
+          >
+            <span
+              className="flex items-center justify-center rounded-md shrink-0"
+              style={{
+                width: 22, height: 22, background: active ? b.color : "var(--surface-3)",
+                color: active ? "var(--bg)" : "var(--text-3)",
+                fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 12,
+              }}
+            >
+              {b.band}
+            </span>
+            <span className="flex-1" style={{ fontFamily: "var(--font-mono)", fontSize: 11, letterSpacing: "0.04em", color: active ? "var(--text-1)" : "var(--text-3)" }}>
+              {b.range}
+            </span>
+            {active && (
+              <span style={{ fontFamily: "var(--font-mono)", fontSize: 9, letterSpacing: "0.06em", color: b.text }}>YOU</span>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+function DashboardPage() {
+  const score = 73;
+  const band = "B";
+  const percentile = 77;
+
+  // Canonical assessment layers — kept in sync with the Results breakdown.
+  const layers = [
+    { name: "AI Interview", score: 77, weight: 25, color: "var(--teal)", text: "var(--teal-text)", tag: "Strongest", key: "ai-interview" },
+    { name: "Communication", score: 75, weight: 20, color: "var(--violet)", text: "var(--violet)", key: "communication" },
+    { name: "Cognitive & Aptitude", score: 70, weight: 25, color: "var(--amber)", text: "var(--amber-text)", tag: "Start here", key: "cognitive-aptitude" },
+    { name: "Domain Knowledge", score: 68, weight: 20, color: "var(--violet)", text: "var(--violet)", key: "domain-knowledge" },
+    { name: "Work Readiness", score: 72, weight: 10, color: "var(--lime)", text: "var(--lime-text)", key: "work-readiness" },
+  ];
+  const axes = layers.map((l) => ({ label: l.name.split(" ")[0], value: l.score }));
+  const READY = 75;
+
+  return (
+    <div className="min-h-screen" style={{ background: "var(--bg)" }}>
+      <DashboardNav />
+      <div className="max-w-[1160px] mx-auto px-5 sm:px-8 md:px-12 pt-[100px] pb-20">
+
+        {/* Meta row */}
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+          <Eyebrow color="var(--violet)">Command centre · Rahul Sharma</Eyebrow>
+          <span style={{ color: "var(--text-3)" }}>·</span>
+          <Mono color="var(--text-3)" size="var(--fs-mono-xs)">Latest · 29 May 2026</Mono>
+          <span style={{ color: "var(--text-3)" }}>·</span>
+          <Mono color="var(--text-3)" size="var(--fs-mono-xs)">JREE-2026-RS-0427</Mono>
+        </div>
+
+        {/* 1. Header identity block */}
+        <div className="mt-5 grid gap-6 lg:grid-cols-[1fr_auto] lg:items-stretch">
+          {/* Headline + verified + CTA */}
+          <div className="flex flex-col justify-between rounded-[22px] p-7 sm:p-9 relative overflow-hidden" style={{ background: "linear-gradient(135deg, var(--surface-1), var(--surface-2))", border: "1px solid var(--hairline-strong)", boxShadow: "var(--shadow-card)" }}>
+            <div className="absolute pointer-events-none" style={{ inset: 0, background: "radial-gradient(75% 90% at 8% 0%, rgba(201,220,83,0.10) 0%, transparent 58%)" }} />
+            <div className="relative">
+              <span className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1" style={{ background: "var(--teal-soft, rgba(81,193,181,0.12))", border: "1px solid var(--teal-border, rgba(81,193,181,0.3))" }}>
+                <BadgeCheck size={13} color="var(--teal-text)" />
+                <span style={{ fontFamily: "var(--font-mono)", fontWeight: 600, fontSize: 10, color: "var(--teal-text)", letterSpacing: "0.06em", textTransform: "uppercase" }}>Verified · Locked</span>
+              </span>
+              <p className="mt-4" style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontSize: "clamp(17px,2.2vw,20px)", color: "var(--text-2)" }}>
+                You have a strong platform to build on.
+              </p>
+              <h1 className="mt-1" style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "clamp(30px,4.5vw,50px)", letterSpacing: "-0.035em", lineHeight: 1.0, color: "var(--text-1)" }}>
+                Here's where you <span style={{ fontFamily: "var(--font-serif)", fontWeight: 400, fontStyle: "italic", color: "var(--lime-text)" }}>stand</span> today.
+              </h1>
+            </div>
+            <div className="relative mt-7 flex flex-col sm:flex-row gap-3">
+              <a href="#results" className="inline-flex items-center justify-center gap-2 h-12 px-6 rounded-full transition-all hover:scale-[1.02] active:scale-[0.98]" style={{ background: "var(--violet)", color: "#fff", fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 14, textDecoration: "none", boxShadow: "0 8px 32px rgba(109,86,164,0.3)" }}>
+                Full results & analysis <ArrowRight size={16} strokeWidth={2.5} />
+              </a>
+              <a href="#results/cert" className="inline-flex items-center justify-center gap-2 h-12 px-6 rounded-full transition-colors hover:bg-[var(--surface-3)]" style={{ border: "1px solid var(--hairline-strong)", color: "var(--text-1)", fontFamily: "var(--font-body)", fontWeight: 600, fontSize: 14, textDecoration: "none" }}>
+                <BadgeCheck size={15} color="var(--text-2)" /> Certificate
+              </a>
+            </div>
+          </div>
+
+          {/* Stat panel — ring · band ladder · percentile */}
+          <div className="rounded-[22px] p-7 flex flex-col sm:flex-row lg:flex-col gap-6 sm:gap-8 lg:gap-6 lg:w-[340px]" style={{ background: "var(--surface-1)", border: "1px solid var(--hairline-strong)", boxShadow: "var(--shadow-card)" }}>
+            <div className="flex items-center gap-5">
+              <ScoreRing value={score} size={104} stroke={9} color="var(--lime)">
+                <div className="flex flex-col items-center leading-none">
+                  <span style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 34, color: "var(--text-1)" }}>{score}</span>
+                  <span style={{ fontFamily: "var(--font-mono)", fontSize: 9, color: "var(--text-3)", letterSpacing: "0.06em", marginTop: 3 }}>/ 100</span>
+                </div>
+              </ScoreRing>
+              <div>
+                <div style={{ fontFamily: "var(--font-mono)", fontSize: 10, letterSpacing: "0.08em", color: "var(--text-3)" }}>COMPOSITE</div>
+                <div className="mt-1" style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 22, color: "var(--text-1)", lineHeight: 1.1 }}>Band {band}</div>
+                <div className="mt-1.5" style={{ fontFamily: "var(--font-body)", fontSize: 13, color: "var(--text-2)", lineHeight: 1.45 }}>
+                  Ahead of <strong style={{ color: "var(--text-1)", fontWeight: 600 }}>{percentile}%</strong> of CS peers.
+                </div>
+              </div>
+            </div>
+            <div className="hidden sm:block lg:hidden w-px" style={{ background: "var(--hairline)" }} />
+            <div className="flex-1 lg:flex-none lg:pt-1 lg:border-t lg:border-[var(--hairline)]">
+              <div className="hidden lg:block mb-3 mt-4" style={{ fontFamily: "var(--font-mono)", fontSize: 10, letterSpacing: "0.08em", color: "var(--text-3)" }}>BAND SCALE</div>
+              <BandLadder current={band} />
+            </div>
+          </div>
+        </div>
+
+        {/* 2. Composition — radar + layer rows */}
+        <div className="mt-10">
+          <div className="flex items-end justify-between flex-wrap gap-2">
+            <div>
+              <Eyebrow color="var(--violet)">COMPOSITION OF SCORE</Eyebrow>
+              <h2 className="mt-2" style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "clamp(22px,3vw,30px)", letterSpacing: "-0.02em", color: "var(--text-1)" }}>Five layers, one number.</h2>
+            </div>
+            <a href="#results" className="inline-flex items-center gap-1.5 rounded-full px-3.5 py-2 transition-colors hover:bg-[var(--surface-2)]" style={{ border: "1px solid var(--hairline-strong)", fontFamily: "var(--font-body)", fontSize: 13, fontWeight: 600, color: "var(--text-1)", textDecoration: "none" }}>
+              Break it down <ArrowRight size={14} />
+            </a>
+          </div>
+
+          <div className="mt-5 grid gap-5 lg:grid-cols-[minmax(300px,.85fr)_1.15fr]">
+            {/* Radar */}
+            <div className="rounded-[18px] p-5 flex items-center justify-center" style={{ background: "linear-gradient(180deg, var(--surface-1), var(--surface-2))", border: "1px solid var(--hairline-strong)", boxShadow: "var(--shadow-card)" }}>
+              <RadarChart axes={axes} size={300} draw />
+            </div>
+
+            {/* Layer rows */}
+            <div className="rounded-[18px] p-5 sm:p-6 flex flex-col gap-3.5" style={{ background: "var(--surface-1)", border: "1px solid var(--hairline-strong)", boxShadow: "var(--shadow-card)" }}>
+              {layers.map((layer) => {
+                const gap = Math.max(0, READY - layer.score);
+                return (
+                  <a
+                    key={layer.key}
+                    href={`#learn/${layer.key}`}
+                    className="group grid grid-cols-[44px_1fr_auto] items-center gap-4 rounded-[12px] px-3 py-2.5 transition-colors hover:bg-[var(--surface-2)]"
+                    style={{ textDecoration: "none" }}
+                  >
+                    <MiniRing value={layer.score} size={44} color={layer.color} />
+                    <div className="min-w-0">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <span className="truncate" style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 15, color: "var(--text-1)" }}>{layer.name}</span>
+                        {layer.tag && (
+                          <span className="rounded-full px-2 py-0.5 shrink-0" style={{ fontFamily: "var(--font-mono)", fontSize: 9, letterSpacing: "0.04em", color: layer.text, background: "var(--surface-3)" }}>{layer.tag.toUpperCase()}</span>
+                        )}
+                      </div>
+                      {/* thin progress track with benchmark */}
+                      <div className="mt-2 relative h-1.5 rounded-full" style={{ background: "var(--bg-2)" }}>
+                        <div className="absolute inset-y-0 left-0 rounded-full" style={{ width: `${layer.score}%`, background: layer.color }} />
+                        <div className="absolute -top-0.5 -bottom-0.5" style={{ left: `${READY}%`, borderLeft: "1px dashed var(--text-3)" }} />
+                      </div>
+                      <div className="mt-1.5" style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: gap > 0 ? "var(--amber-text)" : "var(--teal-text)" }}>
+                        {gap > 0 ? `${gap} to role-ready` : "Role-ready ✓"} · {layer.weight}% weight
+                      </div>
+                    </div>
+                    <ChevronRight size={16} color="var(--text-3)" className="group-hover:translate-x-0.5 transition-transform" />
+                  </a>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
+        {/* 3. Next best action */}
+        <div className="mt-6 rounded-[18px] p-5 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center gap-4" style={{ background: "var(--amber-soft)", border: "1px solid var(--amber-border)" }}>
+          <div className="flex items-center gap-3">
+            <span className="flex items-center justify-center rounded-xl shrink-0" style={{ width: 42, height: 42, background: "rgba(217,119,6,0.14)" }}>
+              <Zap size={20} color="var(--amber-text)" />
+            </span>
+            <div>
+              <div style={{ fontFamily: "var(--font-mono)", fontSize: 10, letterSpacing: "0.07em", color: "var(--amber-text)", textTransform: "uppercase" }}>Your fastest lever</div>
+              <p className="mt-1" style={{ fontFamily: "var(--font-body)", fontSize: 14, color: "var(--text-1)", lineHeight: 1.55 }}>
+                A focused lift in <strong>Cognitive &amp; Aptitude</strong> adds roughly <strong>+4 composite points</strong> — enough to reach Band A.
+              </p>
+            </div>
+          </div>
+          <a href="#learn/cognitive-aptitude" className="sm:ml-auto shrink-0 inline-flex items-center gap-2 h-11 px-5 rounded-full transition-transform hover:scale-[1.02]" style={{ background: "var(--violet)", color: "#fff", fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 13, textDecoration: "none", boxShadow: "0 8px 32px rgba(109,86,164,0.3)" }}>
+            Start practising <ArrowRight size={15} strokeWidth={2.5} />
+          </a>
+        </div>
+
+        {/* 4. Destination cards */}
+        <div className="mt-10">
+          <Eyebrow color="var(--violet)">WHERE TO GO NEXT</Eyebrow>
+          <div className="mt-4 grid gap-5 md:grid-cols-3">
+
+            {/* Deep dive */}
+            <a href="#results" className="group rounded-[18px] p-6 flex flex-col justify-between transition-colors hover:bg-[var(--surface-2)]" style={{ background: "var(--surface-1)", border: "1px solid var(--hairline-strong)", textDecoration: "none", minHeight: 210 }}>
+              <div>
+                <span className="flex items-center justify-center rounded-xl mb-4" style={{ width: 40, height: 40, background: "var(--surface-3)" }}>
+                  <TrendingUp size={18} color="var(--lime-text)" />
+                </span>
+                <h3 style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 19, color: "var(--text-1)" }}>Deep Dive Analysis</h3>
+                <p className="mt-2" style={{ fontFamily: "var(--font-body)", fontSize: 13.5, color: "var(--text-2)", lineHeight: 1.55 }}>
+                  Speed-vs-accuracy matrix, sub-topic ranking, and question-level detail.
+                </p>
+              </div>
+              <div className="mt-5 flex items-center gap-2" style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--lime-text)", letterSpacing: "0.05em", fontWeight: 600 }}>
+                OPEN RESULTS <ArrowRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
+              </div>
+            </a>
+
+            {/* Learning path */}
+            <a href="#results/skills" className="group rounded-[18px] p-6 flex flex-col justify-between transition-colors hover:bg-[var(--surface-2)]" style={{ background: "linear-gradient(180deg, var(--violet-soft), var(--surface-1))", border: "1px solid var(--violet-border)", textDecoration: "none", minHeight: 210 }}>
+              <div>
+                <span className="flex items-center justify-center rounded-xl mb-4" style={{ width: 40, height: 40, background: "var(--violet-soft)" }}>
+                  <BookOpen size={18} color="var(--violet)" />
+                </span>
+                <h3 style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 19, color: "var(--text-1)" }}>Your Learning Path</h3>
+                <p className="mt-2" style={{ fontFamily: "var(--font-body)", fontSize: 13.5, color: "var(--text-2)", lineHeight: 1.55 }}>
+                  A curriculum targeting your three biggest bottlenecks.
+                </p>
+              </div>
+              <div className="mt-4 space-y-1.5">
+                {["Logical Puzzles Masterclass", "API Design Fundamentals"].map((t) => (
+                  <div key={t} className="flex items-center gap-2 rounded-lg px-2.5 py-1.5" style={{ background: "var(--bg-2)" }}>
+                    <Play size={11} color="var(--violet)" />
+                    <span className="truncate" style={{ fontFamily: "var(--font-body)", fontSize: 12, color: "var(--text-2)" }}>{t}</span>
+                  </div>
+                ))}
+              </div>
+            </a>
+
+            {/* AI interview */}
+            <a href="#results/interview" className="group rounded-[18px] p-6 flex flex-col justify-between transition-colors hover:bg-[var(--surface-2)]" style={{ background: "var(--surface-1)", border: "1px solid var(--hairline-strong)", textDecoration: "none", minHeight: 210 }}>
+              <div>
+                <span className="flex items-center justify-center rounded-xl mb-4" style={{ width: 40, height: 40, background: "var(--surface-3)" }}>
+                  <MessageSquare size={18} color="var(--teal-text)" />
+                </span>
+                <h3 style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 19, color: "var(--text-1)" }}>AI Interview Review</h3>
+                <p className="mt-2" style={{ fontFamily: "var(--font-body)", fontSize: 13.5, color: "var(--text-2)", lineHeight: 1.55 }}>
+                  Replay your session with Priya — context, clarity, and confidence read-outs.
+                </p>
+              </div>
+              <div className="mt-5 flex items-center gap-2" style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--teal-text)", letterSpacing: "0.05em", fontWeight: 600 }}>
+                WATCH REPLAY <ArrowRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
+              </div>
+            </a>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function Dashboard() {
+  // If the hash is exactly #dashboard, render the new zero-state dashboard
+  if (window.location.hash === "#dashboard") {
+     return <DashboardPage />;
+  }
+
+  // Otherwise, render the standard "Before you start" entry screen
   const days = 7, hours = 14;
   return (
     <div className="min-h-screen" style={{ background: "var(--bg)" }}>
@@ -164,17 +444,30 @@ function Dashboard() {
               ))}
             </div>
 
-            <button
-              onClick={() => go("exam/check")}
-              className="w-full rounded-full transition-all hover:scale-[1.01] active:scale-[0.99]"
-              style={{
-                height: 56, background: "var(--violet)", color: "var(--on-violet)",
-                fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 15,
-                boxShadow: "var(--shadow-card)",
-              }}
-            >
-              Begin system check →
-            </button>
+            <div className="flex gap-4">
+              <button
+                onClick={() => go("exam/check")}
+                className="flex-1 rounded-full transition-all hover:scale-[1.01] active:scale-[0.99]"
+                style={{
+                  height: 52, background: "var(--lime)", color: "var(--bg)",
+                  fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "var(--fs-ui)",
+                  boxShadow: "0 8px 32px rgba(201,220,83,0.2)"
+                }}
+              >
+                Begin Exam
+              </button>
+              
+              <button
+                onClick={() => go("dashboard")}
+                className="flex-1 rounded-full transition-all hover:scale-[1.01] active:scale-[0.99]"
+                style={{
+                  height: 52, background: "transparent", border: "1px solid var(--violet-border)", color: "var(--text-1)",
+                  fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "var(--fs-ui)"
+                }}
+              >
+                View Dashboard
+              </button>
+            </div>
             <p className="text-center mt-4" style={{ fontFamily: "var(--font-body)", fontSize: "var(--fs-body-sm)", color: "var(--text-3)" }}>
               You'll get to test your camera, mic and connection first.
             </p>
@@ -1083,112 +1376,89 @@ function Bubble({ who, color, text, current }: { who: string; color: string; tex
 /* ───────────────────────── Screen F: Processing Results ───────────────────────── */
 
 function Processing() {
-  const steps = [
-    "Scoring aptitude responses",
-    "Analysing communication patterns",
-    "Evaluating domain answers",
-    "Reviewing practical work",
-    "Generating role-fit recommendations",
+  // micro-copy that crossfades in sequence — real analysis, not a fake wait
+  const captions = [
+    "Scoring your responses…",
+    "Mapping your strengths…",
+    "Matching roles that fit…",
   ];
-  const FINAL_SCORE = 73;
-  const STEP_MS = 1400;
-  const [idx, setIdx] = useState(0);
-  const [score, setScore] = useState(0);
+  const BUILD_MS = 4600;
+  const [cap, setCap] = useState(0);
+  const [progress, setProgress] = useState(0);
+  const [allDone, setAllDone] = useState(false);
 
-  // Advance steps
+  // radar draw progress + caption rotation
   useEffect(() => {
-    if (idx >= steps.length) return;
-    const t = setTimeout(() => setIdx((i) => i + 1), STEP_MS);
-    return () => clearTimeout(t);
-  }, [idx]);
-
-  // Count up score over total duration of step progression
-  useEffect(() => {
-    const total = STEP_MS * steps.length;
     const start = performance.now();
     let raf = 0;
     const tick = (now: number) => {
-      const t = Math.min(1, (now - start) / total);
+      const t = Math.min(1, (now - start) / BUILD_MS);
       const eased = 1 - Math.pow(1 - t, 3);
-      setScore(Math.round(eased * FINAL_SCORE));
+      setProgress(eased);
+      setCap(Math.min(captions.length - 1, Math.floor(t * captions.length)));
       if (t < 1) raf = requestAnimationFrame(tick);
+      else setAllDone(true);
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
   }, []);
 
-  const allDone = idx >= steps.length;
+  // the shape the loader completes into — same axes as Score Breakdown
+  const axes = [
+    { label: "Interview", value: 77 }, { label: "Comms", value: 75 },
+    { label: "Cognitive", value: 70 }, { label: "Domain", value: 68 },
+    { label: "Practical", value: 72 },
+  ];
 
   return (
     <div className="min-h-screen flex items-center justify-center px-6 py-16" style={{ background: "var(--bg)" }}>
       <div className="max-w-[520px] w-full">
-        <div className="text-center mb-10">
-          {/* Gradient ring with score counter */}
-          <div className="relative mx-auto mb-9" style={{ width: 168, height: 168 }}>
+        <div className="text-center mb-8">
+          {/* Radar building itself live — foreshadows the Score Breakdown chart */}
+          <motion.div
+            className="relative mx-auto mb-8 flex items-center justify-center"
+            animate={allDone ? { scale: [1, 1.06, 1] } : {}}
+            transition={{ duration: 0.6, ease }}
+            style={{ width: 300, height: 300 }}
+          >
+            {/* radar sweep */}
             <motion.div
-              className="absolute inset-0 rounded-full"
+              className="absolute rounded-full pointer-events-none"
               animate={{ rotate: 360 }}
-              transition={{ duration: 2.4, repeat: Infinity, ease: "linear" }}
+              transition={{ duration: 2.2, repeat: allDone ? 0 : Infinity, ease: "linear" }}
               style={{
-                background: "conic-gradient(from 0deg, var(--violet) 0%, var(--lime) 60%, transparent 75%, transparent 100%)",
-                WebkitMask: "radial-gradient(circle, transparent 62%, #000 64%)",
-                mask: "radial-gradient(circle, transparent 62%, #000 64%)",
+                width: 232, height: 232,
+                background: "conic-gradient(from 0deg, transparent 0deg, rgba(201,220,83,0.18) 40deg, transparent 60deg)",
+                borderRadius: "50%",
               }}
             />
-            <div className="absolute inset-0 rounded-full" style={{
-              border: "1px solid var(--hairline)",
-              WebkitMask: "radial-gradient(circle, transparent 62%, #000 64%)",
-              mask: "radial-gradient(circle, transparent 62%, #000 64%)",
-            }} />
-            <div className="absolute inset-0 flex flex-col items-center justify-center">
-              <span style={{
-                fontFamily: "var(--font-display)", fontWeight: 800,
-                fontSize: 56, color: "var(--text-1)", letterSpacing: "var(--ls-display)", lineHeight: 1,
-                background: "linear-gradient(180deg, #F0EBFF 0%, #C9DC53 120%)",
-                WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text",
-              }}>{score}</span>
-              <Mono color="var(--text-3)" size="var(--fs-mono-xs)">OUT OF 100</Mono>
-            </div>
+            <RadarChart axes={axes} size={280} draw progress={progress} />
+          </motion.div>
+
+          <div className="h-6 relative">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={cap}
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -6 }}
+                transition={{ duration: 0.4 }}
+                style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--text-3)", letterSpacing: "0.08em", textTransform: "uppercase" }}
+              >
+                {captions[cap]}
+              </motion.div>
+            </AnimatePresence>
           </div>
 
-          <Eyebrow color="var(--violet)">Almost there</Eyebrow>
-          <h1 className="mt-3" style={{
+          <h1 className="mt-5" style={{
             fontFamily: "var(--font-display)", fontWeight: 800,
             fontSize: "var(--fs-h3)", letterSpacing: "var(--ls-display-sm)", lineHeight: "var(--lh-snug)",
             color: "var(--text-1)",
           }}>
-            Reading your{" "}
-            <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 400, color: "var(--lime-text)" }}>work.</span>
+            Building your{" "}
+            <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 400, color: "var(--lime-text)" }}>profile.</span>
           </h1>
         </div>
-
-        <Card style={{ padding: 24 }}>
-          <ul className="space-y-3.5">
-            {steps.map((s, i) => {
-              const done = i < idx;
-              const active = i === idx;
-              return (
-                <li key={s} className="flex items-center gap-3">
-                  <span className="rounded-full flex items-center justify-center shrink-0" style={{
-                    width: 22, height: 22,
-                    background: done ? "var(--lime)" : active ? "var(--violet-soft)" : "var(--surface-2)",
-                    border: `1px solid ${done ? "var(--lime)" : active ? "var(--violet)" : "var(--hairline)"}`,
-                  }}>
-                    {done
-                      ? <Check size={11} color="var(--on-lime)" strokeWidth={3} />
-                      : active
-                        ? <motion.span animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: "linear" }} className="rounded-full" style={{ width: 10, height: 10, border: "1.5px solid var(--violet)", borderTopColor: "transparent" }} />
-                        : null}
-                  </span>
-                  <span style={{
-                    fontFamily: "var(--font-body)", fontSize: "var(--fs-body-sm)",
-                    color: done ? "var(--text-2)" : active ? "var(--text-1)" : "var(--text-3)",
-                  }}>{s}</span>
-                </li>
-              );
-            })}
-          </ul>
-        </Card>
 
         <AnimatePresence>
           {allDone && (
@@ -1612,678 +1882,866 @@ function LayerConstellation({ phase, displayScore }: { phase: number, displaySco
   );
 }
 
+/* ─────────────── Shared results motif: ScoreRing ─────────────── */
+/* One visual language for "score", reused across every tab. */
+function ScoreRing({
+  value, size = 96, stroke = 8, color = "var(--lime)", track = "var(--surface-3)",
+  label, delay = 0, children,
+}: {
+  value: number; size?: number; stroke?: number; color?: string; track?: string;
+  label?: string; delay?: number; children?: React.ReactNode;
+}) {
+  const r = (size - stroke) / 2;
+  const c = 2 * Math.PI * r;
+  return (
+    <div className="relative shrink-0" style={{ width: size, height: size }}>
+      <svg width={size} height={size} style={{ display: "block", transform: "rotate(-90deg)" }}>
+        <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke={track} strokeWidth={stroke} />
+        <motion.circle
+          cx={size / 2} cy={size / 2} r={r} fill="none" stroke={color} strokeWidth={stroke} strokeLinecap="round"
+          strokeDasharray={c}
+          initial={{ strokeDashoffset: c }}
+          animate={{ strokeDashoffset: c * (1 - value / 100) }}
+          transition={{ duration: 1.1, delay, ease }}
+        />
+      </svg>
+      <div className="absolute inset-0 flex flex-col items-center justify-center">
+        {children ?? (
+          <>
+            <span style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: size * 0.3, color: "var(--text-1)", lineHeight: 1 }}>{value}</span>
+            {label && <span style={{ fontFamily: "var(--font-mono)", fontSize: 8, color: "var(--text-3)", letterSpacing: "0.06em", marginTop: 2 }}>{label}</span>}
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
+/* Tiny inline ring for compact cards */
+function MiniRing({ value, size = 40, color = "var(--lime)" }: { value: number; size?: number; color?: string }) {
+  const stroke = 4; const r = (size - stroke) / 2; const c = 2 * Math.PI * r;
+  return (
+    <div className="relative shrink-0" style={{ width: size, height: size }}>
+      <svg width={size} height={size} style={{ display: "block", transform: "rotate(-90deg)" }}>
+        <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="var(--surface-3)" strokeWidth={stroke} />
+        <motion.circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke={color} strokeWidth={stroke} strokeLinecap="round"
+          strokeDasharray={c} initial={{ strokeDashoffset: c }} animate={{ strokeDashoffset: c * (1 - value / 100) }} transition={{ duration: 0.9, ease }} />
+      </svg>
+      <div className="absolute inset-0 flex items-center justify-center" style={{ fontFamily: "var(--font-mono)", fontSize: size * 0.28, fontWeight: 600, color: "var(--text-1)" }}>{value}</div>
+    </div>
+  );
+}
+
+/* ─────────────── Shared results motif: RadarChart ─────────────── */
+function RadarChart({
+  axes, size = 300, highlight, onHover, draw = false, progress = 1,
+}: {
+  axes: { label: string; value: number; color?: string }[];
+  size?: number; highlight?: number | null;
+  onHover?: (i: number | null) => void;
+  draw?: boolean; progress?: number;
+}) {
+  const cx = size / 2, cy = size / 2;
+  const radius = size / 2 - 44;
+  const n = axes.length;
+  const angleFor = (i: number) => (Math.PI * 2 * i) / n - Math.PI / 2;
+  const point = (i: number, val: number) => {
+    const a = angleFor(i);
+    const rr = (val / 100) * radius;
+    return [cx + Math.cos(a) * rr, cy + Math.sin(a) * rr] as const;
+  };
+  const rings = [25, 50, 75, 100];
+  const dataPts = axes.map((ax, i) => point(i, ax.value * progress));
+  const dataPath = dataPts.map((p) => p.join(",")).join(" ");
+
+  return (
+    <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} style={{ display: "block", overflow: "visible" }}>
+      {/* concentric grid rings */}
+      {rings.map((ring) => (
+        <polygon
+          key={ring}
+          points={axes.map((_, i) => point(i, ring).join(",")).join(" ")}
+          fill="none" stroke="var(--hairline-strong)" strokeWidth={1}
+          opacity={ring === 100 ? 0.5 : 0.22}
+        />
+      ))}
+      {/* axis spokes + nodes */}
+      {axes.map((ax, i) => {
+        const [ex, ey] = point(i, 100);
+        const [lx, ly] = point(i, 118);
+        const active = highlight === i;
+        return (
+          <g key={ax.label}>
+            <motion.line
+              x1={cx} y1={cy} x2={ex} y2={ey}
+              stroke="var(--hairline-strong)" strokeWidth={1}
+              initial={draw ? { pathLength: 0, opacity: 0 } : false}
+              animate={draw ? { pathLength: 1, opacity: 0.4 } : { opacity: active ? 0.7 : 0.4 }}
+              transition={{ duration: 0.5, delay: draw ? i * 0.12 : 0, ease }}
+            />
+            <motion.circle
+              cx={ex} cy={ey} r={active ? 4 : 2.5}
+              fill={active ? "var(--lime)" : "var(--text-3)"}
+              initial={draw ? { scale: 0 } : false}
+              animate={draw ? { scale: 1 } : { scale: 1 }}
+              transition={{ duration: 0.3, delay: draw ? 0.4 + i * 0.12 : 0 }}
+            />
+            <text
+              x={lx} y={ly}
+              textAnchor={Math.abs(lx - cx) < 6 ? "middle" : lx > cx ? "start" : "end"}
+              dominantBaseline="middle"
+              style={{
+                fontFamily: "var(--font-mono)", fontSize: 9.5,
+                letterSpacing: "0.03em",
+                fill: active ? "var(--lime-text)" : "var(--text-3)",
+                cursor: onHover ? "pointer" : "default",
+              }}
+              onMouseEnter={() => onHover?.(i)}
+              onMouseLeave={() => onHover?.(null)}
+            >
+              {ax.label}
+            </text>
+          </g>
+        );
+      })}
+      {/* data polygon */}
+      <motion.polygon
+        points={dataPath}
+        fill="rgba(201,220,83,0.14)"
+        stroke="var(--lime)" strokeWidth={2} strokeLinejoin="round"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.6, delay: draw ? 1.1 : 0.2 }}
+      />
+      {/* data vertices */}
+      {dataPts.map(([px, py], i) => (
+        <motion.circle
+          key={i} cx={px} cy={py} r={highlight === i ? 6 : 4}
+          fill="var(--lime)" stroke="var(--bg)" strokeWidth={2}
+          initial={{ scale: 0 }} animate={{ scale: 1 }}
+          transition={{ duration: 0.3, delay: (draw ? 1.2 : 0.3) + i * 0.05 }}
+          style={{ cursor: onHover ? "pointer" : "default" }}
+          onMouseEnter={() => onHover?.(i)}
+          onMouseLeave={() => onHover?.(null)}
+        />
+      ))}
+    </svg>
+  );
+}
+
 function Results() {
-  const score = 73;
-  const band = "B";
-  const percentile = 77;
-  const [tab, setTab] = useState<"overview" | "breakdown" | "roles" | "plan" | "cert">("overview");
-  const [phase, setPhase] = useState(0);
-  const [displayScore, setDisplayScore] = useState(0);
-  const [displayPercentile, setDisplayPercentile] = useState(0);
-  const [percentileGlow, setPercentileGlow] = useState(false);
-  const scoreStarted = useRef(false);
-  const percentileStarted = useRef(false);
-
-  const circumference = 2 * Math.PI * 88;
-  const offset = circumference - (score / 100) * circumference;
-
-  const TABS: { id: typeof tab; label: string }[] = [
-    { id: "overview",  label: "Overview" },
+  type Tab = "breakdown" | "skills" | "interview" | "cert";
+  const readTab = (): Tab => {
+    const value = window.location.hash.replace(/^#results\/?/, "");
+    return (["skills", "interview", "cert"].includes(value) ? value : "breakdown") as Tab;
+  };
+  const [tab, setTab] = useState<Tab>(readTab);
+  const tabs: { id: Tab; label: string }[] = [
     { id: "breakdown", label: "Score Breakdown" },
-    { id: "roles",     label: "Role Readiness" },
-    { id: "plan",      label: "Improvement Plan" },
-    { id: "cert",      label: "Certificate" },
+    { id: "skills", label: "Skills & Roles" },
+    { id: "interview", label: "AI Interview" },
+    { id: "cert", label: "Certificate" },
   ];
 
+  // Tabs are managed in local state so switching never re-triggers app-level
+  // hash routing (which was bouncing users back to the landing page). We still
+  // honour an incoming deep link on mount / when the results route reloads.
   useEffect(() => {
-    const timers = [
-      setTimeout(() => setPhase(1), 400),
-      setTimeout(() => setPhase(2), 1400),
-      setTimeout(() => setPhase(3), 3000),
-      setTimeout(() => setPhase(4), 4200),
-    ];
-    return () => timers.forEach(clearTimeout);
+    const sync = () => { if (window.location.hash.startsWith("#results")) setTab(readTab()); };
+    window.addEventListener("hashchange", sync);
+    return () => window.removeEventListener("hashchange", sync);
   }, []);
-
-  useEffect(() => {
-    if (phase < 2 || scoreStarted.current) return;
-    scoreStarted.current = true;
-    const duration = 1800;
-    const start = performance.now();
-    let raf: number;
-    const tick = (now: number) => {
-      const t = Math.min(1, (now - start) / duration);
-      const eased = 1 - Math.pow(1 - t, 3);
-      setDisplayScore(Math.round(eased * score));
-      if (t < 1) raf = requestAnimationFrame(tick);
-    };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, [phase]);
-
-  useEffect(() => {
-    if (phase < 3 || percentileStarted.current) return;
-    percentileStarted.current = true;
-    setPercentileGlow(true);
-    setTimeout(() => setPercentileGlow(false), 1800);
-    const duration = 1200;
-    const start = performance.now();
-    let raf: number;
-    const tick = (now: number) => {
-      const t = Math.min(1, (now - start) / duration);
-      const eased = 1 - Math.pow(1 - t, 3);
-      setDisplayPercentile(Math.round(eased * percentile));
-      if (t < 1) raf = requestAnimationFrame(tick);
-    };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, [phase]);
+  const chooseTab = (id: Tab) => setTab(id);
 
   return (
     <div className="min-h-screen" style={{ background: "var(--bg)" }}>
       <DashboardNav />
-      <main className="relative max-w-[1160px] mx-auto px-6 md:px-[72px] pt-[100px] pb-24">
-        {/* Radiating signal ripples texture */}
-        <div aria-hidden className="absolute pointer-events-none select-none top-0 left-0 w-full h-[500px] overflow-hidden" style={{ maskImage: "radial-gradient(circle at 15% 40%, black 10%, transparent 80%)", WebkitMaskImage: "radial-gradient(circle at 15% 40%, black 10%, transparent 80%)" }}>
-          <div className="absolute" style={{ left: "15%", top: "40%" }}>
-            {[0, 1, 2, 3].map((i) => (
-              <motion.div
-                key={i}
-                className="absolute rounded-full border-[1.5px] border-[var(--text-1)]"
-                style={{
-                  width: 1200, height: 1200,
-                  left: -600, top: -600,
-                  opacity: 0,
-                }}
-                animate={{
-                  scale: [0.05, 1],
-                  opacity: [0.25, 0],
-                }}
-                transition={{
-                  duration: 16,
-                  repeat: Infinity,
-                  ease: "linear",
-                  delay: i * 4,
-                }}
-              />
-            ))}
-          </div>
-        </div>
-
-        <div className="relative flex items-center gap-3">
-          <Eyebrow color="var(--lime-text)">Result · 29 May 2026</Eyebrow>
+      <main className="max-w-[1160px] mx-auto px-5 sm:px-8 md:px-[72px] pt-[100px] pb-24">
+        <div className="flex flex-wrap items-center gap-3">
+          <Eyebrow color="var(--violet)">Latest assessment · 29 May 2026</Eyebrow>
           <span style={{ color: "var(--text-3)" }}>·</span>
-          <Mono color="var(--text-2)" size="var(--fs-mono-xs)">JREE-2026-RS-0427</Mono>
+          <Mono color="var(--text-3)" size="var(--fs-mono-xs)">JREE-2026-RS-0427</Mono>
         </div>
+        <div className="mt-4 grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center" style={{ borderBottom: "1px solid var(--hairline-strong)", paddingBottom: 28 }}>
+          <div>
+            <p style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontSize: 20, color: "var(--text-2)" }}>You have a strong platform to build on.</p>
+            <h1 className="mt-2" style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "clamp(38px,5vw,62px)", letterSpacing: "-0.035em", lineHeight: .98, color: "var(--text-1)" }}>Your latest <span style={{ fontFamily: "var(--font-serif)", fontWeight: 400, fontStyle: "italic", color: "var(--lime-text)" }}>result.</span></h1>
+          </div>
 
-        {/* Achievement copy appears first, alone */}
-        <motion.div
-          className="mt-4 max-w-[760px]"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: phase >= 1 ? 1 : 0, y: phase >= 1 ? 0 : 10 }}
-          transition={{ duration: 0.7, ease }}
-        >
-          <p style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontSize: "clamp(18px,2.2vw,22px)", color: "var(--text-2)", lineHeight: 1.5, marginBottom: 14 }}>
-            You think clearly, communicate well, and have strong fundamentals.
-          </p>
-          <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "var(--fs-h2)", letterSpacing: "var(--ls-display)", lineHeight: "var(--lh-tight)", color: "var(--text-1)" }}>
-            You're{" "}
-            <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 400, color: "var(--lime-text)" }}>
-              interview-ready.
-            </span>
-          </h1>
-          <p className="mt-4 max-w-[540px]" style={{ fontFamily: "var(--font-body)", fontSize: "var(--fs-body-lg)", lineHeight: "var(--lh-body)", color: "var(--text-2)" }}>
-            You scored higher than {percentile}% of candidates in your domain.
-          </p>
-        </motion.div>
-
-        {/* Tabs */}
-        <div className="mt-10 flex items-center gap-1 relative overflow-x-auto" style={{ borderBottom: "1px solid var(--hairline)" }}>
-          {TABS.map((t) => {
-            const active = tab === t.id;
-            return (
-              <button
-                key={t.id}
-                onClick={() => setTab(t.id)}
-                className="relative whitespace-nowrap"
-                style={{
-                  height: 44, padding: "0 18px", background: "transparent",
-                  color: active ? "var(--text-1)" : "var(--text-2)",
-                  fontFamily: "var(--font-body)", fontSize: "var(--fs-body-sm)", fontWeight: active ? 600 : 500,
-                  borderBottom: active ? "2px solid var(--lime)" : "2px solid transparent",
-                  transition: "color 200ms ease, border-color 200ms ease",
-                }}
-              >
-                {t.label}
-              </button>
-            );
-          })}
-        </div>
-
-        <AnimatePresence mode="wait">
+          {/* Hero stat panel — composite ring · band scale · percentile curve */}
           <motion.div
-            key={tab}
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.35, ease }}
+            initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease }}
+            className="relative overflow-hidden rounded-[22px] grid grid-cols-1 sm:grid-cols-[auto_1px_1fr]"
+            style={{ background: "linear-gradient(135deg, var(--surface-1), var(--surface-2))", border: "1px solid var(--hairline-strong)", boxShadow: "var(--shadow-elevated)" }}
           >
-            {tab === "breakdown" && <ResultsBreakdown />}
-            {tab === "roles" && <ResultsRoles />}
-            {tab === "plan" && <ResultsPlan />}
-            {tab === "cert" && <ResultsCertificate />}
+            {/* ambient glow */}
+            <div className="absolute pointer-events-none" style={{ inset: 0, background: "radial-gradient(70% 90% at 12% 0%, rgba(201,220,83,0.12) 0%, transparent 60%)" }} />
 
-            {tab === "overview" && (
-              <div className="mt-6">
-                {/* Compact Score Replaces JourneyPath and SignalMeter */}
-                <CompactScore displayScore={displayScore} percentile={displayPercentile} band={band} phase={phase} />
-
-                {/* Two-block Layout */}
-                <div className="grid lg:grid-cols-2 gap-5 mt-10">
-                  {/* LEFT BLOCK: Doors already open */}
-                  <Card style={{ padding: 40, display: "flex", flexDirection: "column" }}>
-                    <Eyebrow>Doors already open</Eyebrow>
-                    <h3 className="mt-3" style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 32, color: "var(--text-1)", letterSpacing: "-0.01em", lineHeight: 1.1 }}>
-                      Your current reach.
-                    </h3>
-                    <p className="mt-2 mb-6" style={{ fontFamily: "var(--font-body)", fontSize: 15, color: "var(--text-2)", lineHeight: 1.5 }}>
-                      You have strong matches across Product and Backend roles.
-                    </p>
-                    
-                    <div className="flex-1 space-y-4">
-                      {/* Top match — unlocked treatment with hover state */}
-                      <div className="group rounded-2xl p-5 relative overflow-hidden transition-all duration-300 hover:bg-[rgba(201,220,83,0.1)]" style={{ background: "rgba(201,220,83,0.05)", border: "1.5px solid rgba(201,220,83,0.3)", cursor: "pointer" }}>
-                        <div className="flex items-start justify-between gap-3 mb-2">
-                          <div>
-                            <div className="flex items-center gap-2 mb-1">
-                              <span style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--lime)", display: "inline-block", boxShadow: "none" }} />
-                              <span style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 18, color: "var(--text-1)" }}>Product Engineer</span>
-                            </div>
-                            <p style={{ fontFamily: "var(--font-body)", fontSize: 13, color: "var(--lime-text)", fontWeight: 500 }}>This door is open to you</p>
-                          </div>
-                          <div className="flex flex-col items-end gap-1.5 shrink-0">
-                            <span className="rounded-full px-2.5 py-0.5" style={{ background: "var(--lime)", fontFamily: "var(--font-mono)", fontWeight: 700, fontSize: 9, color: "var(--bg)", letterSpacing: "0.08em" }}>TOP MATCH</span>
-                            <Mono color="var(--lime-text)" size="var(--fs-mono-xs)">91% fit</Mono>
-                          </div>
-                        </div>
-                        <div className="rounded-full overflow-hidden mt-3" style={{ height: 6, background: "rgba(201,220,83,0.15)" }}>
-                          <motion.div initial={{ width: 0 }} animate={{ width: "91%" }} transition={{ duration: 1.1, ease, delay: 0.3 }} style={{ height: "100%", background: "var(--lime)", borderRadius: 999 }} />
-                        </div>
-                        
-                        {/* Hover reveal */}
-                        <div className="mt-0 h-0 opacity-0 group-hover:h-auto group-hover:opacity-100 group-hover:mt-4 transition-all duration-300 overflow-hidden">
-                          <div className="pt-3 flex items-center gap-2" style={{ borderTop: "1px solid rgba(201,220,83,0.2)", fontFamily: "var(--font-body)", fontSize: 13, color: "var(--lime-text)" }}>
-                            <span className="w-1.5 h-1.5 rounded-full bg-[var(--lime)] animate-pulse" />
-                            312 companies hiring for this role right now →
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Other roles */}
-                      {([
-                        ["Backend Engineer", 84, "var(--lime)"],
-                        ["Solutions Engineer", 76, "var(--teal)"],
-                        ["Data Analyst", 62, "var(--violet)"],
-                      ] as const).map(([role, fit, c]) => (
-                        <div key={role} className="px-1">
-                          <div className="flex items-center justify-between mb-2">
-                            <span style={{ fontFamily: "var(--font-body)", fontSize: 14, color: "var(--text-1)" }}>{role}</span>
-                            <Mono color="var(--text-2)" size="var(--fs-mono-xs)">{fit}% fit</Mono>
-                          </div>
-                          <div className="rounded-full overflow-hidden" style={{ height: 5, background: "var(--surface-3)" }}>
-                            <motion.div initial={{ width: 0 }} animate={{ width: `${fit}%` }} transition={{ duration: 1.1, ease, delay: 0.4 }} style={{ height: "100%", background: c, borderRadius: 999 }} />
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                    <button className="mt-8 w-full rounded-full transition-colors hover:bg-[var(--violet-soft)]" style={{ height: 44, background: "transparent", border: "1px solid var(--hairline-strong)", color: "var(--text-1)", fontFamily: "var(--font-body)", fontWeight: 500, fontSize: "var(--fs-body-sm)" }}>
-                      See all 12 role matches →
-                    </button>
-                  </Card>
-
-                  {/* RIGHT BLOCK: Your Next Unlock */}
-                  <Card style={{ padding: 40, background: "linear-gradient(180deg, var(--surface-1), var(--surface-2))", display: "flex", flexDirection: "column" }}>
-                    <Eyebrow color="var(--amber-text)">YOUR NEXT UNLOCK</Eyebrow>
-                    <h3 className="mt-3" style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 32, color: "var(--text-1)", letterSpacing: "-0.01em", lineHeight: 1.1 }}>
-                      Domain Knowledge
-                    </h3>
-                    <p className="mt-2 mb-6" style={{ fontFamily: "var(--font-body)", fontSize: 15, color: "var(--text-2)", lineHeight: 1.5 }}>
-                      Your biggest growth lever. You're currently at <strong style={{ color: "var(--text-1)", fontWeight: 600 }}>71/100</strong>.
-                    </p>
-
-                    <div className="flex-1">
-                      {/* Primary Unlock */}
-                      <div className="rounded-2xl p-5 relative overflow-hidden" style={{ background: "rgba(217,119,6,0.06)", border: "1.5px solid rgba(217,119,6,0.3)" }}>
-                        <div className="flex items-center gap-2 mb-4">
-                          <span className="rounded-full w-2 h-2" style={{ background: "var(--amber)", boxShadow: "0 0 8px var(--amber)" }} />
-                          <span style={{ fontFamily: "var(--font-body)", fontWeight: 600, fontSize: 14, color: "var(--text-1)" }}>What improving unlocks</span>
-                        </div>
-                        <ul className="space-y-3">
-                          <li className="flex items-start gap-3">
-                            <span className="rounded bg-[var(--amber)] text-[var(--on-lime)] px-1.5 py-0.5 shrink-0" style={{ fontFamily: "var(--font-mono)", fontSize: 10, fontWeight: 700, marginTop: 2 }}>+4 PTS</span>
-                            <span style={{ fontFamily: "var(--font-body)", fontSize: 14, color: "var(--text-2)", lineHeight: 1.4 }}>
-                              Data Analyst jumps to <strong style={{ color: "var(--text-1)", fontWeight: 500 }}>80%+ fit</strong>
-                            </span>
-                          </li>
-                          <li className="flex items-start gap-3">
-                            <span className="rounded bg-[var(--amber)] text-[var(--on-lime)] px-1.5 py-0.5 shrink-0" style={{ fontFamily: "var(--font-mono)", fontSize: 10, fontWeight: 700, marginTop: 2 }}>+8 PTS</span>
-                            <span style={{ fontFamily: "var(--font-body)", fontSize: 14, color: "var(--text-2)", lineHeight: 1.4 }}>
-                              You reach <strong style={{ color: "var(--text-1)", fontWeight: 500 }}>Band A</strong> (Top 10% nationally)
-                            </span>
-                          </li>
-                        </ul>
-                        <button className="mt-6 w-full rounded-full transition-transform hover:scale-[1.02] active:scale-[0.98]" style={{ height: 44, background: "var(--amber)", color: "#000", fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 14 }}>
-                          15-min practice module →
-                        </button>
-                      </div>
-                      
-                      {/* Secondary focus */}
-                      <div className="mt-6 pt-5" style={{ borderTop: "1px solid var(--hairline)" }}>
-                        <div style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "var(--text-3)", letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: 12 }}>
-                          Secondary Focus
-                        </div>
-                        <div className="flex items-center justify-between group cursor-pointer">
-                          <span style={{ fontFamily: "var(--font-body)", fontSize: 14, color: "var(--text-2)", fontWeight: 500, transition: "color 0.2s" }} className="group-hover:text-[var(--text-1)]">
-                            Reflection <span style={{ color: "var(--text-3)", fontWeight: 400 }}>(64/100)</span>
-                          </span>
-                          <span style={{ fontFamily: "var(--font-body)", fontSize: 13, color: "var(--text-3)", transition: "color 0.2s" }} className="group-hover:text-[var(--text-1)]">
-                            View exercises →
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </Card>
+            {/* Composite ring */}
+            <div className="relative flex items-center gap-4 px-6 py-6">
+              <ScoreRing value={73} size={92} stroke={9} color="var(--lime)">
+                <div className="flex flex-col items-center leading-none">
+                  <span style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 30, color: "var(--text-1)" }}>73</span>
+                  <span style={{ fontFamily: "var(--font-mono)", fontSize: 9, color: "var(--text-3)", marginTop: 2 }}>/100</span>
                 </div>
-
-                {/* Layer breakdown — Constellation */}
-                <Card className="mt-5" style={{ padding: 32 }}>
-                  <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-2">
-                    <Eyebrow>Layer breakdown</Eyebrow>
-                    <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontSize: 13, color: "var(--text-3)" }}>
-                      Communication is your standout strength
-                    </span>
-                  </div>
-                  <LayerConstellation phase={phase} displayScore={displayScore} />
-                </Card>
-
-                {/* CTAs — enter after score reveal completes */}
-                <motion.div
-                  initial={{ opacity: 0, y: 14 }}
-                  animate={{ opacity: phase >= 4 ? 1 : 0, y: phase >= 4 ? 0 : 14 }}
-                  transition={{ duration: 0.55, ease }}
-                  className="mt-10 flex flex-wrap items-center gap-3"
-                >
-                  <button className="rounded-full px-6 flex items-center gap-2 transition-transform hover:scale-[1.02] active:scale-[0.98]" style={{
-                    height: 52, background: "var(--violet)", color: "var(--on-violet)",
-                    fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 15,
-                    boxShadow: "var(--shadow-card)",
-                  }}>
-                    Download certificate <ArrowRight size={16} />
-                  </button>
-                  <button className="rounded-full px-6" style={{ height: 52, background: "transparent", border: "1px solid var(--hairline-strong)", color: "var(--text-1)", fontFamily: "var(--font-body)", fontWeight: 500, fontSize: 14 }}>
-                    Share with recruiters
-                  </button>
-                  <button className="rounded-full px-6" style={{ height: 52, background: "transparent", border: "1px solid var(--hairline-strong)", color: "var(--text-1)", fontFamily: "var(--font-body)", fontWeight: 500, fontSize: 14 }}>
-                    Post to LinkedIn
-                  </button>
-                  <button className="rounded-full px-6" style={{ height: 52, background: "transparent", border: "1px solid var(--hairline-strong)", color: "var(--text-1)", fontFamily: "var(--font-body)", fontWeight: 500, fontSize: 14 }}>
-                    Copy public link
-                  </button>
-                  <div className="flex-1" />
-                  <button onClick={() => go("dashboard")} style={{ background: "transparent", color: "var(--text-2)", fontFamily: "var(--font-body)", fontWeight: 500, fontSize: 14 }}>
-                    ← Back to dashboard
-                  </button>
-                </motion.div>
+              </ScoreRing>
+              <div>
+                <div style={{ fontFamily: "var(--font-mono)", fontSize: 10, letterSpacing: ".08em", color: "var(--text-3)" }}>COMPOSITE</div>
+                <div className="mt-1 inline-flex items-center gap-1.5 rounded-full px-2.5 py-1" style={{ background: "rgba(201,220,83,.1)", border: "1px solid var(--lime-border)" }}>
+                  <span className="rounded-full" style={{ width: 6, height: 6, background: "var(--lime)" }} />
+                  <span style={{ fontFamily: "var(--font-mono)", fontWeight: 600, fontSize: 10, color: "var(--lime-text)", letterSpacing: ".05em" }}>LOCKED · VERIFIED</span>
+                </div>
               </div>
-            )}
+            </div>
+
+            <div className="hidden sm:block" style={{ background: "var(--hairline-strong)" }} />
+
+            {/* Band scale + percentile curve */}
+            <div className="relative px-8 py-8 flex flex-col justify-center gap-8" style={{ borderTop: "1px solid var(--hairline-strong)" }}>
+              {/* Band A–D scale with current marker */}
+              <div>
+                <div className="flex items-center justify-between">
+                  <span style={{ fontFamily: "var(--font-mono)", fontSize: 10, letterSpacing: ".08em", color: "var(--text-3)" }}>EMPLOYABILITY</span>
+                  <span style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "var(--violet)" }}>55–74 · one band from A</span>
+                </div>
+                <div className="mt-3 flex gap-1.5">
+                  {([
+                    { b: "D", r: "0–34" },
+                    { b: "C", r: "35–54" },
+                    { b: "B", r: "55–74" },
+                    { b: "A", r: "75+" },
+                  ] as const).map(({ b, r }, i) => {
+                    const on = b === "B";
+                    return (
+                      <motion.div
+                        key={b}
+                        initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: i * 0.06, ease }}
+                        className="flex-1 rounded-lg flex flex-col items-center justify-center"
+                        style={{
+                          height: 52,
+                          background: on ? "var(--violet)" : "var(--surface-3)",
+                          border: `1px solid ${on ? "var(--violet)" : "var(--hairline-strong)"}`,
+                          boxShadow: on ? "0 6px 18px rgba(109,86,164,.4)" : "none",
+                        }}
+                      >
+                        <span style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: on ? 22 : 16, color: on ? "var(--on-violet)" : "var(--text-3)", lineHeight: 1 }}>{b}</span>
+                        <span style={{ fontFamily: "var(--font-mono)", fontSize: 8, color: on ? "rgba(255,255,255,0.75)" : "var(--text-3)", marginTop: 3 }}>{r}</span>
+                      </motion.div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Percentile bell curve */}
+              <div>
+                <div className="flex items-baseline justify-between">
+                  <span style={{ fontFamily: "var(--font-mono)", fontSize: 10, letterSpacing: ".08em", color: "var(--text-3)" }}>NATIONAL</span>
+                  <span style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 18, color: "var(--text-1)" }}>77<span style={{ fontFamily: "var(--font-body)", fontWeight: 500, fontSize: 11, color: "var(--text-2)" }}>th pct</span></span>
+                </div>
+                <div className="relative mt-4" style={{ height: 44 }}>
+                  <svg viewBox="0 0 120 30" preserveAspectRatio="none" className="w-full h-full">
+                    <defs>
+                      <linearGradient id="pctfill" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="var(--lime)" stopOpacity="0.35" />
+                        <stop offset="100%" stopColor="var(--lime)" stopOpacity="0" />
+                      </linearGradient>
+                    </defs>
+                    <path d="M0 28 C 30 28, 40 4, 60 4 C 80 4, 90 28, 120 28" fill="none" stroke="var(--hairline-strong)" strokeWidth="1.5" />
+                    {/* filled area up to 77th percentile (x ≈ 92.4) */}
+                    <path d="M0 28 C 30 28, 40 4, 60 4 C 76 4, 84 20, 92.4 24 L 92.4 28 Z" fill="url(#pctfill)" />
+                    <line x1="92.4" y1="2" x2="92.4" y2="30" stroke="var(--lime)" strokeWidth="1.5" strokeDasharray="2 2" />
+                  </svg>
+                  <motion.div className="absolute -translate-x-1/2 rounded-full" initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.6, type: "spring", stiffness: 300, damping: 15 }}
+                    style={{ left: "77%", top: 24, width: 10, height: 10, background: "var(--lime)", border: "2px solid var(--surface-1)", boxShadow: "0 0 10px rgba(201,220,83,.7)" }} />
+                </div>
+                <span className="mt-3 block" style={{ fontFamily: "var(--font-mono)", fontSize: 9, color: "var(--text-3)", letterSpacing: ".04em" }}>Top 23% of CS candidates</span>
+              </div>
+            </div>
           </motion.div>
-        </AnimatePresence>
+        </div>
+
+        <nav className="mt-7 flex gap-1 overflow-x-auto border-b" style={{ borderColor: "var(--hairline-strong)" }} aria-label="Results sections">
+          {tabs.map((item) => <button key={item.id} onClick={() => chooseTab(item.id)} className="shrink-0 px-4 pb-3 transition-colors" style={{ fontFamily: "var(--font-body)", fontWeight: tab === item.id ? 700 : 500, fontSize: 14, color: tab === item.id ? "var(--violet)" : "var(--text-2)", borderBottom: tab === item.id ? "2px solid var(--violet)" : "2px solid transparent" }}>{item.label}</button>)}
+        </nav>
+        <div className="mt-9">
+          {tab === "breakdown" && <ResultsBreakdown />}
+          {tab === "skills" && <ResultsSkillsRoles />}
+          {tab === "interview" && <ResultsInterview />}
+          {tab === "cert" && <ResultsCertificate />}
+        </div>
       </main>
     </div>
   );
 }
 
-/* ─────────────── Results: Tab 2 — Score Breakdown ─────────────── */
-function ResultsBreakdown() {
-  const layers = [
-    { n: "L1", name: "Cognitive Ability",          weight: 25, score: 79, avg: 68, sub: "Logical reasoning, pattern recognition, numerical ability",    color: "var(--violet)", strongest: false },
-    { n: "L2", name: "Professional Communication", weight: 20, score: 74, avg: 65, sub: "Written clarity, verbal articulation, business English",        color: "var(--lime-text)",   strongest: false },
-    { n: "L3", name: "Domain Knowledge",           weight: 25, score: 68, avg: 72, sub: "Engineering fundamentals — your stream's core knowledge",       color: "var(--amber-text)",  strongest: false },
-    { n: "L4", name: "Workplace Decision Making",  weight: 15, score: 71, avg: 64, sub: "Situational judgement, prioritisation, professional ethics",    color: "var(--violet)", strongest: false },
-    { n: "L5", name: "AI Video Interview (Priya)", weight: 15, score: 77, avg: 62, sub: "Content, clarity, composure under structured questions",         color: "var(--lime-text)",   strongest: true },
-  ];
+/* ─────────────── Results: Tab — Score Breakdown ─────────────── */
+/* Segmented battery-style bar with a benchmark (band-ready) marker. */
+function SegmentedBar({ score, benchmark, color, delay = 0 }: { score: number; benchmark: number; color: string; delay?: number }) {
+  const segs = 10;
+  const filled = score / 10;
+  return (
+    <div className="relative">
+      <div className="flex gap-1">
+        {Array.from({ length: segs }).map((_, i) => {
+          const on = i < Math.floor(filled);
+          const partial = i === Math.floor(filled) ? filled - Math.floor(filled) : 0;
+          return (
+            <div key={i} className="relative flex-1 overflow-hidden rounded-[3px]" style={{ height: 14, background: "var(--bg-2)" }}>
+              <motion.div className="absolute inset-y-0 left-0" initial={{ width: 0 }} animate={{ width: on ? "100%" : partial > 0 ? `${partial * 100}%` : 0 }} transition={{ duration: 0.4, delay: delay + i * 0.04, ease }} style={{ background: color }} />
+            </div>
+          );
+        })}
+      </div>
+      {/* benchmark marker */}
+      <div className="absolute -top-1.5 -bottom-1.5" style={{ left: `${benchmark}%`, borderLeft: "2px dashed var(--text-3)" }}>
+        <span className="absolute -top-4 -translate-x-1/2 whitespace-nowrap" style={{ fontFamily: "var(--font-mono)", fontSize: 8, color: "var(--text-3)", letterSpacing: "0.04em" }}>READY · {benchmark}</span>
+      </div>
+    </div>
+  );
+}
 
-  const bandFor = (s: number) =>
-    s >= 80 ? { label: "Strong",    color: "var(--lime-text)", bg: "var(--lime-soft)",   bd: "var(--lime-border)" }
-    : s >= 60 ? { label: "Good",     color: "var(--text-1)",   bg: "var(--violet-soft)", bd: "var(--violet-border)" }
-    : s >= 40 ? { label: "Developing", color: "var(--amber-text)",  bg: "var(--amber-soft)",  bd: "rgba(217,119,6,0.32)" }
-    : { label: "Needs Work", color: "var(--text-3)", bg: "var(--surface-2)", bd: "var(--hairline)" };
+function ResultsBreakdown() {
+  const READY = 75; // band-ready threshold
+  const layers = [
+    { name: "AI Interview", short: "Interview", score: 77, weight: 25, detail: "Clear examples and a composed delivery.", contribution: "19.3 pts", color: "var(--teal)", key: "ai-interview", strength: true },
+    { name: "Communication", short: "Comms", score: 75, weight: 20, detail: "You make your thinking easy to follow.", contribution: "15.0 pts", color: "var(--violet)", key: "communication" },
+    { name: "Cognitive & Aptitude", short: "Cognitive", score: 70, weight: 25, detail: "The fastest route to your next band.", contribution: "17.5 pts", color: "var(--amber)", key: "cognitive-aptitude", lever: true },
+    { name: "Domain Knowledge", short: "Domain", score: 68, weight: 20, detail: "A focused refresh will make this dependable.", contribution: "13.6 pts", color: "var(--violet)", key: "domain-knowledge" },
+    { name: "Work Readiness", short: "Practical", score: 72, weight: 10, detail: "Good practical signals across the essentials.", contribution: "7.2 pts", color: "var(--lime-text)", key: "work-readiness" },
+  ];
+  const [hover, setHover] = useState<number | null>(null);
+  const axes = layers.map((l) => ({ label: l.short, value: l.score }));
+
+  return <div className="max-w-[940px]">
+    <Eyebrow color="var(--violet)">THE CLIMB, NOT THE VERDICT</Eyebrow>
+    <h2 className="mt-3" style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "clamp(30px,4vw,46px)", letterSpacing: "-0.03em", color: "var(--text-1)", lineHeight: 1.04 }}>Your standout is AI Interview. Your fastest lift is <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 400, color: "var(--amber-text)" }}>Cognitive & Aptitude.</span></h2>
+
+    {/* Zone A — at-a-glance radar + composite ring */}
+    <div className="mt-8 grid gap-5 lg:grid-cols-[1.1fr_.9fr]">
+      <div className="rounded-[18px] p-5 flex items-center justify-center" style={{ background: "linear-gradient(180deg, var(--surface-1), var(--surface-2))", border: "1px solid var(--hairline-strong)", boxShadow: "var(--shadow-card)" }}>
+        <RadarChart axes={axes} size={320} highlight={hover} onHover={setHover} />
+      </div>
+      <div className="rounded-[18px] p-6 flex flex-col justify-center gap-5" style={{ background: "var(--surface-1)", border: "1px solid var(--hairline-strong)", boxShadow: "var(--shadow-card)" }}>
+        <div className="flex items-center gap-5">
+          <ScoreRing value={73} size={104} color="var(--lime)" label="/ 100" />
+          <div>
+            <div style={{ fontFamily: "var(--font-mono)", fontSize: 10, letterSpacing: ".08em", color: "var(--text-3)" }}>COMPOSITE · BAND B</div>
+            <div style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 30, color: "var(--text-1)", lineHeight: 1.1 }}>73<span style={{ fontFamily: "var(--font-mono)", fontSize: 13, color: "var(--text-3)" }}>/100</span></div>
+            <div className="mt-1" style={{ fontFamily: "var(--font-body)", fontSize: 13, color: "var(--text-2)" }}>77th national percentile</div>
+          </div>
+        </div>
+        <div className="rounded-2xl p-4" style={{ background: "var(--amber-soft)", border: "1px solid var(--amber-border)" }}>
+          <div className="flex items-start gap-2.5">
+            <Zap size={16} color="var(--amber-text)" className="mt-0.5 shrink-0" />
+            <p style={{ fontFamily: "var(--font-body)", fontSize: 13.5, color: "var(--text-1)", lineHeight: 1.55 }}>
+              Your biggest lever right now is <strong>Cognitive & Aptitude</strong> — a focused lift here adds roughly <strong>+4 composite points</strong> and moves you closer to Band A.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {/* Zone B/C — layer detail with benchmark, hover-linked to radar */}
+    <div className="mt-8 space-y-3">
+      {layers.map((layer, index) => {
+        const active = hover === index;
+        const gap = Math.max(0, READY - layer.score);
+        return <div key={layer.name} onMouseEnter={() => setHover(index)} onMouseLeave={() => setHover(null)} className="rounded-[16px] p-5 sm:p-6 transition-colors" style={{ background: active ? "var(--surface-2)" : "var(--surface-1)", border: `1px solid ${active ? "var(--violet-border)" : "var(--hairline-strong)"}`, boxShadow: "var(--shadow-card)" }}>
+          <div className="grid gap-5 md:grid-cols-[minmax(180px,.9fr)_minmax(250px,1.6fr)_120px] md:items-center">
+            <div className="flex items-center gap-3">
+              <MiniRing value={layer.score} size={44} color={layer.color} />
+              <div>
+                <div className="flex flex-wrap items-center gap-2"><h3 style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 18, color: "var(--text-1)" }}>{layer.name}</h3>{layer.strength && <span className="rounded-full px-2 py-0.5" style={{ fontFamily: "var(--font-mono)", fontSize: 9, color: "var(--teal-text)", background: "rgba(81,193,181,.12)" }}>STRENGTH</span>}{layer.lever && <span className="rounded-full px-2 py-0.5" style={{ fontFamily: "var(--font-mono)", fontSize: 9, color: "var(--amber-text)", background: "var(--amber-soft)" }}>START HERE</span>}</div>
+                <p className="mt-1" style={{ fontFamily: "var(--font-body)", fontSize: 12.5, color: "var(--text-2)", lineHeight: 1.5 }}>{layer.detail}</p>
+              </div>
+            </div>
+            <div>
+              <SegmentedBar score={layer.score} benchmark={READY} color={layer.color} delay={index * 0.06} />
+              <div className="mt-2" style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: gap > 0 ? "var(--amber-text)" : "var(--teal-text)" }}>
+                {gap > 0 ? `${gap} pts to role-ready` : "Role-ready ✓"} · {layer.weight}% weight · {layer.contribution}
+              </div>
+            </div>
+            <div className="md:text-right"><a href={`#learn/${layer.key}`} className="inline-flex items-center gap-1 rounded-full px-3 py-2 transition-colors hover:bg-[var(--violet-soft)]" style={{ fontFamily: "var(--font-body)", fontSize: 13, fontWeight: 700, color: "var(--violet)", textDecoration: "none" }}>Practice <ArrowRight size={14} /></a></div>
+          </div>
+        </div>;
+      })}
+    </div>
+
+    {/* Zone D — Deep dive on the fastest lever */}
+    <DeepDive />
+
+    {/* Zone E — Critical Gap Analysis & Pacing */}
+    <PacingAnalysis />
+  </div>;
+}
+
+/* Detailed analysis for the fastest-lift layer: sub-topic ranking + question mix. */
+function DeepDive() {
+  const PAL = { lime: "#C9DC53", amber: "#D97706", teal: "#51C1B5", violet: "#6D56A4", muted: "#948AAB" };
+  // sub-topics ranked strongest → weakest
+  const subtopics = [
+    { name: "Decision speed", score: 61 },
+    { name: "Numerical", score: 60 },
+    { name: "Data interp.", score: 58 },
+    { name: "Pattern recog.", score: 54 },
+    { name: "Logical puzzles", score: 49 },
+  ].sort((a, b) => b.score - a.score);
+  const barColor = (v: number) => (v >= 60 ? PAL.teal : v >= 55 ? PAL.amber : PAL.violet);
+
+  // how the questions were distributed across sub-topics (explains the score)
+  const mix = [
+    { name: "Numerical", value: 8, color: PAL.violet },
+    { name: "Pattern recog.", value: 6, color: PAL.amber },
+    { name: "Logical puzzles", value: 5, color: PAL.lime },
+    { name: "Data interp.", value: 4, color: PAL.teal },
+    { name: "Decision speed", value: 3, color: PAL.muted },
+  ];
+  const totalQ = mix.reduce((s, m) => s + m.value, 0);
 
   return (
-    <div>
-      <Eyebrow color="var(--violet)">YOUR 5-LAYER BREAKDOWN</Eyebrow>
-      <h2 className="mt-3" style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 40, color: "var(--text-1)", letterSpacing: "var(--ls-display)", lineHeight: 1.1 }}>
-        You've already{" "}
-        <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 400, color: "var(--lime-text)" }}>built</span>{" "}
-        a lot.
-      </h2>
-      <p className="mt-3 max-w-[560px]" style={{ fontFamily: "var(--font-body)", fontSize: 15, color: "var(--text-2)", lineHeight: 1.65 }}>
-        Your AI Interview score places you in the top tier of your cohort. Here's where every point came from.
+    <div className="mt-10">
+      <Eyebrow color="var(--amber-text)">DEEP DIVE · COGNITIVE & APTITUDE</Eyebrow>
+      <h3 className="mt-3" style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "clamp(24px,3vw,32px)", letterSpacing: "-0.02em", color: "var(--text-1)" }}>
+        Where the points are hiding.
+      </h3>
+      <p className="mt-2 max-w-[65ch]" style={{ fontFamily: "var(--font-body)", fontSize: 15, color: "var(--text-2)", lineHeight: 1.6 }}>
+        This is your fastest lever. The ranking shows which sub-topics to practise first; the mix shows why the score landed where it did.
       </p>
 
-      <div className="mt-8 flex flex-col gap-4">
-        {layers.map((l, i) => {
-          const b = bandFor(l.score);
-          const above = l.score >= l.avg;
-          return (
-            <div key={l.n} className="rounded-2xl relative overflow-hidden" style={{
-              background: l.strongest ? "rgba(201,220,83,0.05)" : "var(--surface-1)",
-              border: `1px solid ${l.strongest ? "rgba(201,220,83,0.28)" : "var(--violet-border)"}`,
-              borderLeft: l.strongest ? "3px solid var(--lime)" : undefined,
-              padding: 28,
-            }}>
-              {l.strongest && (
-                <div className="absolute top-4 right-4">
-                  <span className="rounded-full px-2 py-0.5" style={{ background: "var(--lime-soft)", border: "1px solid var(--lime-border)", fontFamily: "var(--font-mono)", fontSize: 9, fontWeight: 700, color: "var(--lime-text)", letterSpacing: "0.07em" }}>YOUR STRONGEST SKILL</span>
+      <div className="mt-6 grid gap-5 lg:grid-cols-[1.3fr_1fr]">
+        {/* Sub-topic ranking — horizontal bar chart */}
+        <div className="rounded-[16px] p-5 sm:p-6" style={{ background: "var(--surface-1)", border: "1px solid var(--hairline-strong)", boxShadow: "var(--shadow-card)" }}>
+          <div className="flex items-center justify-between">
+            <div style={{ fontFamily: "var(--font-mono)", fontSize: 10, letterSpacing: ".08em", color: "var(--text-3)" }}>SUB-TOPIC RANKING · 0–100</div>
+            <span className="rounded-full px-2 py-0.5" style={{ fontFamily: "var(--font-mono)", fontSize: 9, color: "var(--amber-text)", background: "var(--amber-soft)" }}>START LOWEST</span>
+          </div>
+          <div className="mt-4" style={{ width: "100%", height: 230 }}>
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={subtopics} layout="vertical" margin={{ top: 4, right: 40, bottom: 4, left: 4 }} barCategoryGap={10}>
+                <XAxis type="number" domain={[0, 100]} hide />
+                <YAxis type="category" dataKey="name" width={104} tickLine={false} axisLine={false}
+                  tick={{ fill: "var(--text-2)", fontSize: 12, fontFamily: "var(--font-body)" }} />
+                <Tooltip cursor={{ fill: "rgba(148,138,171,0.08)" }}
+                  contentStyle={{ background: "var(--surface-3)", border: "1px solid var(--hairline-strong)", borderRadius: 10, fontFamily: "var(--font-body)", fontSize: 12, color: "var(--text-1)" }}
+                  labelStyle={{ color: "var(--text-2)" }} formatter={(v: number) => [`${v}/100`, "Score"]} />
+                <Bar dataKey="score" radius={[0, 6, 6, 0]} isAnimationActive>
+                  {subtopics.map((s) => <Cell key={s.name} fill={barColor(s.score)} />)}
+                  <LabelList dataKey="score" position="right" style={{ fill: "var(--text-2)", fontSize: 11, fontFamily: "var(--font-mono)" }} />
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+
+        {/* Question distribution — donut */}
+        <div className="rounded-[16px] p-5 sm:p-6" style={{ background: "var(--surface-1)", border: "1px solid var(--hairline-strong)", boxShadow: "var(--shadow-card)" }}>
+          <div style={{ fontFamily: "var(--font-mono)", fontSize: 10, letterSpacing: ".08em", color: "var(--text-3)" }}>QUESTION MIX · {totalQ} ASKED</div>
+          <div className="mt-2 flex items-center gap-2">
+            <div style={{ width: 150, height: 150 }}>
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie data={mix} dataKey="value" nameKey="name" innerRadius={42} outerRadius={68} paddingAngle={2} stroke="none">
+                    {mix.map((m) => <Cell key={m.name} fill={m.color} />)}
+                  </Pie>
+                  <Tooltip contentStyle={{ background: "var(--surface-3)", border: "1px solid var(--hairline-strong)", borderRadius: 10, fontFamily: "var(--font-body)", fontSize: 12, color: "var(--text-1)" }}
+                    formatter={(v: number, n) => [`${v} questions`, n]} />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+            <div className="flex-1 space-y-1.5">
+              {mix.map((m) => (
+                <div key={m.name} className="flex items-center gap-2">
+                  <span className="rounded-full shrink-0" style={{ width: 8, height: 8, background: m.color }} />
+                  <span className="flex-1 truncate" style={{ fontFamily: "var(--font-body)", fontSize: 12, color: "var(--text-2)" }}>{m.name}</span>
+                  <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text-3)" }}>{Math.round((m.value / totalQ) * 100)}%</span>
                 </div>
-              )}
-              <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr_1fr] gap-6 items-start">
-                {/* LEFT */}
-                <div>
-                  <div className="flex items-center gap-2.5">
-                    <div className="rounded-full flex items-center justify-center" style={{ width: 28, height: 28, background: "rgba(109,86,164,0.2)", border: "1px solid var(--violet-border)" }}>
-                      <span style={{ fontFamily: "var(--font-mono)", fontWeight: 700, fontSize: 12, color: "var(--text-1)" }}>{l.n}</span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Auto analysis */}
+      <div className="mt-5 rounded-[16px] p-5 flex items-start gap-3" style={{ background: "var(--surface-1)", border: "1px solid var(--hairline-strong)", boxShadow: "var(--shadow-card)" }}>
+        <Lightbulb size={18} color="var(--amber-text)" className="mt-0.5 shrink-0" />
+        <p style={{ fontFamily: "var(--font-body)", fontSize: 14, color: "var(--text-1)", lineHeight: 1.6 }}>
+          Your lowest sub-topic, <strong>Logical puzzles (49)</strong>, only made up <strong>19%</strong> of questions — so a focused week here is low-effort, high-return. Numerical reasoning carried the most weight ({Math.round((8 / totalQ) * 100)}% of questions) and you held steady there, which is why the layer isn't lower. Lift the bottom two sub-topics past 60 and this layer clears the role-ready line on its own.
+        </p>
+      </div>
+    </div>
+  );
+}
+
+/* Critical insight into pacing and test-taking strategy. */
+function PacingAnalysis() {
+  const PAL = { lime: "#C9DC53", amber: "#D97706", teal: "#51C1B5", violet: "#6D56A4", muted: "#948AAB", danger: "#F87171" };
+  
+  // Data for Speed vs Accuracy
+  const data = [
+    // Rushing (Fast, Low Score)
+    { id: "Q12", time: 18, score: 20, topic: "Pattern recog." },
+    { id: "Q14", time: 22, score: 10, topic: "Logical puzzles" },
+    { id: "Q15", time: 15, score: 0, topic: "Logical puzzles" },
+    // Mastered (Fast, High Score)
+    { id: "Q1", time: 28, score: 100, topic: "Numerical" },
+    { id: "Q2", time: 35, score: 90, topic: "Numerical" },
+    { id: "Q4", time: 40, score: 100, topic: "Decision speed" },
+    // Careful (Slow, High Score)
+    { id: "Q8", time: 95, score: 85, topic: "Data interp." },
+    { id: "Q9", time: 110, score: 100, topic: "Numerical" },
+    // Struggling (Slow, Low Score)
+    { id: "Q18", time: 105, score: 30, topic: "Logical puzzles" },
+    { id: "Q20", time: 125, score: 20, topic: "Data interp." },
+  ];
+
+  const getDotColor = (time: number, score: number) => {
+    if (score < 50 && time < 60) return PAL.danger; // Rushing
+    if (score < 50 && time >= 60) return PAL.amber; // Struggling
+    if (score >= 50 && time < 60) return PAL.lime; // Mastered
+    return PAL.teal; // Careful
+  };
+
+  const formattedData = data.map(d => ({ ...d, fill: getDotColor(d.time, d.score) }));
+
+  return (
+    <div className="mt-12 pt-10 border-t border-[var(--hairline)]">
+      <Eyebrow color="var(--danger)">CRITICAL GAP ANALYSIS</Eyebrow>
+      <h3 className="mt-3" style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "clamp(24px,3vw,32px)", letterSpacing: "-0.02em", color: "var(--text-1)" }}>
+        You're losing points to <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 400, color: "var(--danger)" }}>rushing.</span>
+      </h3>
+      <p className="mt-2 max-w-[65ch]" style={{ fontFamily: "var(--font-body)", fontSize: 15, color: "var(--text-2)", lineHeight: 1.6 }}>
+        Your knowledge is solid, but your test-taking strategy is costing you a Band A. This Speed vs. Accuracy matrix reveals a cluster of rapid, incorrect answers in logic puzzles.
+      </p>
+
+      <div className="mt-6 rounded-[16px] p-5 sm:p-6" style={{ background: "var(--surface-1)", border: "1px solid var(--hairline-strong)", boxShadow: "var(--shadow-card)" }}>
+        <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
+          <div style={{ fontFamily: "var(--font-mono)", fontSize: 10, letterSpacing: ".08em", color: "var(--text-3)" }}>SPEED VS. ACCURACY MATRIX</div>
+          <div className="flex gap-4">
+             <div className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full" style={{ background: PAL.danger }} /><span style={{ fontFamily: "var(--font-mono)", fontSize: 9, color: "var(--text-2)" }}>RUSHING</span></div>
+             <div className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full" style={{ background: PAL.amber }} /><span style={{ fontFamily: "var(--font-mono)", fontSize: 9, color: "var(--text-2)" }}>BLIND SPOTS</span></div>
+          </div>
+        </div>
+
+        <div style={{ width: "100%", height: 320 }}>
+          <ResponsiveContainer width="100%" height="100%">
+            <ScatterChart margin={{ top: 10, right: 20, bottom: 20, left: -20 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke="rgba(240,235,255,0.06)" />
+              <XAxis type="number" dataKey="time" name="Time Spent" unit="s" domain={[0, 140]} 
+                tick={{ fill: "var(--text-3)", fontSize: 11, fontFamily: "var(--font-mono)" }} 
+                axisLine={false} tickLine={false} 
+                label={{ value: "Time Spent (seconds) →", position: "insideBottom", offset: -15, fill: "var(--text-3)", fontSize: 10, fontFamily: "var(--font-mono)", letterSpacing: "0.05em" }} />
+              <YAxis type="number" dataKey="score" name="Score" domain={[0, 100]} 
+                tick={{ fill: "var(--text-3)", fontSize: 11, fontFamily: "var(--font-mono)" }} 
+                axisLine={false} tickLine={false}
+                label={{ value: "Accuracy / Score", angle: -90, position: "insideLeft", offset: 25, fill: "var(--text-3)", fontSize: 10, fontFamily: "var(--font-mono)", letterSpacing: "0.05em" }} />
+              
+              <Tooltip cursor={{ strokeDasharray: '3 3' }} 
+                contentStyle={{ background: "var(--surface-3)", border: "1px solid var(--hairline-strong)", borderRadius: 10, fontFamily: "var(--font-body)", fontSize: 12, color: "var(--text-1)" }}
+                formatter={(val: number, name: string) => [name === "Time Spent" ? `${val}s` : `${val}%`, name]}
+                labelFormatter={() => ""}
+              />
+              
+              {/* Quadrant lines */}
+              <ReferenceLine x={60} stroke="var(--hairline-strong)" strokeDasharray="3 3" />
+              <ReferenceLine y={50} stroke="var(--hairline-strong)" strokeDasharray="3 3" />
+              
+              {/* Quadrant Highlights */}
+              <ReferenceArea x1={0} x2={60} y1={0} y2={50} fill="rgba(248,113,113,0.03)" />
+              <ReferenceArea x1={60} x2={140} y1={0} y2={50} fill="rgba(217,119,6,0.03)" />
+
+              <Scatter name="Questions" data={formattedData} shape="circle" isAnimationActive={false}>
+                {formattedData.map((entry, index) => (
+                  <Cell key={`scatter-cell-${entry.id}`} fill={entry.fill} />
+                ))}
+              </Scatter>
+            </ScatterChart>
+          </ResponsiveContainer>
+        </div>
+        
+        <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+           <div className="p-3 rounded-xl border border-[var(--hairline)] bg-[var(--surface-2)]">
+              <div style={{ fontFamily: "var(--font-mono)", fontSize: 9, color: "var(--lime-text)", letterSpacing: ".05em" }}>FAST & ACCURATE</div>
+              <div className="mt-1" style={{ fontFamily: "var(--font-body)", fontSize: 12, color: "var(--text-2)" }}>Numerical reasoning is your comfort zone.</div>
+           </div>
+           <div className="p-3 rounded-xl border border-[var(--hairline)] bg-[var(--surface-2)]">
+              <div style={{ fontFamily: "var(--font-mono)", fontSize: 9, color: "var(--teal-text)", letterSpacing: ".05em" }}>SLOW & ACCURATE</div>
+              <div className="mt-1" style={{ fontFamily: "var(--font-body)", fontSize: 12, color: "var(--text-2)" }}>You solve data puzzles well, but they drain the clock.</div>
+           </div>
+           <div className="p-3 rounded-xl border border-[rgba(248,113,113,0.2)] bg-[rgba(248,113,113,0.05)]">
+              <div style={{ fontFamily: "var(--font-mono)", fontSize: 9, color: "var(--danger)", letterSpacing: ".05em" }}>RUSHING (CRITICAL)</div>
+              <div className="mt-1" style={{ fontFamily: "var(--font-body)", fontSize: 12, color: "var(--text-1)" }}>You guess on logic puzzles to save time. This is a critical leak.</div>
+           </div>
+           <div className="p-3 rounded-xl border border-[rgba(217,119,6,0.2)] bg-[rgba(217,119,6,0.05)]">
+              <div style={{ fontFamily: "var(--font-mono)", fontSize: 9, color: "var(--amber-text)", letterSpacing: ".05em" }}>BLIND SPOTS</div>
+              <div className="mt-1" style={{ fontFamily: "var(--font-body)", fontSize: 12, color: "var(--text-2)" }}>Complex data interps are your true blind spot.</div>
+           </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────── Results: Tab — Skills & Roles ─────────────── */
+type SkillStatus = "Strong" | "Developing" | "Needs Work";
+type Skill = {
+  name: string; score: number; status: SkillStatus; desc: string;
+  color: string; focus?: boolean;
+  rolesNow: string[]; rolesStrengthen: string[];
+  topics: { name: string; value: number }[];
+};
+
+function statusStyle(s: SkillStatus) {
+  if (s === "Strong") return { color: "var(--lime-text)", bg: "rgba(201,220,83,.12)" };
+  if (s === "Developing") return { color: "var(--teal-text)", bg: "rgba(81,193,181,.12)" };
+  return { color: "var(--amber-text)", bg: "var(--amber-soft)" };
+}
+
+function SkillCard({ skill }: { skill: Skill }) {
+  const [open, setOpen] = useState(false);
+  const st = statusStyle(skill.status);
+  const totalRoles = skill.rolesNow.length + skill.rolesStrengthen.length;
+  const shown = skill.rolesNow.slice(0, 3);
+  const more = totalRoles - shown.length;
+
+  return (
+    <article className="rounded-[18px] flex flex-col overflow-hidden" style={{ background: "var(--surface-1)", border: `1px solid ${skill.focus ? "rgba(217,119,6,.32)" : "var(--hairline-strong)"}`, boxShadow: "var(--shadow-card)" }}>
+      <div className="p-6">
+        <div className="flex items-start justify-between gap-3">
+          <MiniRing value={skill.score} size={46} color={skill.color} />
+          <span className="rounded-full px-2.5 py-1" style={{ fontFamily: "var(--font-mono)", fontSize: 9, color: st.color, background: st.bg, letterSpacing: ".04em" }}>{skill.status.toUpperCase()}</span>
+        </div>
+        <h3 className="mt-4" style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 21, color: "var(--text-1)" }}>{skill.name}</h3>
+        <p className="mt-1.5" style={{ fontFamily: "var(--font-body)", fontSize: 13, color: "var(--text-2)", lineHeight: 1.5 }}>{skill.desc}</p>
+
+        {/* role teaser — consistent height */}
+        <div className="mt-5 flex items-center gap-1.5 flex-wrap">
+          {shown.map((role) => <span key={role} className="rounded-full px-2.5 py-1" style={{ fontFamily: "var(--font-body)", fontSize: 12, color: "var(--text-2)", background: "var(--bg-2)" }}>{role}</span>)}
+          {more > 0 && (
+            <button onClick={() => setOpen((o) => !o)} className="rounded-full px-2.5 py-1 transition-colors hover:bg-[var(--violet-soft)]" style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--violet)" }}>
+              and {more} more →
+            </button>
+          )}
+        </div>
+      </div>
+
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.35, ease }} style={{ overflow: "hidden", borderTop: "1px solid var(--hairline)" }}>
+            <div className="p-6 space-y-5" style={{ background: "var(--bg-2)" }}>
+              <div>
+                <div style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "var(--lime-text)", letterSpacing: ".07em" }}>OPENS NOW</div>
+                <div className="mt-2 flex flex-wrap gap-1.5">{skill.rolesNow.map((r) => <span key={r} className="rounded-full px-2.5 py-1" style={{ fontFamily: "var(--font-body)", fontSize: 12, color: "var(--text-1)", background: "rgba(201,220,83,.1)", border: "1px solid var(--lime-border)" }}>{r}</span>)}</div>
+              </div>
+              <div>
+                <div style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "var(--text-3)", letterSpacing: ".07em" }}>STRENGTHENS</div>
+                <div className="mt-2 flex flex-wrap gap-1.5">{skill.rolesStrengthen.map((r) => <span key={r} className="rounded-full px-2.5 py-1" style={{ fontFamily: "var(--font-body)", fontSize: 12, color: "var(--text-2)", background: "var(--bg)" }}>{r}</span>)}</div>
+              </div>
+              <div>
+                <div style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "var(--text-3)", letterSpacing: ".07em" }}>BY SUB-TOPIC</div>
+                <div className="mt-3 space-y-2.5">
+                  {skill.topics.map((t) => (
+                    <div key={t.name} className="flex items-center gap-3">
+                      <span className="w-28 shrink-0" style={{ fontFamily: "var(--font-body)", fontSize: 12, color: "var(--text-2)" }}>{t.name}</span>
+                      <div className="flex-1 h-1.5 rounded-full overflow-hidden" style={{ background: "var(--surface-3)" }}><div className="h-full rounded-full" style={{ width: `${t.value}%`, background: skill.color }} /></div>
+                      <span className="w-7 text-right" style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "var(--text-3)" }}>{t.value}</span>
                     </div>
-                    <span style={{ fontFamily: "var(--font-body)", fontWeight: 600, fontSize: 15, color: "var(--text-1)" }}>{l.name}</span>
-                  </div>
-                  <div className="mt-2" style={{ fontFamily: "var(--font-mono)", fontWeight: 400, fontSize: 12, color: "var(--text-3)" }}>{l.weight}% weight</div>
-                  <p className="mt-2" style={{ fontFamily: "var(--font-body)", fontSize: 13, color: "var(--text-2)", lineHeight: 1.5 }}>{l.sub}</p>
-                </div>
-
-                {/* CENTER */}
-                <div>
-                  <div className="flex items-center justify-between" style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text-3)" }}>
-                    <span>0</span>
-                    <span>Avg {l.avg}</span>
-                    <span>100</span>
-                  </div>
-                  <div className="relative mt-2 rounded-full" style={{ height: 12, background: "rgba(109,86,164,0.12)" }}>
-                    <motion.div
-                      initial={{ width: 0 }}
-                      animate={{ width: `${l.score}%` }}
-                      transition={{ duration: 0.8, ease, delay: 0.1 + i * 0.1 }}
-                      className="rounded-full"
-                      style={{ height: "100%", background: l.color }}
-                    />
-                    <div className="absolute" style={{ left: `${l.avg}%`, top: -4, bottom: -4, width: 0, borderLeft: "2px dashed var(--hairline-strong)" }} />
-                    <div className="absolute rounded-full" style={{ left: `calc(${l.score}% - 8px)`, top: -2, width: 16, height: 16, background: "var(--lime)", boxShadow: "none" }} />
-                  </div>
-                  <p className="mt-3" style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontSize: 13, color: above ? "var(--teal)" : "var(--text-3)", lineHeight: 1.5 }}>
-                    {above
-                      ? "You scored above the national average for this layer."
-                      : `Your biggest growth lever — ${l.avg - l.score} points to reach the national average.`}
-                  </p>
-                </div>
-
-                {/* RIGHT */}
-                <div className="md:text-right">
-                  <div className="flex items-baseline md:justify-end gap-1">
-                    <span style={{ fontFamily: "var(--font-mono)", fontWeight: 700, fontSize: 40, color: l.strongest ? "var(--lime)" : "var(--text-1)", lineHeight: 1 }}>{l.score}</span>
-                    <span style={{ fontFamily: "var(--font-mono)", fontWeight: 400, fontSize: 14, color: "var(--text-3)" }}>/ 100</span>
-                  </div>
-                  <span className="inline-flex items-center rounded-full mt-2" style={{ padding: "3px 10px", background: b.bg, border: `1px solid ${b.bd}` }}>
-                    <span style={{ fontFamily: "var(--font-mono)", fontWeight: 600, fontSize: 11, color: b.color, letterSpacing: "0.02em" }}>{b.label}</span>
-                  </span>
-                  <div className="mt-3">
-                    <button style={{ background: "transparent", color: above ? "var(--violet)" : "var(--amber)", fontFamily: "var(--font-body)", fontWeight: 500, fontSize: 12 }}>
-                      {l.strongest ? "Re-watch interview →" : `Practice ${l.n} →`}
-                    </button>
-                  </div>
+                  ))}
                 </div>
               </div>
             </div>
-          );
-        })}
-      </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-      {/* Composite */}
-      <div className="mt-6 rounded-2xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4" style={{
-        background: "rgba(201,220,83,0.05)", border: "1px solid rgba(201,220,83,0.2)", padding: "20px 24px",
-      }}>
-        <div style={{ fontFamily: "var(--font-body)", fontWeight: 500, fontSize: 14, color: "var(--text-2)" }}>Weighted composite</div>
-        <div className="text-center">
-          <div style={{ fontFamily: "var(--font-mono)", fontWeight: 700, fontSize: 32, color: "var(--text-1)", lineHeight: 1 }}>72.50 / 100</div>
-          <span className="inline-flex items-center rounded-full mt-1" style={{ padding: "2px 9px", background: "var(--violet-soft)", border: "1px solid var(--violet-border)" }}>
-            <span style={{ fontFamily: "var(--font-mono)", fontWeight: 600, fontSize: 11, color: "var(--text-1)", letterSpacing: "0.02em" }}>Band B — Nearly Ready</span>
-          </span>
-        </div>
-        <div className="md:text-right">
-          <div style={{ fontFamily: "var(--font-body)", fontSize: 13, color: "var(--lime-text)" }}>Your strongest: AI Interview (77)</div>
-          <div style={{ fontFamily: "var(--font-body)", fontSize: 13, color: "var(--text-3)" }}>Biggest growth opportunity: Domain (68)</div>
-        </div>
+      <div className="mt-auto p-6 pt-0">
+        <a href={`#learn/${skill.name.toLowerCase().replaceAll(" ", "-")}`} className={`mt-4 inline-flex w-full h-11 items-center justify-center gap-2 rounded-full transition-all ${skill.focus ? "hover:scale-[1.02] active:scale-[0.98]" : "hover:bg-[var(--violet-soft)]"}`} style={{ background: skill.focus ? "#FFFFFF" : "transparent", color: "var(--violet)", border: "1px solid var(--violet-border)", fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 13, textDecoration: "none" }}>Start learning <ArrowRight size={15} /></a>
       </div>
-    </div>
+    </article>
   );
 }
 
-/* ─────────────── Results: Tab 3 — Role Readiness ─────────────── */
-function ResultsRoles() {
-  return (
-    <div>
-      <Eyebrow color="var(--violet)">YOUR ROLE FIT PROFILE</Eyebrow>
-      <h2 className="mt-3" style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 40, color: "var(--text-1)", letterSpacing: "var(--ls-display)", lineHeight: 1.1 }}>
-        Doors{" "}
-        <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 400, color: "var(--lime-text)" }}>already</span>{" "}
-        open to you.
-      </h2>
-      <p className="mt-3 max-w-[540px]" style={{ fontFamily: "var(--font-body)", fontSize: 15, color: "var(--text-2)", lineHeight: 1.65 }}>
-        You've already earned access to several strong career paths. Your JREE score is a credential employers in these fields actively seek.
-      </p>
-
-      <div className="grid md:grid-cols-2 gap-4 mt-8">
-        <RoleCard tier="best"  name="HR & People"           score={76} sub="Talent acquisition, L&D, HR operations, culture" />
-        <RoleCard tier="good"  name="Product & Strategy"    score={71} sub="Product analyst, business strategy, ops roles" />
-        <RoleCard tier="dev"   name="Operations"            score={68} sub="Process design, supply chain, project ops" />
-        <RoleCard tier="lock"  name="Software Engineering"  score={45} sub="Backend, full-stack, systems engineering" />
-      </div>
-
-      <div className="mt-6 rounded-2xl flex flex-col md:flex-row items-start md:items-center justify-between gap-3" style={{
-        background: "var(--violet-soft)", border: "1px solid var(--violet-border)", padding: "20px 24px",
-      }}>
-        <div style={{ fontFamily: "var(--font-body)", fontSize: 14, color: "var(--text-2)" }}>Among Engineering graduates at your band level:</div>
-        <div style={{ fontFamily: "var(--font-mono)", fontWeight: 600, fontSize: 14, color: "var(--lime-text)" }}>Top 8% for HR & People readiness</div>
-        <button style={{ background: "transparent", color: "var(--violet)", fontFamily: "var(--font-body)", fontWeight: 500, fontSize: 13 }}>→ See employers hiring for HR roles</button>
-      </div>
-    </div>
-  );
-}
-
-function RoleCard({ tier, name, score, sub }: { tier: "best" | "good" | "dev" | "lock"; name: string; score: number; sub: string }) {
-  const cfg = {
-    best: { border: "1.5px solid var(--teal)",               badge: "BEST FIT",   bColor: "var(--teal)",   bBg: "rgba(81,193,181,0.12)",  bBorder: "rgba(81,193,181,0.3)",  fill: "var(--teal)",   bg: "var(--surface-1)" },
-    good: { border: "1px solid var(--violet-border)",         badge: "GOOD FIT",   bColor: "var(--violet)", bBg: "var(--violet-soft)",     bBorder: "var(--violet-border)",  fill: "var(--violet)", bg: "var(--surface-1)" },
-    dev:  { border: "1px solid rgba(217,119,6,0.2)",          badge: "DEVELOPING", bColor: "var(--amber)",  bBg: "var(--amber-soft)",      bBorder: "rgba(217,119,6,0.32)",  fill: "var(--amber)",  bg: "var(--surface-1)" },
-    lock: { border: "1px solid rgba(109,86,164,0.08)",        badge: "NEXT GOAL",  bColor: "var(--text-3)", bBg: "var(--surface-2)",       bBorder: "var(--hairline)",       fill: "var(--text-3)", bg: "var(--surface-2)" },
-  }[tier];
-
-  const locked = tier === "lock";
-  return (
-    <div className="rounded-2xl relative" style={{ background: cfg.bg, border: cfg.border, padding: 28, opacity: locked ? 0.85 : 1 }}>
-      <div className="flex items-start justify-between gap-3">
-        <div className="rounded-full flex items-center justify-center" style={{ width: 40, height: 40, background: cfg.bBg, border: `1px solid ${cfg.bBorder}` }}>
-          <span style={{ fontFamily: "var(--font-mono)", fontWeight: 700, fontSize: 14, color: cfg.bColor }}>{name[0]}</span>
-        </div>
-        <span className="inline-flex items-center rounded-full" style={{ padding: "3px 10px", background: cfg.bBg, border: `1px solid ${cfg.bBorder}` }}>
-          <span style={{ fontFamily: "var(--font-mono)", fontWeight: 600, fontSize: 11, color: cfg.bColor, letterSpacing: "0.02em" }}>{cfg.badge}</span>
-        </span>
-      </div>
-
-      <h3 className="mt-4" style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 24, color: locked ? "var(--text-3)" : "var(--text-1)", letterSpacing: "var(--ls-display-sm)" }}>{name}</h3>
-      <p className="mt-1" style={{ fontFamily: "var(--font-body)", fontSize: 13, color: "var(--text-2)" }}>{sub}</p>
-
-      <div className="mt-5">
-        <div className="flex items-center justify-between mb-2">
-          <span style={{ fontFamily: "var(--font-body)", fontSize: 12, color: "var(--text-3)" }}>Role Readiness</span>
-          <span style={{ fontFamily: "var(--font-mono)", fontWeight: 600, fontSize: 12, color: cfg.fill }}>{score}% readiness</span>
-        </div>
-        <div className="rounded-full" style={{ height: 8, background: "var(--surface-2)" }}>
-          <motion.div initial={{ width: 0 }} animate={{ width: `${score}%` }} transition={{ duration: 0.9, ease, delay: 0.2 }} className="rounded-full" style={{ height: "100%", background: cfg.fill }} />
-        </div>
-      </div>
-
-      {tier === "dev" && (
-        <p className="mt-3" style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontSize: 12, color: "var(--amber-text)" }}>+5 points in Domain unlocks this role fully</p>
-      )}
-
-      {locked && (
-        <div className="mt-4 rounded-xl" style={{ background: "rgba(109,86,164,0.08)", padding: 14 }}>
-          <p style={{ fontFamily: "var(--font-body)", fontSize: 13, color: "var(--text-2)" }}>This is your next milestone — requires Band A in Domain Knowledge.</p>
-          <p style={{ fontFamily: "var(--font-body)", fontSize: 13, color: "var(--text-3)", marginTop: 4 }}>You're at 68. Seven focused practice sessions can get you there.</p>
-          <button className="mt-2" style={{ background: "transparent", color: "var(--violet)", fontFamily: "var(--font-body)", fontWeight: 500, fontSize: 13 }}>Start Domain practice →</button>
-        </div>
-      )}
-
-      {!locked && (
-        <button className="mt-4" style={{ background: "transparent", color: cfg.fill, fontFamily: "var(--font-body)", fontWeight: 500, fontSize: 13 }}>
-          See open {name} roles →
-        </button>
-      )}
-    </div>
-  );
-}
-
-/* ─────────────── Results: Tab 4 — Improvement Plan ─────────────── */
-function ResultsPlan() {
-  const [open, setOpen] = useState<number | null>(0);
-
-  const unlocks = [
-    {
-      n: 1,
-      name: "Domain Knowledge",
-      currentStrength: "You already have solid conceptual foundations — your answers showed awareness across topics.",
-      nextAction: "Work through 3 Engineering Fundamentals modules (15 min each, available in your practice dashboard).",
-      whatItUnlocks: "Moves you to Band A · Opens Software Engineering and Product roles · +7 points to composite",
-      score: 68,
-      gain: "+7",
-      accentColor: "var(--lime)",
-      stepColor: "var(--lime)",
-    },
-    {
-      n: 2,
-      name: "Professional Communication",
-      currentStrength: "You score solidly here — your written responses showed clear structure and appropriate register.",
-      nextAction: "Complete one Business Writing Sprint (20 min) to sharpen precision and conciseness.",
-      whatItUnlocks: "Puts you comfortably inside Band A territory · Makes every role application stronger · +6 points",
-      score: 74,
-      gain: "+6",
-      accentColor: "var(--teal)",
-      stepColor: "var(--violet)",
-    },
-    {
-      n: 3,
-      name: "Band A in 30 days",
-      currentStrength: "You're at 73 — only 2 points from Band A. That's closer than most students realise.",
-      nextAction: "Set up a 15-minute daily practice streak for 30 days before re-testing.",
-      whatItUnlocks: "Full Band A certificate · Top 10% nationally · Unlocks Software Engineering role tier · +8 points",
-      score: 73,
-      gain: "+8",
-      accentColor: "var(--violet)",
-      stepColor: "var(--text-3)",
-    },
+function ResultsSkillsRoles() {
+  const skills: Skill[] = [
+    { name: "Product thinking", score: 78, status: "Strong", color: "var(--lime-text)", desc: "Framing the real problem before jumping to a solution.",
+      rolesNow: ["Product analyst", "Business analyst", "APM"], rolesStrengthen: ["Program associate", "Growth analyst", "Ops lead"],
+      topics: [{ name: "Problem framing", value: 82 }, { name: "Prioritisation", value: 74 }, { name: "User signals", value: 79 }] },
+    { name: "Backend foundations", score: 66, status: "Developing", color: "var(--teal-text)", desc: "Building reliable services and reasoning about data.",
+      rolesNow: ["Backend engineer", "Full-stack dev"], rolesStrengthen: ["Platform associate", "SDET", "Data engineer", "DevOps trainee"],
+      topics: [{ name: "APIs", value: 70 }, { name: "Data models", value: 62 }, { name: "Debugging", value: 66 }] },
+    { name: "Cognitive & Aptitude", score: 58, status: "Needs Work", color: "var(--amber-text)", focus: true, desc: "Spotting patterns in numbers, sequences and logic quickly.",
+      rolesNow: ["Graduate trainee"], rolesStrengthen: ["Analyst", "Operations associate", "Consultant", "Quant support", "Actuarial trainee"],
+      topics: [{ name: "Numerical", value: 60 }, { name: "Pattern recog.", value: 54 }, { name: "Decision speed", value: 61 }] },
+    { name: "Data Storytelling", score: 82, status: "Strong", color: "var(--lime-text)", desc: "Translating raw numbers into compelling narratives.",
+      rolesNow: ["Data analyst", "BI developer"], rolesStrengthen: ["Data scientist", "Product manager", "Consultant"],
+      topics: [{ name: "Visualization", value: 85 }, { name: "Insights", value: 80 }, { name: "Reporting", value: 81 }] },
+    { name: "Systems Design", score: 64, status: "Developing", color: "var(--teal-text)", desc: "Architecting scalable and maintainable technical solutions.",
+      rolesNow: ["Software engineer"], rolesStrengthen: ["Senior engineer", "Tech lead", "Architect"],
+      topics: [{ name: "Scalability", value: 60 }, { name: "Trade-offs", value: 68 }, { name: "Microservices", value: 64 }] },
+    { name: "Communication", score: 88, status: "Strong", color: "var(--lime-text)", desc: "Articulating ideas clearly and managing stakeholders.",
+      rolesNow: ["Project coordinator", "Associate"], rolesStrengthen: ["Product manager", "Chief of staff", "Consultant"],
+      topics: [{ name: "Clarity", value: 90 }, { name: "Active listening", value: 85 }, { name: "Empathy", value: 89 }] },
+    { name: "Frontend Engineering", score: 69, status: "Developing", color: "var(--teal-text)", desc: "Crafting responsive, accessible, and performant user interfaces.",
+      rolesNow: ["Frontend dev", "UI engineer"], rolesStrengthen: ["UX engineer", "Full-stack dev"],
+      topics: [{ name: "React", value: 72 }, { name: "CSS/Layout", value: 65 }, { name: "Performance", value: 70 }] },
+    { name: "UX Research", score: 45, status: "Needs Work", color: "var(--amber-text)", desc: "Understanding user behaviors, needs, and motivations.",
+      rolesNow: ["UX intern"], rolesStrengthen: ["UX designer", "Product designer", "Researcher"],
+      topics: [{ name: "Interviews", value: 50 }, { name: "Usability testing", value: 40 }, { name: "Personas", value: 45 }] },
+    { name: "Cloud Infrastructure", score: 62, status: "Developing", color: "var(--teal-text)", desc: "Deploying and managing services in AWS/GCP/Azure.",
+      rolesNow: ["Cloud associate"], rolesStrengthen: ["DevOps engineer", "SRE", "Cloud architect"],
+      topics: [{ name: "Compute", value: 65 }, { name: "Networking", value: 58 }, { name: "Security", value: 63 }] },
+    { name: "Quality Assurance", score: 76, status: "Strong", color: "var(--lime-text)", desc: "Ensuring software reliability through rigorous testing.",
+      rolesNow: ["QA analyst", "Tester"], rolesStrengthen: ["SDET", "Automation engineer", "Release manager"],
+      topics: [{ name: "Manual testing", value: 80 }, { name: "Test planning", value: 75 }, { name: "Automation", value: 73 }] },
+    { name: "Agile Methodologies", score: 81, status: "Strong", color: "var(--lime-text)", desc: "Delivering iterative value in cross-functional teams.",
+      rolesNow: ["Scrum master", "Project assoc."], rolesStrengthen: ["Agile coach", "Delivery manager"],
+      topics: [{ name: "Scrum rituals", value: 85 }, { name: "Sprint planning", value: 78 }, { name: "Retrospectives", value: 80 }] },
+    { name: "Database Management", score: 52, status: "Needs Work", color: "var(--amber-text)", desc: "Designing schemas and optimizing queries.",
+      rolesNow: ["DB admin associate"], rolesStrengthen: ["Database engineer", "Data architect"],
+      topics: [{ name: "SQL", value: 55 }, { name: "NoSQL", value: 48 }, { name: "Optimization", value: 53 }] },
   ];
 
-  return (
-    <div>
-      <Eyebrow color="var(--violet)">YOUR NEXT UNLOCKS</Eyebrow>
-      <h2 className="mt-3" style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 40, color: "var(--text-1)", letterSpacing: "var(--ls-display)", lineHeight: 1.1 }}>
-        From Band B to{" "}
-        <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 400, color: "var(--lime-text)" }}>Band A.</span>
-      </h2>
-      <p className="mt-3 max-w-[520px]" style={{ fontFamily: "var(--font-body)", fontSize: 15, color: "var(--text-2)", lineHeight: 1.65 }}>
-        You're 2 points away. Three small, focused moves — each one opens something specific.
-      </p>
+  return <div>
+    <Eyebrow color="var(--violet)">EVERY SKILL IS A DOOR</Eyebrow>
+    <h2 className="mt-3" style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "clamp(30px,4vw,44px)", letterSpacing: "-0.03em", color: "var(--text-1)" }}>Build a skill. Open a role.</h2>
 
-      {/* Streak widget */}
-      <div className="mt-6 rounded-2xl flex flex-col md:flex-row items-start md:items-center gap-5 justify-between" style={{
-        background: "rgba(109,86,164,0.08)", border: "1px solid rgba(109,86,164,0.18)", padding: "20px 24px",
-      }}>
-        <div>
-          <div style={{ fontFamily: "var(--font-body)", fontWeight: 600, fontSize: 14, color: "var(--text-1)" }}>Placement-Ready Streak</div>
-          <div className="mt-1" style={{ fontFamily: "var(--font-body)", fontSize: 12, color: "var(--text-2)" }}>Five focused questions a day keeps your score sharp.</div>
+    {/* Career bridge hero */}
+    <div className="mt-7 rounded-[18px] p-6 grid gap-6 md:grid-cols-2" style={{ background: "linear-gradient(180deg, var(--surface-1), var(--surface-2))", border: "1px solid var(--hairline-strong)", boxShadow: "var(--shadow-card)" }}>
+      <div>
+        <div className="flex items-center gap-2 mb-2.5">
+          <BadgeCheck size={16} color="var(--lime-text)" />
+          <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--lime-text)", letterSpacing: ".05em" }}>MARKET ALIGNMENT</span>
         </div>
-        <div className="flex items-center gap-4">
-          <div className="text-center">
-            <div style={{ fontFamily: "var(--font-mono)", fontWeight: 700, fontSize: 40, color: "var(--lime-text)", lineHeight: 1 }}>4</div>
-            <div style={{ fontFamily: "var(--font-body)", fontSize: 12, color: "var(--lime-text)" }}>day streak</div>
-          </div>
-          <div className="flex gap-1.5">
-            {Array.from({ length: 7 }).map((_, i) => (
-              <span key={i} className="rounded-full" style={{ width: 10, height: 10, background: i < 4 ? "var(--violet)" : i === 4 ? "var(--lime)" : "rgba(109,86,164,0.15)" }} />
-            ))}
-          </div>
+        <p style={{ fontFamily: "var(--font-body)", fontSize: 14, color: "var(--text-2)", lineHeight: 1.6 }}>
+          Your profile strongly aligns with <strong style={{ color: "var(--text-1)", fontWeight: 500 }}>Product and Data</strong> roles. Your top skills—Communication and Data Storytelling—are in peak demand, required by 78% of active listings in this track.
+        </p>
+      </div>
+      <div className="md:border-l border-[var(--hairline)] md:pl-6 pt-6 md:pt-0 border-t md:border-t-0">
+        <div className="flex items-center gap-2 mb-2.5">
+          <Zap size={16} color="var(--amber-text)" />
+          <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--amber-text)", letterSpacing: ".05em" }}>THE BOTTLENECK</span>
         </div>
-        <button className="rounded-full" style={{ height: 36, padding: "0 18px", background: "var(--violet)", color: "var(--on-violet)", fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 13, border: "none" }}>
-          Today's 5-question drill →
-        </button>
-      </div>
-
-      {/* Milestone unlock cards */}
-      <div className="mt-6 flex flex-col gap-4">
-        {unlocks.map((u, idx) => {
-          const isOpen = open === idx;
-          return (
-            <div key={u.n} className="rounded-2xl overflow-hidden" style={{ background: "var(--surface-1)", border: "1px solid var(--violet-border)", borderLeft: `3px solid ${u.stepColor}` }}>
-              <button onClick={() => setOpen(isOpen ? null : idx)} className="w-full flex items-center gap-4 text-left" style={{ padding: "22px 24px" }}>
-                <div className="rounded-full flex items-center justify-center shrink-0 text-center" style={{ width: 28, height: 28, background: u.stepColor, color: "var(--bg)", fontFamily: "var(--font-mono)", fontWeight: 700, fontSize: 13 }}>
-                  {u.n}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 18, color: "var(--text-1)" }}>{u.name}</div>
-                  <div style={{ fontFamily: "var(--font-body)", fontSize: 13, color: "var(--text-3)", marginTop: 2 }}>
-                    Currently {u.score}/100 · {u.gain} points unlocks next level
-                  </div>
-                </div>
-                <div className="text-right shrink-0">
-                  <div style={{ fontFamily: "var(--font-mono)", fontWeight: 600, fontSize: 11, color: "var(--lime-text)", letterSpacing: "0.04em" }}>{u.gain} pts → Band A</div>
-                  <div className="mt-1.5" style={{ fontFamily: "var(--font-mono)", fontSize: 16, color: "var(--text-2)", transform: isOpen ? "rotate(90deg)" : "rotate(0deg)", transition: "transform 200ms ease", display: "inline-block" }}>›</div>
-                </div>
-              </button>
-
-              {isOpen && (
-                <div style={{ padding: "0 24px 28px", borderTop: "1px solid var(--hairline)" }}>
-                  {/* Three columns: strength / next action / what it unlocks */}
-                  <div className="mt-5 grid md:grid-cols-3 gap-5">
-                    <div className="rounded-xl p-4" style={{ background: "rgba(81,193,181,0.06)", border: "1px solid rgba(81,193,181,0.18)" }}>
-                      <div style={{ fontFamily: "var(--font-mono)", fontSize: 9, fontWeight: 700, color: "var(--teal-text)", letterSpacing: "0.09em", textTransform: "uppercase", marginBottom: 8 }}>Where you are</div>
-                      <p style={{ fontFamily: "var(--font-body)", fontSize: 13, color: "var(--text-2)", lineHeight: 1.6 }}>{u.currentStrength}</p>
-                    </div>
-                    <div className="rounded-xl p-4" style={{ background: "rgba(109,86,164,0.07)", border: "1px solid var(--violet-border)" }}>
-                      <div style={{ fontFamily: "var(--font-mono)", fontSize: 9, fontWeight: 700, color: "var(--violet)", letterSpacing: "0.09em", textTransform: "uppercase", marginBottom: 8 }}>Next move</div>
-                      <p style={{ fontFamily: "var(--font-body)", fontSize: 13, color: "var(--text-2)", lineHeight: 1.6 }}>{u.nextAction}</p>
-                      <button className="mt-3" style={{ background: "transparent", color: "var(--violet)", fontFamily: "var(--font-body)", fontWeight: 600, fontSize: 13 }}>Start now →</button>
-                    </div>
-                    <div className="rounded-xl p-4" style={{ background: "rgba(201,220,83,0.06)", border: "1px solid rgba(201,220,83,0.22)" }}>
-                      <div style={{ fontFamily: "var(--font-mono)", fontSize: 9, fontWeight: 700, color: "var(--lime-text)", letterSpacing: "0.09em", textTransform: "uppercase", marginBottom: 8 }}>What this unlocks</div>
-                      <p style={{ fontFamily: "var(--font-body)", fontSize: 13, color: "var(--text-2)", lineHeight: 1.6 }}>{u.whatItUnlocks}</p>
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
-          );
-        })}
-      </div>
-
-      <div className="mt-6 flex flex-wrap items-center gap-4">
-        <button className="rounded-full" style={{ height: 44, padding: "0 22px", background: "transparent", color: "var(--text-1)", border: "1px solid var(--violet-border)", fontFamily: "var(--font-body)", fontWeight: 500, fontSize: 14 }}>
-          Schedule Re-Test
-        </button>
-        <button style={{ background: "transparent", color: "var(--text-3)", fontFamily: "var(--font-body)", fontSize: 13 }}>
-          Remind me in 30 days
-        </button>
+        <p style={{ fontFamily: "var(--font-body)", fontSize: 14, color: "var(--text-2)", lineHeight: 1.6 }}>
+          Your <strong style={{ color: "var(--text-1)", fontWeight: 500 }}>Cognitive & Aptitude</strong> score is artificially limiting your reach. Raising this single skill by 12 points will unlock immediate eligibility for top-tier Analyst roles.
+        </p>
       </div>
     </div>
+
+    <div className="mt-6 grid gap-5 lg:grid-cols-3 items-stretch">{skills.map((skill) => <SkillCard key={skill.name} skill={skill} />)}</div>
+  </div>;
+}
+
+type QState = "strong" | "weak" | "nosignal";
+type QItem = {
+  question: string; state: QState;
+  summary: string; note: string; todo?: string;
+  scores?: { context: number; clarity: number; confidence: number };
+};
+
+function QStateBadge({ state }: { state: QState }) {
+  const map = {
+    strong: { icon: BadgeCheck, color: "var(--lime-text)", bg: "rgba(201,220,83,.12)", label: "STRONG" },
+    weak: { icon: TrendingUp, color: "var(--amber-text)", bg: "var(--amber-soft)", label: "THIN" },
+    nosignal: { icon: MicOff, color: "var(--text-3)", bg: "var(--surface-2)", label: "NO SIGNAL" },
+  } as const;
+  const m = map[state];
+  const Icon = m.icon;
+  return <span className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 shrink-0" style={{ background: m.bg, color: m.color, fontFamily: "var(--font-mono)", fontSize: 9, letterSpacing: ".05em" }}><Icon size={11} /> {m.label}</span>;
+}
+
+function InterviewCard({ item, index }: { item: QItem; index: number }) {
+  const [open, setOpen] = useState(index === 0);
+  return (
+    <div className="rounded-[16px] overflow-hidden" style={{ background: "var(--surface-1)", border: "1px solid var(--hairline-strong)", boxShadow: "var(--shadow-card)" }}>
+      <button onClick={() => setOpen((o) => !o)} className="w-full text-left p-5 flex items-start gap-4">
+        <div className="rounded-full flex items-center justify-center shrink-0" style={{ width: 30, height: 30, background: "var(--violet-soft)", color: "var(--violet)", fontFamily: "var(--font-mono)", fontSize: 12 }}>{index + 1}</div>
+        <div className="flex-1 min-w-0">
+          <div className="flex items-start justify-between gap-3">
+            <h3 style={{ fontFamily: "var(--font-display)", fontSize: 17, fontWeight: 700, color: "var(--text-1)", lineHeight: 1.3 }}>{item.question}</h3>
+            <QStateBadge state={item.state} />
+          </div>
+          <p className="mt-1.5" style={{ fontFamily: "var(--font-body)", fontSize: 13, color: "var(--text-2)" }}>{item.summary}</p>
+        </div>
+        <ChevronDown size={18} color="var(--text-3)" style={{ transform: open ? "rotate(180deg)" : "none", transition: "transform .3s", flexShrink: 0, marginTop: 4 }} />
+      </button>
+
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.3, ease }} style={{ overflow: "hidden" }}>
+            <div className="px-5 pb-5 pl-[62px]">
+              {item.scores ? (
+                <div className="grid grid-cols-3 gap-3 mb-4">
+                  {([["Context", item.scores.context], ["Clarity", item.scores.clarity], ["Confidence", item.scores.confidence]] as const).map(([label, val]) => (
+                    <div key={label}>
+                      <div className="flex justify-between mb-1.5"><span style={{ fontFamily: "var(--font-mono)", fontSize: 9, color: "var(--text-3)", letterSpacing: ".05em" }}>{label.toUpperCase()}</span><span style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "var(--text-2)" }}>{val}</span></div>
+                      <div className="h-1.5 rounded-full overflow-hidden" style={{ background: "var(--bg-2)" }}><div className="h-full rounded-full" style={{ width: `${val}%`, background: item.state === "strong" ? "var(--lime)" : "var(--amber)" }} /></div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="mb-4 flex items-center gap-2.5 rounded-xl p-3" style={{ background: "var(--surface-2)", border: "1px solid var(--hairline)" }}>
+                  <Radio size={15} color="var(--text-3)" />
+                  <span style={{ fontFamily: "var(--font-body)", fontSize: 13, color: "var(--text-2)" }}>No audio was captured — this is a technical issue, not a performance score. You can re-attempt this question.</span>
+                </div>
+              )}
+              {/* coach commentary with left accent */}
+              <div className="rounded-r-xl pl-4 py-2" style={{ borderLeft: `3px solid ${item.state === "strong" ? "var(--lime)" : "var(--violet)"}` }}>
+                <p style={{ fontFamily: "var(--font-body)", fontSize: 14, color: "var(--text-1)", lineHeight: 1.6 }}>{item.note}</p>
+                {item.todo && <p className="mt-2 flex items-start gap-1.5" style={{ fontFamily: "var(--font-body)", fontSize: 13, color: "var(--amber-text)" }}><Lightbulb size={14} className="mt-0.5 shrink-0" /> {item.todo}</p>}
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
   );
+}
+
+function ResultsInterview() {
+  const sub = [{ label: "Context", score: 75 }, { label: "Clarity", score: 80 }, { label: "Confidence", score: 74 }];
+  const questions: QItem[] = [
+    { question: "Tell me about a challenge you solved.", state: "strong", summary: "Clear structure, real outcome.", note: "You framed the situation, action and result cleanly, and the outcome was concrete. This is exactly the shape recruiters look for.", scores: { context: 82, clarity: 84, confidence: 80 } },
+    { question: "How do you work through uncertainty?", state: "weak", summary: "Good instinct, needs an example.", note: "Your reasoning was sound but stayed abstract. Grounding it in one real decision would make it far more persuasive.", todo: "Next time, name a specific moment and what you actually did.", scores: { context: 68, clarity: 72, confidence: 66 } },
+    { question: "Where do you see yourself growing?", state: "nosignal", summary: "Audio wasn't captured.", note: "The mic didn't pick up a response here. Nothing about your ability is inferred from this — retake it when you're ready." },
+  ];
+
+  return <div className="max-w-[940px]">
+    <Eyebrow color="var(--violet)">AI INTERVIEW</Eyebrow>
+    <h2 className="mt-3" style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "clamp(30px,4vw,44px)", letterSpacing: "-0.03em", color: "var(--text-1)" }}>You came through <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 400, color: "var(--teal-text)" }}>clearly.</span></h2>
+
+    {/* Summary strip */}
+    <div className="mt-7 rounded-[18px] p-6 grid gap-6 sm:grid-cols-[auto_1fr]" style={{ background: "linear-gradient(180deg, var(--surface-1), var(--surface-2))", border: "1px solid var(--hairline-strong)", boxShadow: "var(--shadow-card)" }}>
+      <div className="flex items-center gap-4">
+        <ScoreRing value={77} size={92} color="var(--teal)" label="OVERALL" />
+        <div className="sm:hidden" />
+      </div>
+      <div className="flex flex-col justify-center gap-3">
+        {sub.map((m) => (
+          <div key={m.label} className="flex items-center gap-3">
+            <span className="w-24 shrink-0" style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text-2)", letterSpacing: ".04em" }}>{m.label}</span>
+            <div className="flex-1 h-2 rounded-full overflow-hidden" style={{ background: "var(--bg-2)" }}><motion.div className="h-full rounded-full" initial={{ width: 0 }} animate={{ width: `${m.score}%` }} transition={{ duration: 0.9, ease }} style={{ background: "var(--teal)" }} /></div>
+            <span className="w-7 text-right" style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text-1)" }}>{m.score}</span>
+          </div>
+        ))}
+        <p className="mt-1" style={{ fontFamily: "var(--font-body)", fontSize: 13, color: "var(--text-2)", lineHeight: 1.5 }}>
+          <strong style={{ color: "var(--text-1)" }}>Confidence</strong> is your weakest of the three — one more worked example is the fastest way to lift it.
+        </p>
+      </div>
+    </div>
+
+    <div className="mt-6 space-y-3">{questions.map((q, i) => <InterviewCard key={q.question} item={q} index={i} />)}</div>
+
+    {/* Cross-tab synthesis */}
+    <div className="mt-6 rounded-[16px] p-5" style={{ background: "var(--violet-soft)", border: "1px solid var(--violet-border)" }}>
+      <div className="flex items-start gap-3">
+        <MessageSquare size={18} color="var(--violet)" className="mt-0.5 shrink-0" />
+        <p style={{ fontFamily: "var(--font-body)", fontSize: 14, color: "var(--text-1)", lineHeight: 1.6 }}>
+          This interview shapes your <strong>Context</strong> score most — which connects to <a href="#results/skills" style={{ color: "var(--violet)", fontWeight: 700 }}>Product thinking</a> in Your Skills and <a href="#results" style={{ color: "var(--violet)", fontWeight: 700 }}>Communication</a> in Score Breakdown.
+        </p>
+      </div>
+    </div>
+
+    <a href="#learn/ai-interview" className="mt-6 inline-flex h-11 items-center gap-2 rounded-full px-5" style={{ background: "var(--violet)", color: "var(--on-violet)", textDecoration: "none", fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 13 }}>Practice your interview <ArrowRight size={15} /></a>
+  </div>;
 }
 
 /* ─────────────── Results: Tab 5 — Certificate ─────────────── */

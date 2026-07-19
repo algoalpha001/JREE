@@ -281,6 +281,21 @@ export function Onboarding() {
   return (
     <section id="signup" className="relative py-16 md:py-28 px-5 sm:px-8 md:px-12 lg:px-[72px]" style={{ background: "var(--bg)" }}>
 
+      {/* TEMP dev bypass — skip onboarding straight to results */}
+      <button
+        onClick={() => { window.location.hash = "results"; }}
+        className="fixed z-[120] right-4 bottom-4 rounded-full flex items-center gap-2 transition-transform hover:scale-[1.03] active:scale-[0.97]"
+        style={{
+          height: 40, padding: "0 18px",
+          background: "var(--lime)", color: "var(--on-lime)",
+          border: "1px solid var(--lime-border)",
+          fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 13,
+          boxShadow: "var(--shadow-elevated)",
+        }}
+      >
+        Skip to results →
+      </button>
+
       <div 
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
         style={{

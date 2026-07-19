@@ -26,8 +26,9 @@ import { TermsPage } from "./components/TermsPage";
 import { SecurityCenterPage } from "./components/SecurityCenterPage";
 import { PrivacyPolicyPage } from "./components/PrivacyPolicyPage";
 import { EntryPage } from "./components/EntryPage";
+import { ImprovementPlanPage } from "./components/ImprovementPlanPage";
 
-type Route = "landing" | "signup" | "login" | "resume-builder" | "styleguide" | "about-us" | "for-students" | "for-employers" | "for-colleges" | "terms" | "security" | "privacy" | PostRoute;
+type Route = "landing" | "learn" | "signup" | "login" | "resume-builder" | "styleguide" | "about-us" | "for-students" | "for-employers" | "for-colleges" | "terms" | "security" | "privacy" | PostRoute;
 const POST_ROUTES: PostRoute[] = ["dashboard", "exam/check", "exam/active", "exam/transition", "exam/priya", "exam/processing", "results"];
 
 function getRoute(): Route {
@@ -44,6 +45,8 @@ function getRoute(): Route {
   if (h === "terms" || h === "terms-and-conditions") return "terms";
   if (h === "security" || h === "security-center") return "security";
   if (h === "privacy" || h === "privacy-policy") return "privacy";
+  if (h === "learn" || h.startsWith("learn/")) return "learn";
+  if (h === "results" || h.startsWith("results/")) return "results";
   if ((POST_ROUTES as string[]).includes(h)) return h as PostRoute;
   return "landing";
 }
@@ -76,6 +79,10 @@ export default function App() {
         <Login />
       </div>
     );
+  }
+
+  if (route === "learn") {
+    return <ImprovementPlanPage />;
   }
 
   if (route === "resume-builder") {

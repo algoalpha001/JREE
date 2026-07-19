@@ -1,0 +1,137 @@
+# Results Page — Design Brief & Prompt
+
+Context: this is the page a student lands on immediately after finishing the JREE exam. It has one job — make them feel "I now know exactly what I'm capable of, and exactly what to do next." Everything below is structure, content, and interaction — no color/type/spacing tokens, since your Figma Make design system already owns that.
+
+---
+
+## 0. THE LOADING SCREEN (between "exam submitted" and "results ready")
+
+Skip the spinner entirely. The idea: **the loading animation should visually foreshadow the result** — it's not a wait state, it's the first beat of the reveal.
+
+**Concept — "Building the profile live":**
+An SVG silhouette of a radar/spider chart (the same shape used later in Score Breakdown) draws itself in real time:
+1. Axis lines extend outward from a center point one at a time (like a compass unfolding), each tipped with a small dot for a skill node.
+2. Once all axes are drawn, a faint pentagon/hexagon outline pulses at 20% fill — the "unknown" baseline.
+3. Thin animated lines sweep from the center to each axis point and back, like a radar sweep, 2–3 times.
+4. Small text labels crossfade in under the loader in sequence: "Scoring your responses…" → "Mapping your strengths…" → "Matching roles that fit…" — this reinforces that real analysis is happening, not a fake wait.
+5. On completion, the whole shape does a quick "snap" scale-up and fades into the actual Score Breakdown radar chart on the results page — so the loader and the first real chart feel like the same object (shared-element transition), not two disconnected states.
+
+**Alternative concept if you want something more organic — "Handwriting the report":**
+An SVG path shaped like a checkmark/pencil-stroke or a rising line graph draws itself stroke-by-stroke using `stroke-dasharray` animation, as if someone is actively writing the report in real time. Paired with a subtle "typing" of 3-4 rotating micro-copy lines under it.
+
+Either direction should feel **calm and premium**, not playful/bouncy — this is a moment of mild anxiety for the student (waiting for their score), so the motion should read as "steady, working, trustworthy," not "fun game loading."
+
+Technical note for Figma Make: build as animated SVG (stroke-dasharray/dashoffset for line drawing, opacity/scale transitions for fades), not a Lottie-style character animation, and not a spinning circle/progress ring.
+
+---
+
+## 1. TAB: "YOUR SKILLS" — the emotional core of the page
+
+### What's wrong today
+Right now each skill is one giant card: a title, a "Priority · 0%" pill, then a long unbroken wall of every job-role chip that skill maps to, and it just keeps growing vertically. It reads like a database dump, not a personal insight. It also front-loads the *bad* framing — "Priority" — before the student even understands what the skill means for them.
+
+### Reframe the whole tab around "capability → opportunity," not "score → gap"
+This tab should NOT feel like a report card. It should feel like a **map of doors that open once this skill is strong.** Keep the "Needs work / Developing / Strong" status, but the dominant visual language should be aspirational (job roles, what you unlock) rather than punitive (priority %, 0%, red flags — save the deficit framing for the Score Breakdown tab, which is the analytical one).
+
+### Restructure the skill card (this fixes the size problem)
+Instead of one flat card with 10+ role chips dumped inside it, split each skill card into two layers:
+
+**Layer 1 — the card itself, compact and consistent height regardless of role count:**
+- Skill name
+- One-line plain-English description of what this skill actually means in practice (e.g. "Spotting the pattern in numbers, sequences, and logic puzzles quickly")
+- Status badge (Strong / Developing / Needs Work) — replace raw "Priority · 0%" with a small radial/ring mini-indicator (a tiny 0–100 arc, like a health-ring) sitting next to the badge, so the number still exists but isn't the loudest thing on the card
+- A **role-count teaser**, not a full list: 3 avatar-style role chips shown + "and 9 more roles →" — so every card is the same height no matter if a skill unlocks 2 roles or 14
+- A single sub-topic strength preview if applicable — e.g. a tiny inline sparkline or 3-dot strength indicator for the top sub-topic, not the full expanded list
+
+**Layer 2 — the expansion, on demand:**
+Clicking the card (or "and 9 more roles →") opens either:
+- an inline accordion expand (card grows in place, pushing others down), or
+- a side drawer / modal that shows the full role list grouped and the full sub-topic breakdown
+
+This way the grid stays scannable — a clean 3-column grid of evenly sized cards — and depth is available but opt-in.
+
+### Group roles inside the expansion meaningfully, don't just list them
+When expanded, don't dump 14 chips in a flat row again. Group them:
+- "Roles this unlocks now" (roles where this is a core requirement)
+- "Roles this strengthens" (roles where it's a supporting skill)
+Or alternatively cluster by function (Finance roles / Analyst roles / Support roles) with a small label per cluster. This turns a chip-dump into a mini narrative: *this one skill is doing real work across an entire career track.*
+
+### Add a "career bridge" visual at the top of the tab
+You already have good copy for this ("Every skill points somewhere"). Strengthen it with a simple visual: a horizontal flow — Skill cluster → arrow → Role family → arrow → "You're X skills away." This becomes the hero visual of the tab, sitting above the grid, and gives the student one clear headline takeaway before they scroll into card detail.
+
+### Sub-topic breakdown inside skills
+Right now sub-topics (Analogy, Puzzles, Coding-Decoding, etc.) are a flat bulleted list of "0%" lines at the bottom of each big card — visually the weakest part of the current design. Redesign as a **horizontal bar-per-subtopic**, short and thin (like a stat-list on a fitness app), each with a filled proportion bar instead of a naked percentage number, and only show these inside the Layer 2 expansion, not on the base card.
+
+### Overall tone check for this tab
+- Every skill, even a weak one, should read as "buildable," never "failed." Language like "Needs Work" is fine as a factual state label, but always pair it with the immediate next step (a course link, a role it still contributes to) so nothing appears as a dead end.
+- Keep the big reassuring headline treatment you already have ("You're at the start of a clear path") — that's the right emotional register for the whole page, and the redesigned cards should support that mood rather than undercut it with dense, clinical role lists.
+
+---
+
+## 2. TAB: "SCORE BREAKDOWN" — this is where the analytical depth belongs
+
+Right now this is a simple stacked list of L1–L5 layers, each a horizontal bar from 0–100. Functional, but flat and repetitive — five nearly identical rows tell the eye nothing new after the first one. This tab should feel like a proper diagnostic report: multiple chart types, each doing a different analytical job, not five copies of the same bar.
+
+### Structure it in three zones, top to bottom:
+
+**Zone A — The single "at a glance" visual (hero of this tab)**
+A radar/spider chart with one axis per top-level layer (Cognitive & Aptitude, English & Communication, Domain Knowledge, etc.) — this replaces having to read five bars one by one and instantly shows the *shape* of the student's profile: are they balanced, or spiky in one direction? This is the single most information-dense, most "wow" visual on the page, and it directly answers "where am I strong vs weak" in one glance. (This is also the shape that the loading animation should visually echo/complete into.)
+
+Next to or below the radar, show the overall composite score as a large number with a simple donut/ring showing composite-vs-max, and a one-line auto-generated insight sentence, e.g. "Your biggest lever right now is English & Communication — improving it by 20 points adds the most to your composite."
+
+**Zone B — Layer-by-layer detail, but visually differentiated per layer, not five identical bars**
+Keep the current per-layer cards (L1 Cognitive & Aptitude, L2 English & Communication, etc.) but vary the chart type by what the data actually is:
+- Layers that are a single composite number → keep as a horizontal progress/gauge bar, but make it a **segmented bar** (like a battery/signal-strength meter split into 5–10 chunks) rather than a plain continuous fill — reads faster and feels less like a loading bar.
+- Layers that break down into sub-topics (Quantitative Aptitude → Average & Percentage, Time & Work, Profit & Loss...) → a **horizontal bar chart ranking sub-topics** from strongest to weakest, so the student immediately sees their #1 priority sub-topic without scanning a flat list.
+- Where relevant, add a small **pie or donut chart showing time/question distribution** — e.g. how many questions came from each sub-topic, so the student understands *why* a layer's score moved the way it did, not just that it did.
+
+**Zone C — Comparative / contextual framing**
+Add a simple **benchmark bar**: the student's score plotted against an average or target band per layer (e.g. a marker line at the "Band C" or "role-ready" threshold on each bar) — this answers "how far exactly do I need to go," which raw 0–100 bars don't communicate on their own. This is the single highest-leverage addition to this tab: it turns "you scored 40" into "you need 15 more points to qualify for X."
+
+### Micro-interactions
+- Hovering/tapping a radar chart axis highlights the matching layer card below (and vice versa) — ties Zone A and Zone B together as one connected system rather than two unrelated visuals.
+- Each layer card's "Practice [Layer] →" CTA should sit consistently in the same position across all cards for scannability.
+
+---
+
+## 3. TAB: "AI INTERVIEW" — question-by-question feedback
+
+### What's wrong today
+Every question card looks identical regardless of whether the student answered well or didn't answer at all: same three 0-scores, same generic encouragement text, no visual distinction between "you gave a weak answer" and "the mic didn't pick you up," and no way to see the interview as a whole — just a long vertical scroll of near-duplicate cards.
+
+### Add a summary strip above the question list
+Before diving into Q1, Q2, Q3..., give an at-a-glance interview summary:
+- Overall interview score as a ring/donut (matches the visual language used in Score Breakdown for consistency)
+- Three sub-scores (Context, Clarity, Confidence) as small horizontal bars or mini radial gauges side by side — not full-width duplicated cards, just compact stat tiles
+- One-line diagnostic: which of the three sub-metrics is the weakest and driving the score down, so the student has a single clear takeaway before reading question detail
+
+### Redesign each question card with a clearer state system
+Distinguish between at least three states visually (icon/badge, not just text), since right now every card reads identically:
+1. **No answer captured / technical issue** (mic problem, silence) — this is a *neutral/technical* state, not a performance failure. Visually mark it distinctly (e.g. a "signal/mic" icon) so the student doesn't confuse "the tech didn't catch me" with "I answered badly."
+2. **Answered, but weak/thin** — an actual performance state, shown with the real sub-scores as small bars, not a mystery.
+3. **Answered well** — shown with a positive marker and what specifically worked, so good answers are reinforced, not just penalized ones flagged.
+
+Per-question layout:
+- Question number + the interviewer's question (as now)
+- A compact row of the three mini-metrics (Context / Clarity / Confidence) as small bars *only when there's real data* — hide/replace them with the state icon when there was no answer, instead of showing three meaningless zeros, which currently makes every unanswered question look like a maximum failure across all three axes identically.
+- The feedback text, visually separated (different background tint or a left accent bar) so it reads as "coach commentary" distinct from the raw question, plus a small "What to do differently" one-liner as an actionable takeaway, not just reassurance copy.
+- Collapse long-answer questions by default (question + state icon + one-line summary), expandable to see full feedback — so the tab doesn't become an endless identical-looking scroll, mirroring the same expand-on-demand pattern used in the Skills tab for consistency across the whole results page.
+
+### Tie it back to the rest of the page
+End the tab with a short synthesis: "This interview affects your Context score most — that connects to [Skill X] in Your Skills and [Layer Y] in Score Breakdown" — with links that jump to those tabs. This is what makes the three tabs feel like one coherent diagnostic instead of three disconnected features glued into a tab bar.
+
+---
+
+## 4. Cross-tab consistency principles (apply to all three)
+
+- **One visual language for "score," reused everywhere**: pick a single core motif (the ring/donut, or the radar shape) and let it recur — composite ring in the header, mini-rings in Skills cards, ring in Score Breakdown, ring in AI Interview summary. Right now every tab invents its own way of showing "0" and it reads as three different tools stitched together.
+- **Never show a bare, unexplained "0%."** Every score, always paired with either a comparison (benchmark line), a next step (course/practice link), or plain-language context (a status word). A lone percentage with no frame is the single biggest thing making the current screenshots feel bleak.
+- **Progressive disclosure everywhere**: compact by default, expand on demand — this is what solves the "cards are too big" problem in Skills and the "too much repetition" problem in AI Interview simultaneously, using the same interaction pattern so the whole results page feels like one system.
+- **Empty/zero states need their own honest but non-defeating visual** — since a first-time student may legitimately score 0 across the board (as in these screenshots), design a distinct "you're just getting started" state (not a broken-looking dashboard full of zero-filled bars) — e.g. faded/dashed placeholder bars with "Take your first practice set to see this fill in" rather than a stark 0.
+
+---
+
+## Reference points used for these directions
+- Radar/spider ("skill graph") charts as the standard pattern for multi-axis skill assessment dashboards (seen across UX/skill-assessment tools and dashboard UI kits like Untitled UI's radar chart component).
+- Segmented/ringed progress indicators over plain continuous bars for score displays, common in fitness and credit-score style apps, used here for the composite and sub-scores.
+- Progressive disclosure (compact card → expand for detail) as the fix for both "cards too big" and "list too repetitive" problems.

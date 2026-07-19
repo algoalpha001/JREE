@@ -1,6 +1,93 @@
-import { motion } from "motion/react";
+import { motion, useMotionValue, useSpring, AnimatePresence } from "motion/react";
+import { useEffect, useState } from "react";
 import { Building2, BriefcaseBusiness, GraduationCap } from "lucide-react";
 import JreeLogo from "../../imports/JreeLogo1/index";
+
+const DOT_SPACING = 44;
+
+/*
+ * VerificationGrid — top ambient layer.
+ * A faint national "network" of data points (one tiled SVG <pattern>, not dozens
+ * of DOM nodes) that drifts a few px opposite the cursor and, at long randomised
+ * intervals, registers a single "verification ping" in the VERIFIED-badge teal.
+ * Fully static under prefers-reduced-motion.
+ */
+function VerificationGrid() {
+  const mx = useMotionValue(0);
+  const my = useMotionValue(0);
+  const driftX = useSpring(mx, { stiffness: 40, damping: 20, mass: 0.6 });
+  const driftY = useSpring(my, { stiffness: 40, damping: 20, mass: 0.6 });
+  const [ping, setPing] = useState<{ id: number; x: number; y: number } | null>(null);
+
+  useEffect(() => {
+    if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
+
+    const onMove = (e: MouseEvent) => {
+      mx.set(-(e.clientX / window.innerWidth - 0.5) * 14);
+      my.set(-(e.clientY / window.innerHeight - 0.5) * 14);
+    };
+    window.addEventListener("mousemove", onMove);
+
+    let timer: ReturnType<typeof setTimeout>;
+    let id = 0;
+    const schedule = () => {
+      timer = setTimeout(() => {
+        const gx = Math.round((0.08 + Math.random() * 0.84) * window.innerWidth / DOT_SPACING) * DOT_SPACING;
+        const gy = Math.round((0.1 + Math.random() * 0.75) * window.innerHeight / DOT_SPACING) * DOT_SPACING;
+        setPing({ id: id++, x: gx, y: gy });
+        schedule();
+      }, 3800 + Math.random() * 4200);
+    };
+    schedule();
+
+    return () => { window.removeEventListener("mousemove", onMove); clearTimeout(timer); };
+  }, [mx, my]);
+
+  return (
+    <motion.div
+      aria-hidden
+      className="pointer-events-none absolute z-0"
+      style={{
+        inset: -28,
+        x: driftX,
+        y: driftY,
+        maskImage: "radial-gradient(125% 120% at 55% 40%, black 30%, transparent 85%)",
+        WebkitMaskImage: "radial-gradient(125% 120% at 55% 40%, black 30%, transparent 85%)",
+      }}
+    >
+      <svg width="100%" height="100%" style={{ display: "block", opacity: 0.1 }}>
+        <defs>
+          <pattern id="jree-dots" width={DOT_SPACING} height={DOT_SPACING} patternUnits="userSpaceOnUse">
+            <circle cx="1" cy="1" r="1.1" fill="var(--violet)" />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#jree-dots)" />
+      </svg>
+
+      <AnimatePresence>
+        {ping && (
+          <div key={ping.id} className="absolute flex items-center justify-center" style={{ left: ping.x, top: ping.y, width: 4, height: 4 }}>
+            <motion.span
+              className="absolute rounded-full"
+              style={{ width: 4, height: 4, background: "var(--teal)" }}
+              initial={{ opacity: 0, scale: 1 }}
+              animate={{ opacity: [0, 1, 0.4], scale: [1, 1.8, 1] }}
+              transition={{ duration: 2.4, ease: "easeOut" }}
+              onAnimationComplete={() => setPing(null)}
+            />
+            <motion.span
+              className="absolute rounded-full"
+              style={{ width: 4, height: 4, border: "1px solid var(--teal)" }}
+              initial={{ scale: 1, opacity: 0.7 }}
+              animate={{ scale: 10, opacity: 0 }}
+              transition={{ duration: 2.4, ease: "easeOut" }}
+            />
+          </div>
+        )}
+      </AnimatePresence>
+    </motion.div>
+  );
+}
 
 const LOGO_CANVAS_W = 1000;
 const LOGO_CANVAS_H = 400;
@@ -10,11 +97,28 @@ const options = [
   { title: "Employer", line: "Pre-assessed candidates. Hire faster.", hash: "for-employers", Icon: BriefcaseBusiness },
   { title: "College", line: "Batch readiness. National benchmarking.", hash: "for-colleges", Icon: Building2 },
 ];
-export function EntryPage() { return <div className="min-h-screen flex flex-col" style={{ background: "var(--bg)", color: "var(--text-1)", fontFamily: "var(--font-body)" }}>
+export function EntryPage() {
+  const reduce = typeof window !== "undefined" && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+  return <div className="grain relative min-h-screen flex flex-col" style={{ background: "var(--bg)", color: "var(--text-1)", fontFamily: "var(--font-body)" }}>
   <header className="h-[84px] max-w-[1160px] mx-auto w-full px-5 sm:px-8 md:px-12 lg:px-[72px] flex items-center"><Logo /></header>
-  <main className="flex-1 max-w-[1160px] mx-auto w-full px-5 sm:px-8 md:px-12 lg:px-[72px] flex flex-col justify-center py-16 md:py-24">
-    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .45 }}><p style={{ fontFamily: "var(--font-mono)", fontSize: 11, letterSpacing: ".08em", color: "var(--violet)", textTransform: "uppercase" }}>JREE · by EduBridge</p><h1 className="mt-4" style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "clamp(36px,5vw,58px)", letterSpacing: "-.03em", lineHeight: 1.04 }}>Who are you here as?</h1></motion.div>
-    <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5">{options.map(({ title, line, hash, Icon }, i) => {
+  <main className="relative overflow-hidden flex-1 max-w-[1160px] mx-auto w-full px-5 sm:px-8 md:px-12 lg:px-[72px] flex flex-col justify-center py-16 md:py-24">
+    {/* Ambient light wash — a very large, soft radial source drifting in a slow
+        60–90s loop, like sunlight moving across a wall. No hard edges: reads as
+        a shift in ambient warmth/depth, not a moving object. */}
+    <motion.div
+      aria-hidden
+      className="pointer-events-none absolute z-0"
+      style={{
+        inset: "-45%",
+        background: "radial-gradient(closest-side, rgba(109,86,164,0.13) 0%, rgba(109,86,164,0.06) 42%, transparent 70%)",
+        filter: "blur(50px)",
+      }}
+      animate={reduce ? undefined : { x: ["-9%", "11%", "-4%", "-9%"], y: ["-7%", "6%", "12%", "-7%"] }}
+      transition={{ duration: 82, repeat: Infinity, ease: "easeInOut" }}
+    />
+    <VerificationGrid />{/* parallax + pings self-disable under reduced motion; grid stays static */}
+    <motion.div className="relative z-10" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .45 }}><p style={{ fontFamily: "var(--font-mono)", fontSize: 11, letterSpacing: ".08em", color: "var(--violet)", textTransform: "uppercase" }}>JREE · by EduBridge</p><h1 className="mt-4" style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "clamp(36px,5vw,58px)", letterSpacing: "-.03em", lineHeight: 1.04 }}>Who are you here as?</h1></motion.div>
+    <div className="relative z-10 mt-12 grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5">{options.map(({ title, line, hash, Icon }, i) => {
       const visual = title === "Student"
         ? { image: "https://images.unsplash.com/photo-1637589308599-3478cc55510d?auto=format&fit=crop&w=1200&q=80", alt: "Focused student working at a laptop" }
         : title === "Employer"

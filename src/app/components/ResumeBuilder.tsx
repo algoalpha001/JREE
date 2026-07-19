@@ -216,7 +216,16 @@ export function ResumeBuilder() {
 function EntryScreen({ onChoice }: { onChoice: () => void }) {
   return (
     <div className="min-h-screen flex items-center justify-center p-6" style={{ background: "var(--bg)" }}>
-       <div className="max-w-[900px] w-full text-center">
+       <div className="relative max-w-[900px] w-full text-center">
+          <button
+            type="button"
+            onClick={() => window.history.back()}
+            className="absolute -top-14 left-0 inline-flex h-10 items-center gap-2 rounded-full border px-4 text-sm font-semibold transition-colors hover:bg-[var(--violet-soft)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--violet)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)]"
+            style={{ borderColor: "var(--violet-border)", color: "var(--violet)", background: "var(--surface-1)", boxShadow: "var(--shadow-card)" }}
+          >
+            <ChevronLeft size={16} />
+            Back
+          </button>
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
