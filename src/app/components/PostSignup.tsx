@@ -2800,121 +2800,321 @@ function ResultsInterview() {
 }
 
 /* ─────────────── Results: Tab 5 — Certificate ─────────────── */
+
+function CertQR() {
+  /* Deterministic QR-like pattern — always black on white regardless of theme */
+  const modules: [number, number][] = [
+    // top-left finder
+    [0,0],[1,0],[2,0],[3,0],[4,0],[5,0],[6,0],
+    [0,1],[6,1],[0,2],[2,2],[3,2],[4,2],[6,2],
+    [0,3],[2,3],[4,3],[6,3],[0,4],[2,4],[3,4],[4,4],[6,4],
+    [0,5],[6,5],[0,6],[1,6],[2,6],[3,6],[4,6],[5,6],[6,6],
+    // top-right finder
+    [14,0],[15,0],[16,0],[17,0],[18,0],[19,0],[20,0],
+    [14,1],[20,1],[14,2],[16,2],[17,2],[18,2],[20,2],
+    [14,3],[16,3],[18,3],[20,3],[14,4],[16,4],[17,4],[18,4],[20,4],
+    [14,5],[20,5],[14,6],[15,6],[16,6],[17,6],[18,6],[19,6],[20,6],
+    // bottom-left finder
+    [0,14],[1,14],[2,14],[3,14],[4,14],[5,14],[6,14],
+    [0,15],[6,15],[0,16],[2,16],[3,16],[4,16],[6,16],
+    [0,17],[2,17],[4,17],[6,17],[0,18],[2,18],[3,18],[4,18],[6,18],
+    [0,19],[6,19],[0,20],[1,20],[2,20],[3,20],[4,20],[5,20],[6,20],
+    // timing strips
+    [8,6],[10,6],[12,6],[6,8],[6,10],[6,12],
+    // data region
+    [8,8],[10,8],[12,8],[14,8],[16,8],[18,8],[20,8],
+    [9,9],[11,9],[13,9],[15,9],[17,9],[19,9],
+    [8,10],[10,10],[12,10],[14,10],[16,10],[18,10],[20,10],
+    [9,11],[11,11],[15,11],[17,11],[19,11],
+    [8,12],[12,12],[14,12],[18,12],[20,12],
+    [9,13],[11,13],[13,13],[15,13],[17,13],[19,13],
+    [8,14],[10,14],[12,14],[16,14],[18,14],[20,14],
+    [9,15],[11,15],[13,15],[19,15],
+    [8,16],[10,16],[14,16],[16,16],[18,16],[20,16],
+    [9,17],[11,17],[13,17],[15,17],[17,17],[19,17],
+    [8,18],[10,18],[12,18],[14,18],[16,18],[18,18],[20,18],
+    [9,19],[13,19],[15,19],[17,19],[19,19],
+    [8,20],[10,20],[12,20],[14,20],[16,20],[20,20],
+  ];
+  const CELL = 3;
+  const SIZE = 21 * CELL;
+  return (
+    <svg width={SIZE} height={SIZE} viewBox={`0 0 ${SIZE} ${SIZE}`} shapeRendering="crispEdges" xmlns="http://www.w3.org/2000/svg" style={{ display: "block" }}>
+      <rect width={SIZE} height={SIZE} fill="white" />
+      {modules.map(([x, y]) => (
+        <rect key={`${x}-${y}`} x={x * CELL} y={y * CELL} width={CELL} height={CELL} fill="#0B090F" />
+      ))}
+    </svg>
+  );
+}
+
 function ResultsCertificate() {
+  const name = "Rahul Sharma";
+  const score = 73;
+  const band: "A" | "B" | "C" | "D" = "B";
+  const percentile = 77;
+  const examId = "JREE-2026-RS-0427";
+  const examDate = "24 May 2026";
+  const stream = "Engineering · Computer Science";
+
+  const [dlState, setDlState] = useState<"idle" | "loading" | "done" | "error">("idle");
+  const [liState, setLiState] = useState<"idle" | "loading" | "done" | "error">("idle");
+  const [waState, setWaState] = useState<"idle" | "loading" | "done" | "error">("idle");
+
+  const nameFontSize =
+    name.length > 22 ? "clamp(28px,3.8vw,40px)"
+    : name.length > 16 ? "clamp(32px,4.6vw,52px)"
+    : "clamp(36px,5.6vw,62px)";
+
+  const bandMeta: Record<"A"|"B"|"C"|"D", { label: string; context: string; bg: string; ink: string; border: string }> = {
+    A: { label: "Band A", context: `Top 5% of candidates nationally — Score ${score}/100`, bg: "#C9DC53", ink: "#0B090F", border: "#A3B530" },
+    B: { label: "Band B", context: `Ahead of ${percentile}% of candidates nationally — Score ${score}/100`, bg: "#EDE9F8", ink: "#3D2B7A", border: "#C4B8E8" },
+    C: { label: "Band C", context: `Score ${score}/100 — targeted improvement plan available`, bg: "#EDE9F8", ink: "#6D56A4", border: "#C4B8E8" },
+    D: { label: "Band D — Needs Support", context: `Score ${score}/100 — your plan to move up is ready`, bg: "#F3F2F5", ink: "#6B7280", border: "#D1D5DB" },
+  };
+  const bm = bandMeta[band];
+  const isShareableBand = band === "A" || band === "B";
+
+  const simulateAction = (
+    set: React.Dispatch<React.SetStateAction<"idle"|"loading"|"done"|"error">>,
+    ms: number
+  ) => {
+    set("loading");
+    setTimeout(() => { set("done"); setTimeout(() => set("idle"), 2800); }, ms);
+  };
+
   return (
     <div>
+      {/* Page header */}
       <Eyebrow color="var(--violet)">YOUR VERIFIED CREDENTIAL</Eyebrow>
-      <h2 className="mt-3" style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 40, color: "var(--text-1)", letterSpacing: "var(--ls-display)", lineHeight: 1.1 }}>
+      <h2 className="mt-3" style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "clamp(28px,4.5vw,40px)", color: "var(--text-1)", letterSpacing: "var(--ls-display)", lineHeight: 1.1 }}>
         Now you can{" "}
         <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 400, color: "var(--lime-text)" }}>show it.</span>
       </h2>
       <p className="mt-3 max-w-[480px]" style={{ fontFamily: "var(--font-body)", fontSize: 15, color: "var(--text-2)", lineHeight: 1.65 }}>
-        Your certificate is locked to this attempt and verified by QR code. Any recruiter can check it in under five seconds.
+        Locked to this attempt and verified by QR code. Any recruiter can check it in under five seconds.
       </p>
 
-      {/* Certificate */}
-      <div className="mx-auto mt-10" style={{
-        maxWidth: 680, background: "#FEFEFE", border: "1px solid #E5E7EB",
-        borderRadius: 8, boxShadow: "var(--shadow-highest)", padding: 48,
+      {/* ── Certificate card — always rendered in light theme ── */}
+      <div className="mt-10 mx-auto" style={{
+        maxWidth: 700,
+        background: "#FDFCFA",
+        border: "1px solid #D4CCE8",
+        borderRadius: 6,
+        boxShadow: "0 4px 6px rgba(0,0,0,0.06), 0 16px 48px rgba(0,0,0,0.16)",
+        overflow: "hidden",
+        fontFamily: "'DM Sans', sans-serif",
+        color: "#1E1B4B",
       }}>
-        <div className="flex items-center justify-between">
-          <span style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 18, color: "#1E1B4B" }}>JREE</span>
-          <span style={{ fontFamily: "var(--font-body)", fontSize: 11, color: "#6B7280" }}>EduBridge Pvt. Ltd.</span>
+
+        {/* Issuer row */}
+        <div className="flex items-center justify-between" style={{ padding: "28px 40px 0" }}>
+          <div style={{ display: "flex", alignItems: "flex-end", gap: 5 }}>
+            <span style={{ fontFamily: "'Bricolage Grotesque', sans-serif", fontWeight: 800, fontSize: 17, color: "#1E1B4B", letterSpacing: "-0.03em", lineHeight: 1 }}>JREE</span>
+            <span style={{ width: 5, height: 5, borderRadius: "50%", background: "#6D56A4", display: "inline-block", marginBottom: 2, flexShrink: 0 }} />
+          </div>
+          <span style={{ fontSize: 11, color: "#9CA3AF", letterSpacing: "0.02em" }}>EBSC Technologies Pvt. Ltd.</span>
         </div>
-        <div className="mt-3" style={{ height: 1, background: "#D97706" }} />
 
-        <div className="text-center mt-8">
-          <div style={{ fontFamily: "var(--font-body)", fontWeight: 500, fontSize: 11, color: "#6B7280", letterSpacing: "0.15em", textTransform: "uppercase" }}>
-            NATIONAL JOB READINESS ENTRANCE EXAM
-          </div>
-          <div className="mt-2" style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 20, color: "#1E1B4B", letterSpacing: "-0.02em" }}>
-            CERTIFICATE OF ASSESSMENT
+        {/* Violet hairline — thin and intentional */}
+        <div style={{ margin: "16px 40px 0", height: 1, background: "#6D56A4" }} />
+
+        {/* ── Hero: centered ── */}
+        <div style={{ padding: "32px 48px 0", textAlign: "center" }}>
+
+          {/* Eyebrow — credential type, understated */}
+          <div style={{ fontSize: 10, fontWeight: 500, color: "#9CA3AF", letterSpacing: "0.14em", textTransform: "uppercase" }}>
+            Certificate of Assessment
           </div>
 
-          <div className="mt-6" style={{ fontFamily: "var(--font-body)", fontSize: 13, color: "#6B7280" }}>This certifies that</div>
-          <div className="mt-2 inline-block">
-            <div style={{ fontFamily: "var(--font-serif)", fontWeight: 400, fontSize: 48, color: "#1E1B4B", lineHeight: 1 }}>Priya Sharma</div>
-            <div className="mt-1" style={{ height: 1, background: "#D97706" }} />
-          </div>
-          <div className="mt-3" style={{ fontFamily: "var(--font-body)", fontSize: 13, color: "#6B7280" }}>has successfully completed the JREE assessment and is awarded</div>
+          <div style={{ marginTop: 20, fontSize: 13, color: "#9CA3AF" }}>This certifies that</div>
 
-          <div className="mt-5 flex items-center justify-center gap-5">
-            <div className="relative" style={{ width: 64, height: 64 }}>
-              <svg width="64" height="64" viewBox="0 0 64 64">
-                <circle cx="32" cy="32" r="26" fill="none" stroke="#E5E7EB" strokeWidth="6" />
-                <circle cx="32" cy="32" r="26" fill="none" stroke="#1E1B4B" strokeWidth="6" strokeLinecap="round"
-                  strokeDasharray={2 * Math.PI * 26}
-                  strokeDashoffset={(2 * Math.PI * 26) * (1 - 0.725)}
-                  transform="rotate(-90 32 32)"
-                />
-              </svg>
-              <div className="absolute inset-0 flex items-center justify-center" style={{ fontFamily: "var(--font-body)", fontWeight: 700, fontSize: 22, color: "#1E1B4B" }}>73</div>
+          {/* Recipient name — the single dominant element */}
+          <div style={{ marginTop: 10 }}>
+            <div style={{
+              fontFamily: "'Bricolage Grotesque', sans-serif",
+              fontWeight: 800,
+              fontSize: nameFontSize,
+              color: "#1E1B4B",
+              letterSpacing: "-0.035em",
+              lineHeight: 1.0,
+              wordBreak: "break-word",
+            }}>
+              {name}
             </div>
-            <div className="text-left">
-              <div style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 28, color: "#1E1B4B" }}>EMPLOYABILITY BAND B</div>
-              <div style={{ fontFamily: "var(--font-body)", fontSize: 13, color: "#6B7280" }}>(72.50 / 100 · National Percentile: 77th)</div>
+            {/* Thin underline under name — matches the hairline above */}
+            <div style={{ width: 72, height: 1, background: "#6D56A4", margin: "14px auto 0" }} />
+          </div>
+
+          <p style={{ marginTop: 16, fontSize: 13, color: "#6B7280", lineHeight: 1.65, maxWidth: 420, marginLeft: "auto", marginRight: "auto" }}>
+            has demonstrated measurable job readiness through the National Job Readiness Entrance Exam, administered by EduBridge.
+          </p>
+
+          {/* Band + score — achievement framing, not verdict */}
+          <div style={{ marginTop: 24, display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap", justifyContent: "center" }}>
+              <span style={{
+                fontFamily: "'Bricolage Grotesque', sans-serif",
+                fontWeight: 700,
+                fontSize: 12,
+                background: bm.bg,
+                color: bm.ink,
+                border: `1px solid ${bm.border}`,
+                borderRadius: 5,
+                padding: "3px 12px",
+                letterSpacing: "0.01em",
+                whiteSpace: "nowrap",
+              }}>
+                {bm.label}
+              </span>
+              <span style={{
+                fontFamily: "'Bricolage Grotesque', sans-serif",
+                fontWeight: 800,
+                fontSize: 34,
+                color: "#1E1B4B",
+                letterSpacing: "-0.04em",
+                lineHeight: 1,
+              }}>
+                {score}
+                <span style={{ fontSize: 16, fontWeight: 400, color: "#9CA3AF", marginLeft: 3 }}>/100</span>
+              </span>
             </div>
+            <div style={{ fontSize: 12, color: "#9CA3AF" }}>{bm.context}</div>
           </div>
         </div>
 
-        <div className="mt-8" style={{ height: 1, background: "#E5E7EB" }} />
-        <div className="mt-3 text-center" style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "#9CA3AF" }}>
-          Exam ID: JREE-2026-00847 · Exam Date: 24 May 2026 · Stream: Engineering · Attempt: 1
-        </div>
-        <div className="mt-5 flex items-end justify-between">
-          <div>
-            <div style={{ width: 80, height: 1, background: "#9CA3AF" }} />
-            <div className="mt-1" style={{ fontFamily: "var(--font-body)", fontSize: 11, color: "#9CA3AF" }}>Director, EduBridge Pvt. Ltd.</div>
+        {/* Divider */}
+        <div style={{ margin: "28px 40px 0", height: 1, background: "#EAE5F3" }} />
+
+        {/* ── Footer: fine print left · signature center · QR right ── */}
+        <div style={{ padding: "20px 40px 28px", display: "grid", gridTemplateColumns: "1fr auto auto", gap: "24px", alignItems: "flex-end" }}>
+
+          {/* Fine print — left-aligned per research convention */}
+          <div style={{ fontSize: 11, color: "#9CA3AF", lineHeight: 1.75 }}>
+            <div><span style={{ color: "#6B7280", fontWeight: 500 }}>Issued</span>&ensp;{examDate}</div>
+            <div><span style={{ color: "#6B7280", fontWeight: 500 }}>ID</span>&ensp;{examId}</div>
+            <div><span style={{ color: "#6B7280", fontWeight: 500 }}>Stream</span>&ensp;{stream}</div>
+            <div><span style={{ color: "#6B7280", fontWeight: 500 }}>Attempt</span>&ensp;1 of 2</div>
           </div>
-          <div className="rounded-full flex items-center justify-center" style={{ width: 48, height: 48, border: "1px solid #D97706" }}>
-            <span style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 11, color: "#1E1B4B" }}>JREE</span>
+
+          {/* Signature */}
+          <div style={{ textAlign: "center", minWidth: 110 }}>
+            <div style={{ height: 28, borderBottom: "1px solid #C4B8E8", width: 100, margin: "0 auto" }} />
+            <div style={{ marginTop: 6, fontSize: 10, color: "#9CA3AF", lineHeight: 1.55 }}>
+              Director<br />EBSC Technologies Pvt. Ltd.
+            </div>
           </div>
-          <div className="text-right">
-            <div style={{ width: 48, height: 48, background: "repeating-conic-gradient(#1E1B4B 0% 25%, #FEFEFE 0% 50%) 0 0 / 12px 12px" }} />
-            <div className="mt-1" style={{ fontFamily: "var(--font-body)", fontSize: 11, color: "#9CA3AF" }}>Scan to verify</div>
+
+          {/* QR code — black on white regardless of theme, with human-readable line */}
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 6 }}>
+            <div style={{ background: "#FFFFFF", padding: 5, border: "1px solid #E5E7EB", borderRadius: 3 }}>
+              <CertQR />
+            </div>
+            <div style={{ fontSize: 10, color: "#9CA3AF", textAlign: "right", lineHeight: 1.55 }}>
+              Scan to verify<br />jree.in/verify
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Actions */}
+      {/* ── Action buttons with loading + error states ── */}
       <div className="mt-8 flex flex-wrap items-center gap-3 justify-center">
-        <button className="rounded-full flex items-center gap-2" style={{ height: 44, padding: "0 28px", background: "var(--violet)", color: "var(--on-violet)", fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 14, border: "none" }}>
-          ↓ Download PDF
+
+        {/* Download PDF */}
+        <button
+          onClick={() => simulateAction(setDlState, 1600)}
+          disabled={dlState === "loading"}
+          className="rounded-full inline-flex items-center gap-2 transition-all hover:scale-[1.02] active:scale-[0.98]"
+          style={{ height: 44, padding: "0 24px", background: "var(--violet)", color: "#fff", fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 14, border: "none", opacity: dlState === "loading" ? 0.75 : 1, cursor: dlState === "loading" ? "not-allowed" : "pointer" }}
+        >
+          {dlState === "loading" && (
+            <motion.span animate={{ rotate: 360 }} transition={{ duration: 0.9, repeat: Infinity, ease: "linear" }} style={{ width: 14, height: 14, border: "2px solid #fff", borderTopColor: "transparent", borderRadius: "50%", display: "inline-block", flexShrink: 0 }} />
+          )}
+          {dlState === "done" && <Check size={15} strokeWidth={2.5} />}
+          {dlState === "idle" && <span>↓</span>}
+          {dlState === "idle" ? "Download PDF" : dlState === "loading" ? "Generating…" : dlState === "error" ? "Try again" : "Downloaded"}
         </button>
-        <button className="rounded-full" style={{ height: 44, padding: "0 22px", background: "transparent", color: "var(--text-1)", border: "1px solid var(--violet-border)", fontFamily: "var(--font-body)", fontWeight: 500, fontSize: 14 }}>
-          ↗ Add to LinkedIn
-        </button>
-        <button className="rounded-full" style={{ height: 44, padding: "0 22px", background: "transparent", color: "var(--text-1)", border: "1px solid var(--violet-border)", fontFamily: "var(--font-body)", fontWeight: 500, fontSize: 14 }}>
-          ↗ Share on WhatsApp
+
+        {/* LinkedIn (Band A/B) or Improvement plan (Band C/D) */}
+        {isShareableBand ? (
+          <button
+            onClick={() => simulateAction(setLiState, 1000)}
+            disabled={liState === "loading"}
+            className="rounded-full inline-flex items-center gap-2 transition-all hover:scale-[1.02] active:scale-[0.98]"
+            style={{ height: 44, padding: "0 22px", background: "transparent", color: "var(--text-1)", border: "1px solid var(--violet-border)", fontFamily: "var(--font-body)", fontWeight: 500, fontSize: 14, opacity: liState === "loading" ? 0.75 : 1, cursor: liState === "loading" ? "not-allowed" : "pointer" }}
+          >
+            {liState === "loading" && (
+              <motion.span animate={{ rotate: 360 }} transition={{ duration: 0.9, repeat: Infinity, ease: "linear" }} style={{ width: 14, height: 14, border: "2px solid var(--violet)", borderTopColor: "transparent", borderRadius: "50%", display: "inline-block", flexShrink: 0 }} />
+            )}
+            {liState === "done" && <Check size={14} strokeWidth={2.5} color="var(--teal-text)" />}
+            {liState === "idle" ? "↗ Add to LinkedIn" : liState === "loading" ? "Opening…" : liState === "error" ? "Try again" : "Opened LinkedIn"}
+          </button>
+        ) : (
+          <a href="#learn" className="rounded-full inline-flex items-center gap-2 transition-all hover:scale-[1.02]" style={{ height: 44, padding: "0 22px", background: "transparent", color: "var(--text-1)", border: "1px solid var(--violet-border)", fontFamily: "var(--font-body)", fontWeight: 500, fontSize: 14, textDecoration: "none" }}>
+            <TrendingUp size={15} color="var(--violet)" /> View improvement plan
+          </a>
+        )}
+
+        {/* WhatsApp */}
+        <button
+          onClick={() => simulateAction(setWaState, 700)}
+          disabled={waState === "loading"}
+          className="rounded-full inline-flex items-center gap-2 transition-all hover:scale-[1.02] active:scale-[0.98]"
+          style={{ height: 44, padding: "0 22px", background: "transparent", color: "var(--text-1)", border: "1px solid var(--violet-border)", fontFamily: "var(--font-body)", fontWeight: 500, fontSize: 14, opacity: waState === "loading" ? 0.75 : 1, cursor: waState === "loading" ? "not-allowed" : "pointer" }}
+        >
+          {waState === "loading" && (
+            <motion.span animate={{ rotate: 360 }} transition={{ duration: 0.9, repeat: Infinity, ease: "linear" }} style={{ width: 14, height: 14, border: "2px solid var(--violet)", borderTopColor: "transparent", borderRadius: "50%", display: "inline-block", flexShrink: 0 }} />
+          )}
+          {waState === "done" ? <Check size={14} strokeWidth={2.5} color="var(--teal-text)" /> : <span style={{ width: 8, height: 8, background: "#25D366", borderRadius: "50%", display: "inline-block", flexShrink: 0 }} />}
+          {waState === "idle" ? "Share on WhatsApp" : waState === "loading" ? "Opening…" : waState === "error" ? "Try again" : "Opened WhatsApp"}
         </button>
       </div>
 
-      <div className="mt-8 text-center">
-        <div style={{ fontFamily: "var(--font-body)", fontSize: 13, color: "var(--text-3)" }}>Share with family:</div>
-        <button className="mt-2 inline-flex items-center gap-2 rounded-full" style={{ height: 36, padding: "0 20px", background: "rgba(109,86,164,0.08)", border: "1px solid var(--violet-border)", color: "var(--text-1)", fontFamily: "var(--font-body)", fontWeight: 500, fontSize: 13 }}>
-          <span className="rounded-full" style={{ width: 8, height: 8, background: "#25D366" }} />
-          Send family card on WhatsApp
-        </button>
-        <div className="mt-2" style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontSize: 12, color: "var(--text-3)" }}>
-          (Generates: "Priya ne JREE Band B achieve ki — Top 23% nationally")
+      {/* Family card — only for Band A/B; Band C/D sees improvement nudge instead */}
+      {isShareableBand ? (
+        <div className="mt-5 text-center">
+          <button className="inline-flex items-center gap-2 rounded-full transition-colors hover:bg-[var(--surface-2)]" style={{ height: 36, padding: "0 20px", background: "var(--surface-1)", border: "1px solid var(--hairline)", color: "var(--text-2)", fontFamily: "var(--font-body)", fontWeight: 500, fontSize: 13 }}>
+            <span style={{ width: 7, height: 7, background: "#25D366", borderRadius: "50%", display: "inline-block", flexShrink: 0 }} />
+            Send family card on WhatsApp
+          </button>
+          <div className="mt-2" style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontSize: 12, color: "var(--text-3)" }}>
+            "{name} ne JREE Band {band} achieve ki — Top {100 - percentile}% nationally"
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className="mt-5 text-center">
+          <p style={{ fontFamily: "var(--font-body)", fontSize: 13, color: "var(--text-3)" }}>
+            Once you improve your score, sharing options will unlock here.
+          </p>
+        </div>
+      )}
 
-      {/* Verification */}
-      <div className="mt-10">
+      {/* ── Employer verification block ── */}
+      <div className="mt-12">
         <Eyebrow color="var(--violet)">FOR EMPLOYERS</Eyebrow>
         <h3 className="mt-3" style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 24, color: "var(--text-1)", letterSpacing: "var(--ls-display-sm)" }}>
           Verify this certificate in 5 seconds.
         </h3>
-        <p className="mt-2" style={{ fontFamily: "var(--font-body)", fontSize: 14, color: "var(--text-2)" }}>Any recruiter can scan the QR code or enter the ID below.</p>
-        <div className="mt-4 flex flex-col md:flex-row gap-3">
-          <input defaultValue="JREE-2026-00847" className="flex-1 rounded-xl" style={{ height: 44, padding: "0 16px", background: "var(--surface-1)", border: "1px solid var(--violet-border)", color: "var(--text-1)", fontFamily: "var(--font-mono)", fontSize: 14 }} />
-          <button className="rounded-xl" style={{ height: 44, padding: "0 22px", background: "var(--violet)", color: "var(--on-violet)", fontFamily: "var(--font-body)", fontWeight: 600, fontSize: 14, border: "none" }}>Verify →</button>
+        <p className="mt-2" style={{ fontFamily: "var(--font-body)", fontSize: 14, color: "var(--text-2)" }}>
+          Scan the QR code on the certificate, or enter the ID below. No account required.
+        </p>
+        <div className="mt-4 flex flex-col sm:flex-row gap-3">
+          <input
+            defaultValue={examId}
+            className="flex-1 rounded-xl"
+            style={{ height: 44, padding: "0 16px", background: "var(--surface-1)", border: "1px solid var(--violet-border)", color: "var(--text-1)", fontFamily: "var(--font-mono)", fontSize: 14 }}
+          />
+          <button className="rounded-xl" style={{ height: 44, padding: "0 22px", background: "var(--violet)", color: "#fff", fontFamily: "var(--font-body)", fontWeight: 600, fontSize: 14, border: "none", cursor: "pointer", whiteSpace: "nowrap" }}>
+            Verify →
+          </button>
         </div>
-        <div className="mt-4 rounded-xl" style={{ background: "rgba(81,193,181,0.06)", border: "1px solid rgba(81,193,181,0.2)", padding: "16px 20px" }}>
-          <div style={{ fontFamily: "var(--font-body)", fontWeight: 600, fontSize: 14, color: "var(--teal-text)" }}>✓ Verified</div>
-          <div className="mt-1" style={{ fontFamily: "var(--font-body)", fontSize: 13, color: "var(--text-2)" }}>This certificate is authentic, unaltered, and currently valid.</div>
-          <div className="mt-1" style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--text-3)" }}>Certificate status: Active · Valid until: May 2028</div>
+        <div className="mt-4 rounded-xl flex items-start gap-3" style={{ background: "rgba(81,193,181,0.06)", border: "1px solid rgba(81,193,181,0.22)", padding: "14px 18px" }}>
+          <Check size={16} strokeWidth={2.5} color="var(--teal-text)" style={{ marginTop: 1, flexShrink: 0 }} />
+          <div>
+            <div style={{ fontFamily: "var(--font-body)", fontWeight: 600, fontSize: 14, color: "var(--teal-text)" }}>Verified</div>
+            <div className="mt-0.5" style={{ fontFamily: "var(--font-body)", fontSize: 13, color: "var(--text-2)" }}>This certificate is authentic, unaltered, and currently valid.</div>
+            <div className="mt-1" style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--text-3)" }}>Status: Active · Valid until May 2028</div>
+          </div>
         </div>
       </div>
     </div>
