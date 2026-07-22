@@ -374,6 +374,61 @@ function DashboardPage() {
 
           </div>
         </div>
+
+        {/* 5. Retest CTA */}
+        <div className="mt-10 rounded-[22px] overflow-hidden relative" style={{ background: "linear-gradient(135deg, var(--surface-1) 0%, var(--surface-2) 100%)", border: "1px solid var(--hairline-strong)", boxShadow: "var(--shadow-card)" }}>
+          <div className="absolute pointer-events-none" style={{ inset: 0, background: "radial-gradient(55% 80% at 100% 100%, rgba(109,86,164,0.10) 0%, transparent 65%)" }} />
+          <Grain />
+
+          <div className="relative flex flex-col md:flex-row items-start md:items-center gap-8 p-7 sm:p-10">
+            {/* Icon */}
+            <div className="shrink-0 flex items-center justify-center rounded-2xl" style={{ width: 64, height: 64, background: "var(--violet-soft)", border: "1px solid var(--violet-border)" }}>
+              <Radio size={28} color="var(--violet)" strokeWidth={1.75} />
+            </div>
+
+            {/* Text */}
+            <div className="flex-1 min-w-0">
+              <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, letterSpacing: "0.07em", color: "var(--violet)", textTransform: "uppercase", fontWeight: 600 }}>
+                RETEST AVAILABLE
+              </div>
+              <h2 className="mt-2" style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "clamp(22px,3.2vw,32px)", letterSpacing: "-0.03em", lineHeight: 1.05, color: "var(--text-1)" }}>
+                Want to push for{" "}
+                <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 400, color: "var(--lime-text)" }}>Band A?</span>
+              </h2>
+              <p className="mt-2 max-w-[520px]" style={{ fontFamily: "var(--font-body)", fontSize: 15, color: "var(--text-2)", lineHeight: 1.6 }}>
+                Your score is locked and verified — but your journey isn't over. Retake the JREE after 30 days of focused practice and show employers a measurable improvement.
+              </p>
+              <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2">
+                {[
+                  ["Cooldown", "30 days"],
+                  ["Score history", "Both attempts visible"],
+                  ["Certificate", "Best score used"],
+                ].map(([label, val]) => (
+                  <div key={label as string} className="flex items-center gap-2">
+                    <span className="rounded-full shrink-0" style={{ width: 5, height: 5, background: "var(--violet)" }} />
+                    <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text-3)", letterSpacing: "0.04em" }}>{label}</span>
+                    <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text-1)", fontWeight: 600, letterSpacing: "0.04em" }}>{val}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* CTA */}
+            <div className="shrink-0 flex flex-col items-stretch sm:items-end gap-3 w-full md:w-auto">
+              <button
+                onClick={() => go("exam/check")}
+                className="inline-flex items-center justify-center gap-2 rounded-full transition-all hover:scale-[1.03] active:scale-[0.97]"
+                style={{ height: 52, padding: "0 28px", background: "var(--violet)", color: "#fff", fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 15, boxShadow: "0 8px 32px rgba(109,86,164,0.35)", letterSpacing: "-0.01em", whiteSpace: "nowrap" }}
+              >
+                Retest now <ArrowRight size={17} strokeWidth={2.5} />
+              </button>
+              <p style={{ fontFamily: "var(--font-body)", fontSize: 12, color: "var(--text-3)", textAlign: "center" }}>
+                Next eligible: 29 Jun 2026
+              </p>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   );
