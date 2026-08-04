@@ -12,6 +12,11 @@ import {
   PieChart, Pie, LabelList, ScatterChart, Scatter, ZAxis, CartesianGrid, ReferenceLine, ReferenceArea
 } from "recharts";
 
+import {
+  TutorialFlow, FirstTimeDecision, hasAssessmentResult, markAssessmentResult,
+  isTutorialDeferred, deferTutorial, tutorialProgress, readStoredChecks, isCameraWaived, TUTORIAL_STEPS,
+} from "./TutorialFlow";
+
 const ease = [0.16, 1, 0.3, 1] as const;
 
 /* ───────────────────────── shared atoms ───────────────────────── */
@@ -53,7 +58,7 @@ function Card({ children, className = "", style }: { children: React.ReactNode; 
 /* ───────────────────────── routing ───────────────────────── */
 
 export type PostRoute =
-  | "dashboard" | "exam/check" | "exam/active" | "exam/transition"
+  | "dashboard" | "exam/tutorial" | "exam/check" | "exam/active" | "exam/transition"
   | "exam/priya" | "exam/processing" | "results";
 
 function go(route: PostRoute) { window.location.hash = route; }
@@ -69,6 +74,7 @@ export function PostSignup({ route }: { route: PostRoute }) {
         transition={{ duration: 0.35, ease }}
       >
         {route === "dashboard" && <Dashboard />}
+        {route === "exam/tutorial" && <TutorialFlow />}
         {route === "exam/check" && <SystemCheck />}
         {route === "exam/active" && <ExamActive />}
         {route === "exam/transition" && <LayerTransition />}
@@ -434,14 +440,27 @@ function DashboardPage() {
   );
 }
 
+/*
+  Three states for #dashboard:
+  · has a verified result        → the full command-centre dashboard
+  · first time, no decision yet  → the two-choice decision screen
+  · first time, chose "later"    → the "Before you start" zero-state, which keeps a
+                                   persistent (non-nagging) way into the walkthrough
+*/
 function Dashboard() {
-  // If the hash is exactly #dashboard, render the new zero-state dashboard
-  if (window.location.hash === "#dashboard") {
-     return <DashboardPage />;
-  }
+  const [deferred, setDeferred] = useState(() => isTutorialDeferred());
 
-  // Otherwise, render the standard "Before you start" entry screen
+  if (hasAssessmentResult()) return <DashboardPage />;
+  if (!deferred) {
+    return <FirstTimeDecision onDefer={() => { deferTutorial(); setDeferred(true); }} />;
+  }
+  return <ZeroStateDashboard />;
+}
+
+function ZeroStateDashboard() {
   const days = 7, hours = 14;
+  const progress = tutorialProgress();
+  const resuming = progress > 0;
   return (
     <div className="min-h-screen" style={{ background: "var(--bg)" }}>
       <DashboardNav />
@@ -499,32 +518,35 @@ function Dashboard() {
               ))}
             </div>
 
-            <div className="flex gap-4">
+            {/* Persistent entry point into the walkthrough — picks up where they left off. */}
+            <div className="flex flex-col sm:flex-row gap-4">
               <button
-                onClick={() => go("exam/check")}
-                className="flex-1 rounded-full transition-all hover:scale-[1.01] active:scale-[0.99]"
+                onClick={() => go("exam/tutorial")}
+                className="flex-1 rounded-full transition-all hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-2"
                 style={{
-                  height: 52, background: "var(--lime)", color: "var(--bg)",
+                  height: 52, background: "var(--violet)", color: "var(--on-violet)",
                   fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "var(--fs-ui)",
-                  boxShadow: "0 8px 32px rgba(201,220,83,0.2)"
+                  boxShadow: "0 8px 32px rgba(94,74,158,0.28)"
                 }}
               >
-                Begin Exam
+                {resuming ? "Resume the walkthrough" : "Start the walkthrough"} <ArrowRight size={17} strokeWidth={2.5} />
               </button>
-              
+
               <button
-                onClick={() => go("dashboard")}
+                onClick={() => go("exam/check")}
                 className="flex-1 rounded-full transition-all hover:scale-[1.01] active:scale-[0.99]"
                 style={{
                   height: 52, background: "transparent", border: "1px solid var(--violet-border)", color: "var(--text-1)",
                   fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "var(--fs-ui)"
                 }}
               >
-                View Dashboard
+                Skip to pre-flight
               </button>
             </div>
             <p className="text-center mt-4" style={{ fontFamily: "var(--font-body)", fontSize: "var(--fs-body-sm)", color: "var(--text-3)" }}>
-              You'll get to test your camera, mic and connection first.
+              {resuming
+                ? `You left the walkthrough at step ${Math.min(progress + 1, TUTORIAL_STEPS)} of ${TUTORIAL_STEPS} — it'll open right there.`
+                : "The walkthrough covers the layers, the rules, and your camera and mic setup."}
             </p>
           </Card>
 
@@ -750,19 +772,37 @@ function CheckRow({ icon: Icon, label, hint, state }: { icon: any; label: string
 }
 
 function SystemCheck() {
-  const [states, setStates] = useState<Record<string, CheckState>>({
-    camera: "idle", mic: "idle", wifi: "idle", browser: "idle",
-  });
+  /* If the tutorial already ran these checks, carry the results over instead of
+     making the student sit through the identical four checks a second time. */
+  const carried = useMemo(() => {
+    const stored = readStoredChecks();
+    if (!stored) return null;
+    const map = (s: string): CheckState => s === "pass" ? "ok" : s === "warn" ? "warn" : s === "fail" ? "fail" : "idle";
+    return {
+      // A camera the student chose to go without shouldn't block them here either.
+      camera: isCameraWaived() && stored.camera.status === "fail" ? "warn" : map(stored.camera.status),
+      mic: map(stored.mic.status),
+      wifi: map(stored.connection.status),
+      browser: map(stored.browser.status),
+    };
+  }, []);
+
+  const [states, setStates] = useState<Record<string, CheckState>>(
+    carried ?? { camera: "idle", mic: "idle", wifi: "idle", browser: "idle" }
+  );
 
   useEffect(() => {
+    if (carried) return;
     const order: [string, CheckState][] = [
       ["camera", "ok"], ["mic", "ok"], ["wifi", "warn"], ["browser", "ok"],
     ];
+    const timers: ReturnType<typeof setTimeout>[] = [];
     order.forEach(([k, end], i) => {
-      setTimeout(() => setStates((s) => ({ ...s, [k]: "checking" })), 400 + i * 700);
-      setTimeout(() => setStates((s) => ({ ...s, [k]: end })), 1100 + i * 700);
+      timers.push(setTimeout(() => setStates((s) => ({ ...s, [k]: "checking" })), 400 + i * 700));
+      timers.push(setTimeout(() => setStates((s) => ({ ...s, [k]: end })), 1100 + i * 700));
     });
-  }, []);
+    return () => timers.forEach(clearTimeout);
+  }, [carried]);
 
   const allDone = Object.values(states).every((s) => s === "ok" || s === "warn");
 
@@ -2091,6 +2131,11 @@ function Results() {
     return (["skills", "interview", "cert"].includes(value) ? value : "breakdown") as Tab;
   };
   const [tab, setTab] = useState<Tab>(readTab);
+
+  // Reaching results means there is a completed assessment on file — the
+  // dashboard stops showing first-time framing from here on.
+  useEffect(() => { markAssessmentResult(); }, []);
+
   const tabs: { id: Tab; label: string }[] = [
     { id: "breakdown", label: "Score Breakdown" },
     { id: "skills", label: "Skills & Roles" },

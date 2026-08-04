@@ -29,7 +29,7 @@ import { EntryPage } from "./components/EntryPage";
 import { ImprovementPlanPage } from "./components/ImprovementPlanPage";
 
 type Route = "landing" | "learn" | "signup" | "login" | "resume-builder" | "styleguide" | "about-us" | "for-students" | "for-employers" | "for-colleges" | "terms" | "security" | "privacy" | PostRoute;
-const POST_ROUTES: PostRoute[] = ["dashboard", "exam/check", "exam/active", "exam/transition", "exam/priya", "exam/processing", "results"];
+const POST_ROUTES: PostRoute[] = ["dashboard", "exam/tutorial", "exam/check", "exam/active", "exam/transition", "exam/priya", "exam/processing", "results"];
 
 function getRoute(): Route {
   if (typeof window === "undefined") return "landing";
