@@ -106,11 +106,23 @@ export default function App() {
   }
 
   if (route === "for-employers") {
-    return <ForEmployersPage />;
+    return (
+      <div className="min-h-screen" style={{ background: "var(--bg)", color: "var(--text-1)", fontFamily: "var(--font-body)", overflowX: "clip" }}>
+        <Nav />
+        <ForEmployersPage />
+        <Footer />
+      </div>
+    );
   }
 
   if (route === "for-colleges") {
-    return <ForCollegesPage />;
+    return (
+      <div className="min-h-screen" style={{ background: "var(--bg)", color: "var(--text-1)", fontFamily: "var(--font-body)", overflowX: "clip" }}>
+        <Nav />
+        <ForCollegesPage />
+        <Footer />
+      </div>
+    );
   }
 
   if (route === "terms") {

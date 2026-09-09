@@ -257,24 +257,8 @@ function PricingPlan({
 
 /* ─── main page ─── */
 export function ForEmployersPage() {
-  const goBack = () => { window.location.hash = ""; };
-
   return (
-    <div className="min-h-screen" style={{ background: "var(--bg)", color: "var(--text-1)", fontFamily: "var(--font-body)" }}>
-      {/* Slim back-nav */}
-      <div className="sticky top-0 z-50" style={{ background: "rgba(250,247,240,0.92)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)", borderBottom: "1px solid var(--hairline-strong)" }}>
-        <div className="max-w-[1080px] mx-auto px-5 sm:px-8 h-[54px] flex items-center justify-between">
-          <button
-            onClick={goBack}
-            style={{ fontFamily: "var(--font-body)", fontWeight: 500, fontSize: 13, color: "var(--text-2)", background: "none", border: "none", cursor: "pointer" }}
-            className="hover:text-[var(--text-1)] transition-colors"
-          >
-            ← Back to JREE
-          </button>
-          <Eyebrow>For Employers</Eyebrow>
-        </div>
-      </div>
-
+    <div className="min-h-screen pt-[60px]" style={{ background: "var(--bg)", color: "var(--text-1)", fontFamily: "var(--font-body)" }}>
       <div className="max-w-[1080px] mx-auto px-5 sm:px-8 pb-32">
 
         {/* ─── 1. Hero ─── */}

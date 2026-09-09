@@ -1,5 +1,5 @@
 import { motion, useInView } from "motion/react";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { BarChart2, Eye, Sparkles, Layers, TrendingUp, CalendarClock } from "lucide-react";
 
@@ -37,6 +37,300 @@ function Section({ children }: { children: React.ReactNode }) {
       transition={{ duration: 0.6, ease }}
     >
       {children}
+    </motion.div>
+  );
+}
+
+/* ─── Count-up number, eased, fires once in view ─── */
+function CountUp({ to, format, dur = 1.5, inView }: { to: number; format: (n: number) => string; dur?: number; inView: boolean }) {
+  const [n, setN] = useState(0);
+  useEffect(() => {
+    if (!inView) return;
+    let raf = 0;
+    const start = performance.now();
+    const tick = (t: number) => {
+      const p = Math.min(1, (t - start) / (dur * 1000));
+      setN(to * (1 - Math.pow(1 - p, 3)));
+      if (p < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [inView, to, dur]);
+  return <>{format(n)}</>;
+}
+
+/* ─── Animated stat tile ─── */
+function GapStat({ value, label, sub, color, delay, inView }: { value: React.ReactNode; label: string; sub: string; color: string; delay: number; inView: boolean }) {
+  return (
+    <motion.div
+      whileHover={{ y: -4 }}
+      transition={{ duration: 0.3, ease }}
+      initial={{ opacity: 0, y: 20 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      style={{ background: "var(--surface-1)", border: "1px solid var(--hairline-strong)", transitionDelay: `${delay}s` }}
+      className="grain rounded-[16px] p-6 md:p-7 flex flex-col"
+    >
+      <div style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "clamp(40px,6vw,60px)", color, letterSpacing: "-0.04em", lineHeight: 0.95, fontVariantNumeric: "tabular-nums" }}>
+        {value}
+      </div>
+      <div className="mt-4">
+        <div style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 15, color: "var(--text-1)", letterSpacing: "-0.01em", lineHeight: 1.25 }}>{label}</div>
+        <div className="mt-1.5" style={{ fontFamily: "var(--font-body)", fontSize: 13, color: "var(--text-3)", lineHeight: 1.45 }}>{sub}</div>
+      </div>
+    </motion.div>
+  );
+}
+
+/* ─── Gap panel — same-width tracks, the density contrast is the argument ─── */
+const GAP_CELLS = 42;
+
+function GapTrack({
+  label,
+  count,
+  lit,
+  color,
+  faint = false,
+  inView,
+  baseDelay,
+}: {
+  label: string;
+  count: number;
+  lit: number;
+  color: string;
+  faint?: boolean;
+  inView: boolean;
+  baseDelay: number;
+}) {
+  return (
+    <div>
+      <div className="flex items-baseline justify-between mb-3.5">
+        <MonoLabel color={faint ? "var(--text-3)" : color}>{label}</MonoLabel>
+        <div className="flex items-baseline gap-1.5">
+          <span style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 20, color: faint ? "var(--text-2)" : color, letterSpacing: "-0.02em", fontVariantNumeric: "tabular-nums", lineHeight: 1 }}>
+            {count}
+          </span>
+          <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text-3)", letterSpacing: "0.02em" }}>/ 214</span>
+        </div>
+      </div>
+      <div className="flex flex-wrap gap-[5px]">
+        {Array.from({ length: GAP_CELLS }).map((_, i) => {
+          const on = i < lit;
+          return (
+            <motion.span
+              key={i}
+              className="rounded-[2px]"
+              style={{
+                width: "clamp(9px,1.6vw,13px)",
+                aspectRatio: "1 / 1",
+                background: on ? color : "var(--hairline-strong)",
+                boxShadow: on && !faint ? `0 0 0 1px color-mix(in srgb, ${color} 40%, transparent)` : "none",
+              }}
+              initial={{ opacity: 0, y: 4 }}
+              animate={inView ? { opacity: on ? 0.95 : 0.35, y: 0 } : {}}
+              transition={{ duration: 0.3, ease, delay: baseDelay + (on ? i * 0.018 : 0.05) }}
+            />
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function GapClusters() {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-20% 0px" });
+  return (
+    <div
+      ref={ref}
+      className="mt-12 grain rounded-[20px] overflow-hidden"
+      style={{ background: "var(--surface-1)", border: "1px solid var(--hairline-strong)" }}
+    >
+      {/* header */}
+      <div className="flex items-center justify-between px-6 md:px-9 py-4" style={{ borderBottom: "1px solid var(--hairline)" }}>
+        <MonoLabel color="var(--text-3)">One batch · two views</MonoLabel>
+        <div className="inline-flex items-center gap-2 rounded-full px-3 py-1" style={{ background: "color-mix(in srgb, var(--lime-text) 12%, transparent)", border: "1px solid color-mix(in srgb, var(--lime-text) 30%, transparent)" }}>
+          <span style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 12, color: "var(--lime-text)", letterSpacing: "0.01em" }}>6×</span>
+          <span style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "var(--lime-text)", letterSpacing: "0.06em", textTransform: "uppercase" }}>visibility gap</span>
+        </div>
+      </div>
+
+      {/* tracks */}
+      <div className="px-6 md:px-9 py-7 md:py-9 flex flex-col gap-8 md:gap-10">
+        <GapTrack label="Seen by employers" count={32} lit={6} color="var(--text-2)" faint inView={inView} baseDelay={0.1} />
+        <GapTrack label="Actually capable" count={182} lit={36} color="var(--lime-text)" inView={inView} baseDelay={0.35} />
+      </div>
+
+      {/* footer annotation */}
+      <div className="px-6 md:px-9 py-4 flex items-center gap-3" style={{ borderTop: "1px solid var(--hairline)" }}>
+        <span className="rounded-full" style={{ width: 6, height: 6, background: "var(--lime-text)", flexShrink: 0 }} />
+        <span style={{ fontFamily: "var(--font-body)", fontSize: 13.5, color: "var(--text-3)", lineHeight: 1.4 }}>
+          The gap is capable students employers never get to see.
+        </span>
+      </div>
+    </div>
+  );
+}
+
+/* ─── The placement gap section ─── */
+function PlacementGap() {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-12% 0px" });
+  return (
+    <div ref={ref}>
+      <Eyebrow>The placement gap</Eyebrow>
+
+      {/* The claim */}
+      <h2 className="mt-6 max-w-[900px]" style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "clamp(34px,5.8vw,62px)", color: "var(--text-1)", letterSpacing: "-0.035em", lineHeight: 1.02 }}>
+        Your students are capable.
+        <br />
+        <span className="relative inline-block">
+          <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 400, color: "var(--lime-text)" }}>
+            Employers just can't see it yet.
+          </span>
+          <motion.span
+            className="absolute left-0 -bottom-1 h-[3px] rounded-full"
+            style={{ background: "var(--lime-text)", transformOrigin: "left" }}
+            initial={{ scaleX: 0, width: "100%" }}
+            animate={inView ? { scaleX: 1 } : {}}
+            transition={{ duration: 0.9, ease, delay: 0.5 }}
+          />
+        </span>
+      </h2>
+      <p className="mt-6" style={{ fontFamily: "var(--font-body)", fontSize: "clamp(16px,1.8vw,19px)", color: "var(--text-2)", lineHeight: 1.5 }}>
+        Good interviewers get placed. Good performers get missed.
+      </p>
+
+      {/* Visual centerpiece — the gap you can see */}
+      <GapClusters />
+
+      {/* Three animated proof stats — numbers, not paragraphs */}
+      <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <GapStat
+          inView={inView}
+          delay={0.15}
+          color="var(--amber-text)"
+          value={<CountUp to={60} inView={inView} format={(n) => `${Math.round(n)}%`} />}
+          label="Rated unemployable"
+          sub="Of India's graduates, per NASSCOM."
+        />
+        <GapStat
+          inView={inView}
+          delay={0.28}
+          color="var(--violet)"
+          value={<CountUp to={40000} inView={inView} format={(n) => `${Math.round(n).toLocaleString()}+`} />}
+          label="Institutions, zero shared score"
+          sub="No common way to compare graduates."
+        />
+        <GapStat
+          inView={inView}
+          delay={0.4}
+          color="var(--lime-text)"
+          value={<CountUp to={6} inView={inView} format={(n) => `${Math.round(n)}×`} />}
+          label="More talent than employers see"
+          sub="Capable students filtered out early."
+        />
+      </div>
+
+      {/* Punchline + clear CTA */}
+      <div className="mt-16 md:mt-24 grain rounded-[20px] p-8 md:p-12 flex flex-col md:flex-row md:items-center md:justify-between gap-8" style={{ background: "var(--surface-1)", border: "1px solid var(--hairline-strong)" }}>
+        <p className="max-w-[600px]" style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontSize: "clamp(22px,3vw,34px)", color: "var(--text-1)", lineHeight: 1.3, letterSpacing: "-0.02em" }}>
+          An objective score proves a college is better than its reputation suggests.
+        </p>
+        <a
+          href="#for-colleges"
+          className="group inline-flex items-center gap-2 rounded-full self-start md:self-auto shrink-0 transition-transform active:scale-[0.98] hover:brightness-[1.04]"
+          style={{ height: 54, padding: "0 28px", background: "var(--lime)", color: "var(--bg)", fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 15, letterSpacing: "-0.01em", boxShadow: "0 8px 32px rgba(201,220,83,0.25)", textDecoration: "none" }}
+        >
+          Close the gap for your batch
+          <span className="transition-transform group-hover:translate-x-1">→</span>
+        </a>
+      </div>
+    </div>
+  );
+}
+
+/* ─── Bento tile for the intelligence-system grid ─── */
+function MiniBars({ hovered }: { hovered: boolean }) {
+  const bars = [0.45, 0.72, 0.55, 0.9, 0.68];
+  return (
+    <div className="flex items-end gap-[3px]" style={{ height: 34 }}>
+      {bars.map((h, i) => (
+        <motion.span
+          key={i}
+          className="rounded-[2px]"
+          style={{ width: 6, background: i === 3 ? "var(--lime-text)" : "var(--violet)", opacity: 0.85 }}
+          animate={{ height: `${(hovered ? Math.min(1, h + 0.12) : h) * 100}%` }}
+          transition={{ duration: 0.35, ease }}
+        />
+      ))}
+    </div>
+  );
+}
+
+function MiniStrata({ hovered }: { hovered: boolean }) {
+  const rows = [0.9, 0.62, 0.4, 0.75];
+  return (
+    <div className="flex flex-col gap-[4px]" style={{ width: 46 }}>
+      {rows.map((w, i) => (
+        <motion.span
+          key={i}
+          className="rounded-[2px]"
+          style={{ height: 6, background: i === 2 ? "var(--amber-text)" : "var(--lime-text)", opacity: 0.8 }}
+          animate={{ width: `${(hovered ? Math.min(1, w + 0.08) : w) * 100}%` }}
+          transition={{ duration: 0.35, ease, delay: i * 0.03 }}
+        />
+      ))}
+    </div>
+  );
+}
+
+function BentoTile({
+  large = false,
+  icon: Icon,
+  color,
+  label,
+  phrase,
+  mini,
+  className = "",
+}: {
+  large?: boolean;
+  icon: typeof BarChart2;
+  color: string;
+  label: string;
+  phrase: string;
+  mini?: "bars" | "strata";
+  className?: string;
+}) {
+  const [hovered, setHovered] = useState(false);
+  return (
+    <motion.div
+      onHoverStart={() => setHovered(true)}
+      onHoverEnd={() => setHovered(false)}
+      whileHover={{ y: -4 }}
+      transition={{ duration: 0.3, ease }}
+      className={`grain rounded-[14px] p-5 md:p-6 flex flex-col ${large ? "gap-5 min-h-[168px]" : "gap-4"} ${className}`}
+      style={{ background: "var(--surface-1)", border: "1px solid var(--hairline-strong)" }}
+    >
+      <div className="flex items-start justify-between">
+        <motion.div
+          className="rounded-[10px] flex items-center justify-center"
+          style={{ width: 38, height: 38, background: `color-mix(in srgb, ${color} 12%, transparent)`, border: `1px solid color-mix(in srgb, ${color} 25%, transparent)` }}
+          animate={{ scale: hovered ? 1.08 : 1 }}
+          transition={{ duration: 0.3, ease }}
+        >
+          <Icon size={17} color={color} strokeWidth={1.8} />
+        </motion.div>
+        {mini === "bars" && <MiniBars hovered={hovered} />}
+        {mini === "strata" && <MiniStrata hovered={hovered} />}
+      </div>
+      <div className="mt-auto">
+        <div style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: large ? 17 : 15, color: "var(--text-1)", letterSpacing: "-0.015em", lineHeight: 1.2 }}>
+          {label}
+        </div>
+        <div className="mt-1.5" style={{ fontFamily: "var(--font-body)", fontSize: 13.5, color: "var(--text-2)", lineHeight: 1.5 }}>
+          {phrase}
+        </div>
+      </div>
     </motion.div>
   );
 }
@@ -769,24 +1063,8 @@ function CallbackForm() {
 
 /* ─── main page ─── */
 export function ForCollegesPage() {
-  const goBack = () => { window.location.hash = ""; };
-
   return (
-    <div className="min-h-screen" style={{ background: "var(--bg)", color: "var(--text-1)", fontFamily: "var(--font-body)" }}>
-      {/* Slim back-nav */}
-      <div className="sticky top-0 z-50" style={{ background: "rgba(250,247,240,0.92)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)", borderBottom: "1px solid var(--hairline-strong)" }}>
-        <div className="max-w-[1080px] mx-auto px-5 sm:px-8 h-[54px] flex items-center justify-between">
-          <button
-            onClick={goBack}
-            style={{ fontFamily: "var(--font-body)", fontWeight: 500, fontSize: 13, color: "var(--text-2)", background: "none", border: "none", cursor: "pointer" }}
-            className="hover:text-[var(--text-1)] transition-colors"
-          >
-            ← Back to JREE
-          </button>
-          <Eyebrow>For Colleges</Eyebrow>
-        </div>
-      </div>
-
+    <div className="min-h-screen pt-[60px]" style={{ background: "var(--bg)", color: "var(--text-1)", fontFamily: "var(--font-body)" }}>
       <div className="max-w-[1080px] mx-auto px-5 sm:px-8 pb-32">
 
         {/* ─── 1. Hero ─── */}
@@ -868,89 +1146,8 @@ export function ForCollegesPage() {
 
         <Rule />
 
-        {/* ─── 2. The problem ─── */}
-        <Section>
-          <Eyebrow>The placement gap</Eyebrow>
-          <h2 className="mt-5 max-w-[820px]" style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "clamp(32px,5vw,48px)", color: "var(--text-1)", letterSpacing: "-0.03em", lineHeight: 1.05 }}>
-            Your students are capable.{" "}
-            <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 400, color: "var(--text-2)" }}>
-              Employers just can't see it yet.
-            </span>
-          </h2>
-          <p className="mt-5 max-w-[680px]" style={PROSE}>
-            Most placement drives reward good interviewers, not good performers. Capable graduates miss
-            roles every year because no one outside your campus has a credible, standard way to read what
-            they're actually ready for. That gap is what JREE closes.
-          </p>
-
-          <div className="mt-12 flex flex-col gap-0">
-            {[
-              {
-                label: "Anecdotal placement data",
-                heading: "Last year's numbers don't predict this year's batch.",
-                body: "Self-reported CTCs and unverified placement claims are not enough to convince a discerning employer — or a discerning parent. Institutions that can show a real, externally-verified readiness number have an answer that a brochure number does not.",
-                img: "https://images.unsplash.com/photo-1680084521738-87a53d7a50d8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=900&q=80",
-                alt: "Students sitting on campus grounds",
-                flip: false,
-              },
-              {
-                label: "Employers skip mid-tier colleges",
-                heading: "Recruiters default to a short list of brand-name campuses.",
-                body: "Hiring teams have limited bandwidth and default to the colleges they already know. Without a standard score, even excellent students in less-visible institutions get filtered out before the first call. JREE gives recruiters a reason to look further.",
-                img: "https://images.unsplash.com/photo-1758520144437-f068ecaf0d83?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=900&q=80",
-                alt: "Interviewer across desk from candidate",
-                flip: true,
-              },
-              {
-                label: "No objective benchmark",
-                heading: "There's no shared yardstick across India's 40,000+ institutions.",
-                body: "Every college tests differently, grades differently, and reports differently. No external party can compare across them. A national, role-aligned score is the missing common language — and the only way a college can prove it is better than its reputation suggests.",
-                img: "https://images.unsplash.com/photo-1662148931662-8089bc1a67be?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=900&q=80",
-                alt: "Students walking on a campus with a building in the background",
-                flip: false,
-              },
-            ].map((p, i) => (
-              <div key={p.label} className="py-10 lg:py-12" style={{ borderTop: "1px solid var(--hairline-strong)" }}>
-                <div className={`grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-14 items-center ${p.flip ? "lg:[direction:rtl]" : ""}`}>
-                  {/* Image */}
-                  <div className={p.flip ? "[direction:ltr]" : ""} style={{ borderRadius: 16, overflow: "hidden", position: "relative", aspectRatio: "4 / 3" }}>
-                    <ImageWithFallback
-                      src={p.img}
-                      alt={p.alt}
-                      className="w-full h-full object-cover"
-                      style={{ filter: "grayscale(30%) brightness(0.82)" }}
-                    />
-                    {/* violet duotone wash */}
-                    <div className="absolute inset-0" style={{ background: "linear-gradient(135deg, rgba(109,86,164,0.28) 0%, rgba(250,247,240,.24) 100%)", mixBlendMode: "multiply" }} />
-                    {/* bottom fade into surface */}
-                    <div className="absolute bottom-0 left-0 right-0 h-16" style={{ background: "linear-gradient(to top, rgba(250,247,240,0.86), transparent)" }} />
-                    {/* index number */}
-                    <div className="absolute top-4 left-4" style={{ fontFamily: "var(--font-mono)", fontSize: 11, fontWeight: 600, letterSpacing: "0.07em", color: "var(--text-2)" }}>
-                      0{i + 1}
-                    </div>
-                  </div>
-
-                  {/* Text */}
-                  <div className={p.flip ? "[direction:ltr]" : ""}>
-                    <MonoLabel>{p.label}</MonoLabel>
-                    <h3 className="mt-4" style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "clamp(22px,2.6vw,30px)", color: "var(--text-1)", letterSpacing: "-0.025em", lineHeight: 1.15 }}>
-                      {p.heading}
-                    </h3>
-                    <p className="mt-4" style={{ fontFamily: "var(--font-body)", fontSize: "clamp(15px,1.7vw,17px)", color: "var(--text-2)", lineHeight: 1.72 }}>
-                      {p.body}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-10 pt-10" style={{ borderTop: "1px solid var(--hairline-strong)" }}>
-            <p style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontSize: "clamp(22px,2.8vw,30px)", color: "var(--text-1)", lineHeight: 1.38, letterSpacing: "-0.015em" }}>
-              An objective score lets a college prove it's better than its reputation suggests.
-            </p>
-          </div>
-        </Section>
+        {/* ─── 2. The placement gap ─── */}
+        <PlacementGap />
 
         <Rule />
 
@@ -979,110 +1176,171 @@ export function ForCollegesPage() {
         {/* ─── 4. What your college gets ─── */}
         <Section>
           <Eyebrow>More than an assessment</Eyebrow>
-          <h2 className="mt-5" style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "clamp(28px,4vw,40px)", color: "var(--text-1)", letterSpacing: "-0.03em", lineHeight: 1.06 }}>
-            A complete placement intelligence system.
+          <h2 className="mt-5 max-w-[720px]" style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "clamp(28px,4vw,44px)", color: "var(--text-1)", letterSpacing: "-0.03em", lineHeight: 1.04 }}>
+            A complete placement{" "}
+            <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 400, color: "var(--lime-text)" }}>intelligence</span>{" "}
+            system.
           </h2>
 
-          {/* National rank hero card — image + overlaid rank number */}
-          <div
-            className="mt-12 grain rounded-[20px] overflow-hidden grid grid-cols-1 md:grid-cols-[1fr_420px]"
-            style={{ background: "var(--surface-1)", border: "1px solid var(--hairline-strong)", minHeight: 320 }}
+          {/* ── The console — an animated dashboard mock ── */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.7, ease }}
+            className="mt-12 relative rounded-[24px] overflow-hidden grain"
+            style={{ background: "var(--surface-1)", border: "1px solid var(--hairline-strong)", boxShadow: "var(--shadow-card)" }}
           >
-            {/* Left: text */}
-            <div className="p-7 md:p-10 flex flex-col justify-center">
-              <h3 className="mt-0" style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "clamp(26px,4vw,42px)", color: "var(--text-1)", letterSpacing: "-0.03em", lineHeight: 1.05 }}>
-                A{" "}
-                <span style={{ color: "var(--lime-text)" }}>national rank</span>
-                {" "}for every one of your students.
-              </h3>
-              <p className="mt-4 max-w-[420px]" style={{ fontFamily: "var(--font-body)", fontSize: "clamp(15px,1.7vw,17px)", color: "var(--text-2)", lineHeight: 1.65 }}>
-                Each student knows where they stand against the country, not just their batch. The college
-                gets a number employers already use to decide who to call.
-              </p>
-              {/* Percentile strip */}
-              <div className="mt-7 max-w-[360px]">
-                <div className="flex justify-between mb-1.5">
-                  <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text-3)", letterSpacing: "0.06em" }}>PERCENTILE</span>
-                  <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--lime-text)", letterSpacing: "0.04em" }}>TOP 2%</span>
-                </div>
-                <div className="rounded-full overflow-hidden" style={{ height: 5, background: "var(--surface-3)" }}>
-                  <motion.div
-                    className="h-full rounded-full"
-                    style={{ background: "linear-gradient(to right, var(--violet), var(--lime))", width: "98%" }}
-                    initial={{ width: 0 }}
-                    whileInView={{ width: "98%" }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-                  />
-                </div>
+            {/* ambient glow */}
+            <div className="absolute -top-24 -right-16 pointer-events-none" style={{ width: 320, height: 320, background: "radial-gradient(circle, rgba(201,220,83,0.14), transparent 70%)" }} />
+            <div className="absolute -bottom-24 -left-16 pointer-events-none" style={{ width: 320, height: 320, background: "radial-gradient(circle, rgba(109,86,164,0.16), transparent 70%)" }} />
+
+            {/* window chrome */}
+            <div className="relative flex items-center justify-between px-5 py-3.5" style={{ borderBottom: "1px solid var(--hairline)" }}>
+              <div className="flex items-center gap-2">
+                {["var(--danger)", "var(--amber)", "var(--teal)"].map((c) => (
+                  <span key={c} className="rounded-full" style={{ width: 9, height: 9, background: c, opacity: 0.7 }} />
+                ))}
+                <span className="ml-3" style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text-3)", letterSpacing: "0.05em" }}>jree · batch intelligence · CSE 2025</span>
+              </div>
+              <div className="inline-flex items-center gap-2 rounded-full px-2.5 py-1" style={{ background: "color-mix(in srgb, var(--lime-text) 12%, transparent)", border: "1px solid color-mix(in srgb, var(--lime-text) 30%, transparent)" }}>
+                <motion.span className="rounded-full" style={{ width: 6, height: 6, background: "var(--lime-text)" }} animate={{ opacity: [1, 0.3, 1] }} transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }} />
+                <span style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "var(--lime-text)", letterSpacing: "0.07em", textTransform: "uppercase" }}>Live</span>
               </div>
             </div>
 
-            {/* Right: university photo with rank number overlaid */}
-            <div className="relative min-h-[220px] md:min-h-0">
-              <ImageWithFallback
-                src="https://images.unsplash.com/photo-1695722099520-564bb36a3a6b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=900&q=80"
-                alt="University campus building"
-                className="absolute inset-0 w-full h-full object-cover"
-                style={{ filter: "grayscale(25%) brightness(0.6)" }}
-              />
-              {/* overlays */}
-              <div className="absolute inset-0" style={{ background: "linear-gradient(to right, var(--surface-1) 0%, transparent 30%)" }} />
-              <div className="absolute inset-0" style={{ background: "linear-gradient(160deg, rgba(109,86,164,0.35) 0%, transparent 60%)" }} />
-              {/* Rank number */}
-              <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6">
-                <div className="rounded-2xl px-6 py-5 flex flex-col items-center" style={{ background: "rgba(255,255,255,.88)", backdropFilter: "blur(12px)", border: "1px solid var(--hairline)" }}>
-                  <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text-2)", letterSpacing: "0.07em", textTransform: "uppercase" }}>
-                    Sample rank · CSE 2025
+            {/* body */}
+            <div className="relative grid grid-cols-1 md:grid-cols-[1fr_1fr]">
+              {/* left — national rank ring */}
+              <div className="p-7 md:p-9 flex items-center gap-6 md:gap-8" style={{ borderBottom: "1px solid var(--hairline)" }}>
+                <div className="relative shrink-0" style={{ width: 132, height: 132 }}>
+                  <svg viewBox="0 0 120 120" width="132" height="132">
+                    <defs>
+                      <linearGradient id="rankRing" x1="0" y1="0" x2="1" y2="1">
+                        <stop offset="0%" stopColor="var(--violet)" />
+                        <stop offset="100%" stopColor="var(--lime)" />
+                      </linearGradient>
+                    </defs>
+                    <circle cx="60" cy="60" r="52" fill="none" stroke="var(--hairline-strong)" strokeWidth="9" />
+                    <motion.circle
+                      cx="60" cy="60" r="52" fill="none" stroke="url(#rankRing)" strokeWidth="9" strokeLinecap="round"
+                      style={{ rotate: -90, transformOrigin: "60px 60px" }}
+                      initial={{ pathLength: 0 }}
+                      whileInView={{ pathLength: 0.98 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 1.5, ease, delay: 0.3 }}
+                    />
+                  </svg>
+                  <div className="absolute inset-0 flex flex-col items-center justify-center">
+                    <span style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 30, color: "var(--text-1)", letterSpacing: "-0.03em", lineHeight: 1 }}>2%</span>
+                    <span style={{ fontFamily: "var(--font-mono)", fontSize: 9, color: "var(--text-3)", letterSpacing: "0.08em", textTransform: "uppercase", marginTop: 2 }}>top pct</span>
                   </div>
-                  <div className="mt-2 flex items-baseline gap-2">
-                    <span style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "clamp(56px,9vw,88px)", color: "var(--text-1)", letterSpacing: "-0.04em", lineHeight: 0.9, textShadow: "none" }}>
-                      4,217
-                    </span>
-                    <span style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: 20, color: "var(--text-3)" }}>
-                      / 218k
-                    </span>
+                </div>
+                <div>
+                  <span style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "var(--text-3)", letterSpacing: "0.07em", textTransform: "uppercase" }}>National rank · sample student</span>
+                  <div className="mt-1.5 flex items-baseline gap-1.5">
+                    <span style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "clamp(38px,6vw,52px)", color: "var(--text-1)", letterSpacing: "-0.04em", lineHeight: 0.9 }}>4,217</span>
+                    <span style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: 16, color: "var(--text-3)" }}>/ 218k</span>
                   </div>
-                  <div className="mt-3 inline-flex items-center gap-2 rounded-full px-3 py-1" style={{ background: "rgba(201,220,83,0.15)", border: "1px solid rgba(201,220,83,0.4)" }}>
-                    <span className="block rounded-full" style={{ width: 6, height: 6, background: "var(--lime)" }} />
-                    <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--lime-text)", letterSpacing: "0.05em" }}>TOP 2% NATIONALLY</span>
+                  <div className="mt-3 inline-flex items-center gap-1.5">
+                    <span style={{ fontFamily: "var(--font-mono)", fontSize: 9, color: "var(--text-3)", letterSpacing: "0.07em", textTransform: "uppercase" }}>Read by 50+ employers</span>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
 
-          {/* Benefits — icon cards grid */}
-          <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {/* right — batch band distribution */}
+              <div className="p-7 md:p-9" style={{ borderLeft: "1px solid var(--hairline)" }}>
+                <div className="flex items-center justify-between mb-5">
+                  <span style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "var(--text-3)", letterSpacing: "0.07em", textTransform: "uppercase" }}>Batch distribution</span>
+                  <span style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "var(--text-3)", letterSpacing: "0.03em" }}>214 students</span>
+                </div>
+                <div className="flex items-end gap-3" style={{ height: 118 }}>
+                  {[
+                    { k: "A", pct: 0.9, c: "var(--lime-text)", n: 58 },
+                    { k: "B", pct: 0.66, c: "var(--teal-text)", n: 82 },
+                    { k: "C", pct: 0.44, c: "var(--violet)", n: 49 },
+                    { k: "D", pct: 0.22, c: "var(--amber-text)", n: 25 },
+                  ].map((b, i) => (
+                    <div key={b.k} className="flex-1 flex flex-col items-center gap-2 h-full justify-end">
+                      <span style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "var(--text-2)", fontVariantNumeric: "tabular-nums" }}>{b.n}</span>
+                      <motion.div
+                        className="w-full rounded-t-[5px]"
+                        style={{ background: b.c, opacity: 0.9, transformOrigin: "bottom" }}
+                        initial={{ height: 0 }}
+                        whileInView={{ height: `${b.pct * 100}%` }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.7, ease, delay: 0.4 + i * 0.1 }}
+                      />
+                      <span style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "var(--text-3)", letterSpacing: "0.04em" }}>{b.k}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* ── Capability grid — numbered, animated on scroll + hover ── */}
+          <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {[
-              { icon: BarChart2,   color: "var(--violet)", label: "Batch analytics dashboard", body: "Live cohort distribution, band-wise breakdown, drill into any individual student." },
-              { icon: Eye,         color: "var(--teal-text)",   label: "Employer-pool visibility",  body: "Your Band A and B students appear in the same talent pool 50+ employers already search." },
-              { icon: Sparkles,    color: "var(--lime-text)",   label: "AI batch insight",          body: "Plain-English summary of where your batch is strong, where it's not, and what to address before drives." },
-              { icon: Layers,      color: "var(--violet)", label: "Gap map",                   body: "Layer-by-layer weakness map across the batch — directly actionable by your training team." },
-              { icon: TrendingUp,  color: "var(--teal-text)",   label: "Year-over-year tracking",   body: "Compare this year's batch against last year's on the same rubric. Real improvement is now measurable." },
-              { icon: CalendarClock, color: "var(--lime-text)", label: "Exam-window control",       body: "You set the dates, you set the integrity requirements. EduBridge runs the operational side." },
-            ].map((f) => {
+              { icon: BarChart2, color: "var(--violet)", label: "Batch analytics dashboard", phrase: "Live cohort view, drill to any student." },
+              { icon: Layers, color: "var(--lime-text)", label: "Gap map", phrase: "Layer-by-layer weak points, batch-wide." },
+              { icon: Eye, color: "var(--teal-text)", label: "Employer-pool visibility", phrase: "Band A/B students, seen by 50+ employers." },
+              { icon: Sparkles, color: "var(--lime-text)", label: "AI batch insight", phrase: "Plain-English summary of where you stand." },
+              { icon: TrendingUp, color: "var(--teal-text)", label: "Year-over-year tracking", phrase: "This year vs. last year — same rubric." },
+              { icon: CalendarClock, color: "var(--violet)", label: "Exam-window control", phrase: "You set the dates. We run the rest." },
+            ].map((f, i) => {
               const Icon = f.icon;
               return (
-                <div
+                <motion.div
                   key={f.label}
-                  className="grain rounded-[14px] p-5 flex flex-col gap-4"
+                  initial={{ opacity: 0, y: 22 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-40px" }}
+                  transition={{ duration: 0.5, ease, delay: i * 0.06 }}
+                  whileHover={{ y: -4 }}
+                  className="group grain relative rounded-[16px] p-5 md:p-6 overflow-hidden"
                   style={{ background: "var(--surface-1)", border: "1px solid var(--hairline-strong)" }}
                 >
-                  <div className="rounded-[10px] flex items-center justify-center" style={{ width: 38, height: 38, background: `color-mix(in srgb, ${f.color} 12%, transparent)`, border: `1px solid color-mix(in srgb, ${f.color} 25%, transparent)` }}>
-                    <Icon size={17} color={f.color} strokeWidth={1.8} />
-                  </div>
-                  <div>
-                    <div style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 15, color: "var(--text-1)", letterSpacing: "-0.01em", lineHeight: 1.2 }}>
-                      {f.label}
+                  {/* animated top accent */}
+                  <div className="absolute top-0 left-0 h-[2px] w-full origin-left scale-x-0 transition-transform duration-500 group-hover:scale-x-100" style={{ background: f.color }} />
+                  <div className="flex items-start justify-between">
+                    <div className="rounded-[10px] flex items-center justify-center transition-transform duration-300 group-hover:scale-110" style={{ width: 38, height: 38, background: `color-mix(in srgb, ${f.color} 12%, transparent)`, border: `1px solid color-mix(in srgb, ${f.color} 25%, transparent)` }}>
+                      <motion.span
+                        className="inline-flex"
+                        animate={{ rotate: [0, -8, 8, 0], scale: [1, 1.12, 1] }}
+                        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: i * 0.25 }}
+                      >
+                        <Icon size={17} color={f.color} strokeWidth={1.8} />
+                      </motion.span>
                     </div>
-                    <div className="mt-2" style={{ fontFamily: "var(--font-body)", fontSize: 13.5, color: "var(--text-2)", lineHeight: 1.65 }}>
-                      {f.body}
-                    </div>
+                    <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text-3)", letterSpacing: "0.04em" }}>0{i + 1}</span>
                   </div>
-                </div>
+                  <div className="mt-5">
+                    <div style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 16, color: "var(--text-1)", letterSpacing: "-0.015em", lineHeight: 1.2 }}>{f.label}</div>
+                    <div className="mt-1.5" style={{ fontFamily: "var(--font-body)", fontSize: 13.5, color: "var(--text-2)", lineHeight: 1.5 }}>{f.phrase}</div>
+                  </div>
+                </motion.div>
               );
             })}
+          </div>
+
+          {/* ── CTA ── */}
+          <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <a
+              href="#for-colleges"
+              className="group inline-flex items-center gap-2 rounded-full transition-transform active:scale-[0.98] hover:brightness-[1.04]"
+              style={{ height: 54, padding: "0 28px", background: "var(--violet)", color: "var(--on-violet)", fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 15, letterSpacing: "-0.01em", boxShadow: "var(--shadow-card)", textDecoration: "none" }}
+            >
+              Open a live sample dashboard
+              <span className="transition-transform group-hover:translate-x-1">→</span>
+            </a>
+            <a
+              href="#for-colleges"
+              className="inline-flex items-center justify-center transition-colors hover:text-[var(--text-1)]"
+              style={{ color: "var(--text-2)", fontFamily: "var(--font-body)", fontWeight: 500, fontSize: 14, textDecoration: "none" }}
+            >
+              Download sample report →
+            </a>
           </div>
         </Section>
 
@@ -1091,38 +1349,102 @@ export function ForCollegesPage() {
         {/* ─── 5. What students get ─── */}
         <Section>
           <Eyebrow>For your students</Eyebrow>
-          <h2 className="mt-5" style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "clamp(28px,4vw,40px)", color: "var(--text-1)", letterSpacing: "-0.03em", lineHeight: 1.06 }}>
-            A verified credential they carry for life.
+          <h2 className="mt-5 max-w-[640px]" style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "clamp(28px,4vw,44px)", color: "var(--text-1)", letterSpacing: "-0.03em", lineHeight: 1.04 }}>
+            A verified credential they{" "}
+            <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 400, color: "var(--lime-text)" }}>carry for life.</span>
           </h2>
-          <p className="mt-5 max-w-[680px]" style={PROSE}>
-            Each student receives a composite score, a national rank, a layer-by-layer breakdown, and
-            role-readiness verdicts for eight common entry-level roles. Band A and Band B students are
-            visible to employers searching the JREE talent pool.
-          </p>
 
-          <div className="mt-10 flex flex-col gap-0">
-            {[
-              { label: "Free to take", body: "Students never pay. The college fee covers everything." },
-              { label: "Knowing where they stand", body: "A national rank, not just a college rank — calmly and clearly framed." },
-              { label: "Employers come to them", body: "Band A and B profiles surface in employer searches. No more cold-applying." },
-              { label: "AI interview feedback", body: "Personalised, layer-wise notes on what to improve before placement season — phrased as growth, not weakness." },
-              { label: "Shareable certificate", body: "Tamper-evident QR-verified score they can attach to any application, anywhere." },
-            ].map((f, i) => (
-              <div
-                key={f.label}
-                className="py-5 flex items-baseline gap-6"
-                style={{ borderTop: i === 0 ? "1px solid var(--hairline-strong)" : "1px solid var(--hairline)", borderBottom: i === 4 ? "1px solid var(--hairline-strong)" : "none" }}
-              >
-                <span style={{ fontFamily: "var(--font-mono)", fontWeight: 600, fontSize: 13, color: "var(--text-1)", letterSpacing: "-0.01em", flexShrink: 0, minWidth: 200 }}>{f.label}</span>
-                <span style={{ fontFamily: "var(--font-body)", fontSize: "clamp(14px,1.6vw,16px)", color: "var(--text-2)", lineHeight: 1.55 }}>{f.body}</span>
+          <div className="mt-12 grid grid-cols-1 md:grid-cols-[380px_1fr] gap-8 md:gap-14 items-start">
+            {/* ── The credential card (visual) ── */}
+            <motion.div
+              initial={{ opacity: 0, y: 26 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.7, ease }}
+              whileHover={{ y: -6 }}
+              className="grain relative rounded-[20px] p-6 overflow-hidden"
+              style={{ background: "var(--surface-1)", border: "1px solid var(--hairline-strong)", boxShadow: "var(--shadow-card)" }}
+            >
+              <div className="absolute -top-16 -right-12 pointer-events-none" style={{ width: 220, height: 220, background: "radial-gradient(circle, rgba(201,220,83,0.16), transparent 70%)" }} />
+
+              {/* header */}
+              <div className="relative flex items-center justify-between">
+                <span style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "var(--text-3)", letterSpacing: "0.09em", textTransform: "uppercase" }}>JREE credential</span>
+                <div className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1" style={{ background: "color-mix(in srgb, var(--teal-text) 12%, transparent)", border: "1px solid color-mix(in srgb, var(--teal-text) 30%, transparent)" }}>
+                  <span className="rounded-full" style={{ width: 5, height: 5, background: "var(--teal-text)" }} />
+                  <span style={{ fontFamily: "var(--font-mono)", fontSize: 9, color: "var(--teal-text)", letterSpacing: "0.07em", textTransform: "uppercase" }}>Verified</span>
+                </div>
               </div>
-            ))}
-          </div>
 
-          <p className="mt-10 max-w-[640px]" style={{ fontFamily: "var(--font-body)", fontSize: 14, color: "var(--text-3)", lineHeight: 1.65 }}>
-            Score bands and gap maps are framed as where to focus before placement season — never as a
-            verdict on a student. The aim is to move people up, not sort them out.
-          </p>
+              {/* score + band */}
+              <div className="relative mt-6 flex items-end justify-between">
+                <div>
+                  <div className="flex items-baseline gap-1">
+                    <span style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 72, color: "var(--text-1)", letterSpacing: "-0.04em", lineHeight: 0.85 }}>87</span>
+                    <span style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: 18, color: "var(--text-3)" }}>/100</span>
+                  </div>
+                  <span className="mt-2 inline-block" style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "var(--text-3)", letterSpacing: "0.07em", textTransform: "uppercase" }}>Composite score</span>
+                </div>
+                <div className="rounded-[10px] px-3 py-2 text-center" style={{ background: "var(--lime)", color: "var(--bg)" }}>
+                  <div style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 22, letterSpacing: "-0.02em", lineHeight: 1 }}>A</div>
+                  <div style={{ fontFamily: "var(--font-mono)", fontSize: 8, letterSpacing: "0.06em", textTransform: "uppercase", marginTop: 2 }}>Band</div>
+                </div>
+              </div>
+
+              {/* rank */}
+              <div className="relative mt-6 pt-5 flex items-center justify-between" style={{ borderTop: "1px solid var(--hairline)" }}>
+                <div>
+                  <div style={{ fontFamily: "var(--font-mono)", fontSize: 9, color: "var(--text-3)", letterSpacing: "0.07em", textTransform: "uppercase" }}>National rank</div>
+                  <div className="mt-1" style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 18, color: "var(--text-1)", letterSpacing: "-0.02em" }}>4,217 <span style={{ color: "var(--text-3)", fontWeight: 600, fontSize: 13 }}>/ 218k</span></div>
+                </div>
+                {/* mini QR */}
+                <div className="grid gap-[2px] rounded-[4px] p-1.5" style={{ gridTemplateColumns: "repeat(7,1fr)", background: "var(--surface-3)" }}>
+                  {["1011101","1000101","1011001","0101010","1001101","1010001","1011101"].join("").split("").map((c, i) => (
+                    <span key={i} className="rounded-[1px]" style={{ width: 5, height: 5, background: c === "1" ? "var(--text-1)" : "transparent" }} />
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+
+            {/* ── Benefits — short phrases only ── */}
+            <div>
+              <p className="mb-2" style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontSize: "clamp(17px,2vw,20px)", color: "var(--text-2)", lineHeight: 1.4 }}>
+                One score. One rank. One profile employers trust.
+              </p>
+              <div className="mt-6 flex flex-col">
+                {[
+                  { label: "Free to take", phrase: "Students never pay." },
+                  { label: "National rank", phrase: "Where they stand, nationally." },
+                  { label: "Employers come to them", phrase: "Found, not cold-applying." },
+                  { label: "AI interview feedback", phrase: "Layer-wise growth notes." },
+                  { label: "Shareable certificate", phrase: "QR-verified, for life." },
+                ].map((f, i) => (
+                  <motion.div
+                    key={f.label}
+                    initial={{ opacity: 0, x: 18 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true, margin: "-30px" }}
+                    transition={{ duration: 0.45, ease, delay: i * 0.07 }}
+                    className="group flex items-center justify-between gap-4 py-4"
+                    style={{ borderTop: "1px solid var(--hairline)", borderBottom: i === 4 ? "1px solid var(--hairline)" : "none" }}
+                  >
+                    <div className="flex items-center gap-3">
+                      <span className="rounded-full transition-transform duration-300 group-hover:scale-150" style={{ width: 6, height: 6, background: "var(--lime-text)", flexShrink: 0 }} />
+                      <span style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "clamp(15px,1.8vw,18px)", color: "var(--text-1)", letterSpacing: "-0.01em" }}>{f.label}</span>
+                    </div>
+                    <span className="text-right" style={{ fontFamily: "var(--font-body)", fontSize: 13.5, color: "var(--text-3)", lineHeight: 1.35 }}>{f.phrase}</span>
+                  </motion.div>
+                ))}
+              </div>
+
+              {/* condensed footnote */}
+              <div className="mt-6 inline-flex items-center gap-2 rounded-full px-3.5 py-2" style={{ background: "color-mix(in srgb, var(--violet) 8%, transparent)", border: "1px solid color-mix(in srgb, var(--violet) 22%, transparent)" }}>
+                <span style={{ fontFamily: "var(--font-body)", fontSize: 12.5, color: "var(--text-2)", lineHeight: 1.4 }}>
+                  Framed as where to focus — never a verdict.
+                </span>
+              </div>
+            </div>
+          </div>
         </Section>
 
         <Rule />
