@@ -84,7 +84,7 @@ function Select({ label, value, onChange, options }: { label: string; value: str
 }
 
 function PrimaryButton({ children, disabled, onClick, loading = false }: { children: ReactNode; disabled?: boolean; onClick: () => void; loading?: boolean }) {
-  return <button disabled={disabled || loading} onClick={onClick} className="h-[52px] w-full rounded-full bg-[var(--lime)] px-5 font-[var(--font-display)] text-[15px] font-bold text-[var(--bg)] transition hover:brightness-105 active:scale-[.98] disabled:cursor-not-allowed disabled:bg-[var(--hairline-strong)] disabled:text-[var(--text-3)]">{loading ? "Working…" : children}</button>;
+  return <button disabled={disabled || loading} onClick={onClick} className="h-[52px] w-full rounded-full bg-[var(--lime)] px-5 font-[var(--font-display)] text-[15px] font-bold text-[#0B090F] transition hover:brightness-105 active:scale-[.98] disabled:cursor-not-allowed disabled:bg-[var(--hairline-strong)] disabled:text-[var(--text-3)]">{loading ? "Working…" : children}</button>;
 }
 
 function Back({ onClick }: { onClick: () => void }) {
@@ -96,7 +96,7 @@ function Steps({ step }: { step: number }) {
   return <ol className="flex items-start" aria-label="Registration progress">{labels.map((label, index) => {
     const number = index + 1; const complete = step > number;
     return <li key={label} className="flex min-w-0 flex-1 items-start last:flex-none">
-      <div className="flex flex-col items-center"><span className="flex h-7 w-7 items-center justify-center rounded-full border text-[11px] font-semibold" style={{ background: complete ? "var(--lime)" : number === step ? "var(--violet)" : "var(--bg)", color: complete ? "var(--bg)" : number === step ? "white" : "var(--text-3)", borderColor: complete || number === step ? "transparent" : "var(--hairline-strong)" }}>{complete ? <Check size={13} strokeWidth={3} /> : number}</span><span className="mt-1.5 whitespace-nowrap text-center font-[var(--font-mono)] text-[8px] uppercase tracking-[.06em] text-[var(--text-3)] sm:text-[9px]">{label}</span></div>
+      <div className="flex flex-col items-center"><span className="flex h-7 w-7 items-center justify-center rounded-full border text-[11px] font-semibold" style={{ background: complete ? "var(--lime)" : number === step ? "var(--violet)" : "var(--bg)", color: complete ? "#0B090F" : number === step ? "var(--text-1)" : "var(--text-3)", borderColor: complete || number === step ? "transparent" : "var(--hairline-strong)" }}>{complete ? <Check size={13} strokeWidth={3} /> : number}</span><span className="mt-1.5 whitespace-nowrap text-center font-[var(--font-mono)] text-[8px] uppercase tracking-[.06em] text-[var(--text-3)] sm:text-[9px]">{label}</span></div>
       {index < labels.length - 1 && <span className="mx-1 mt-[13px] h-px flex-1" style={{ background: complete ? "var(--lime)" : "var(--hairline-strong)" }} />}
     </li>;
   })}</ol>;

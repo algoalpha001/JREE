@@ -1104,7 +1104,7 @@ export function ForCollegesPage() {
                   onClick={() => { window.location.hash = "college-signup"; }}
                   className="inline-flex items-center justify-center rounded-full transition-all hover:scale-[1.02] active:scale-[0.98]"
                   style={{
-                    height: 52, padding: "0 26px", background: "var(--lime)", color: "var(--bg)",
+                    height: 52, padding: "0 26px", background: "var(--lime)", color: "#000000",
                     fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 15, letterSpacing: "-0.01em",
                     boxShadow: "0 8px 32px rgba(201,220,83,0.25)", border: "none", cursor: "pointer",
                   }}
