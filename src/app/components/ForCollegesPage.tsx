@@ -1100,23 +1100,23 @@ export function ForCollegesPage() {
               </p>
 
               <div className="mt-9 flex flex-wrap items-center gap-4">
-                <a
-                  href="#colleges-cta"
+                <button
+                  onClick={() => { window.location.hash = "college-signup"; }}
                   className="inline-flex items-center justify-center rounded-full transition-all hover:scale-[1.02] active:scale-[0.98]"
                   style={{
-                    height: 52, padding: "0 26px", background: "var(--violet)", color: "var(--on-violet)",
+                    height: 52, padding: "0 26px", background: "var(--lime)", color: "var(--bg)",
                     fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 15, letterSpacing: "-0.01em",
-                    boxShadow: "var(--shadow-card)", textDecoration: "none",
+                    boxShadow: "0 8px 32px rgba(201,220,83,0.25)", border: "none", cursor: "pointer",
                   }}
                 >
-                  Request a demo
-                </a>
+                  Register your college →
+                </button>
                 <a
-                  href="#for-colleges"
+                  href="#colleges-cta"
                   className="inline-flex items-center justify-center transition-colors hover:text-[var(--text-1)]"
                   style={{ color: "var(--text-2)", fontFamily: "var(--font-body)", fontWeight: 500, fontSize: 14, textDecoration: "none" }}
                 >
-                  Download sample report →
+                  Request a demo instead
                 </a>
               </div>
 
@@ -1606,13 +1606,36 @@ export function ForCollegesPage() {
             </span>
           </h2>
           <p className="mt-5 max-w-[640px]" style={{ fontFamily: "var(--font-body)", fontSize: "clamp(15px,1.7vw,17px)", color: "var(--text-2)", lineHeight: 1.65 }}>
-            Registration is managed by the EduBridge sales team. Fill the form and we'll reach out within 24 hours
-            with a quote, a sample report, and an onboarding timeline tailored to your batch.
+            Ready to go? Register your college directly — setup takes under 10 minutes. Or fill the form below and our sales team will reach out within 24 hours.
           </p>
 
-          <div className="mt-10">
-            <CallbackForm />
+          {/* Self-registration CTA strip */}
+          <div className="mt-8 rounded-[16px] px-6 py-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-5" style={{ background: "var(--surface-1)", border: "1px solid var(--lime-border)", boxShadow: "var(--shadow-card)" }}>
+            <div>
+              <div style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 17, color: "var(--text-1)", letterSpacing: "-0.02em", lineHeight: 1.2 }}>
+                Register in under 10 minutes
+              </div>
+              <div className="mt-1" style={{ fontFamily: "var(--font-body)", fontSize: 13.5, color: "var(--text-3)", lineHeight: 1.4 }}>
+                Institution → Your details → Authorisation → Email verify. Approval within 1 working day.
+              </div>
+            </div>
+            <button
+              onClick={() => { window.location.hash = "college-signup"; }}
+              className="inline-flex items-center justify-center rounded-full flex-shrink-0 transition-all hover:scale-[1.02] active:scale-[0.98]"
+              style={{ height: 48, padding: "0 24px", background: "var(--lime)", color: "var(--bg)", fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 14, letterSpacing: "-0.01em", border: "none", cursor: "pointer", boxShadow: "0 6px 24px rgba(201,220,83,0.22)", whiteSpace: "nowrap" }}
+            >
+              Register your college →
+            </button>
           </div>
+
+          {/* divider */}
+          <div className="mt-10 mb-8 flex items-center gap-4">
+            <div className="flex-1 h-px" style={{ background: "var(--hairline-strong)" }} />
+            <span style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "var(--text-3)", letterSpacing: "0.07em", textTransform: "uppercase" }}>Or request a callback</span>
+            <div className="flex-1 h-px" style={{ background: "var(--hairline-strong)" }} />
+          </div>
+
+          <CallbackForm />
         </div>
 
       </div>

@@ -18,6 +18,7 @@ import { AboutUsPage } from "./components/AboutUsPage";
 import { ForEmployersPage } from "./components/ForEmployersPage";
 import { ForCollegesPage } from "./components/ForCollegesPage";
 import { Onboarding } from "./components/Onboarding";
+import { CollegeOnboarding } from "./components/CollegeOnboarding";
 import { Login } from "./components/Login";
 import { ResumeBuilder } from "./components/ResumeBuilder";
 import { PostSignup, PostRoute } from "./components/PostSignup";
@@ -28,13 +29,14 @@ import { PrivacyPolicyPage } from "./components/PrivacyPolicyPage";
 import { EntryPage } from "./components/EntryPage";
 import { ImprovementPlanPage } from "./components/ImprovementPlanPage";
 
-type Route = "landing" | "learn" | "signup" | "login" | "resume-builder" | "styleguide" | "about-us" | "for-students" | "for-employers" | "for-colleges" | "terms" | "security" | "privacy" | PostRoute;
+type Route = "landing" | "learn" | "signup" | "college-signup" | "login" | "resume-builder" | "styleguide" | "about-us" | "for-students" | "for-employers" | "for-colleges" | "terms" | "security" | "privacy" | PostRoute;
 const POST_ROUTES: PostRoute[] = ["dashboard", "exam/tutorial", "exam/check", "exam/active", "exam/transition", "exam/priya", "exam/processing", "results"];
 
 function getRoute(): Route {
   if (typeof window === "undefined") return "landing";
   const h = window.location.hash.replace(/^#/, "");
   if (h === "signup") return "signup";
+  if (h === "college-signup") return "college-signup";
   if (h === "login") return "login";
   if (h === "resume-builder") return "resume-builder";
   if (h === "styleguide") return "styleguide";
@@ -68,6 +70,15 @@ export default function App() {
       <div className="min-h-screen overflow-x-hidden" style={{ background: "var(--bg)", color: "var(--text-1)", fontFamily: "var(--font-body)" }}>
         <SignupHeader />
         <Onboarding />
+      </div>
+    );
+  }
+
+  if (route === "college-signup") {
+    return (
+      <div className="min-h-screen overflow-x-hidden" style={{ background: "var(--bg)", color: "var(--text-1)", fontFamily: "var(--font-body)" }}>
+        <CollegeSignupHeader />
+        <CollegeOnboarding />
       </div>
     );
   }
@@ -170,6 +181,27 @@ function StudentPage() {
 
 function SignupLogo() {
   return <span style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 20, color: "var(--text-1)", letterSpacing: "-.03em" }}>JREE</span>;
+}
+
+function CollegeSignupHeader() {
+  const goHome = () => { window.location.hash = "for-colleges"; };
+  return (
+    <header className="fixed top-0 left-0 right-0 z-[100]" style={{ background: "rgba(250,247,240,0.94)", backdropFilter: "blur(24px) saturate(1.5)", WebkitBackdropFilter: "blur(24px) saturate(1.5)", borderBottom: "1px solid var(--violet-border)" }}>
+      <div className="max-w-[1160px] mx-auto px-5 md:px-[72px] h-[54px] md:h-[60px] flex items-center justify-between">
+        <button onClick={goHome} className="flex flex-col leading-none" aria-label="Back to For Colleges">
+          <SignupLogo />
+          <span style={{ fontFamily: "var(--font-body)", fontSize: 11, color: "var(--text-2)", marginTop: 2 }}>College Partner Registration</span>
+        </button>
+        <button
+          onClick={goHome}
+          className="rounded-full transition-all hover:bg-[var(--violet-soft)] active:scale-[0.97]"
+          style={{ height: 36, padding: "0 16px", background: "transparent", border: "1px solid var(--violet-border)", color: "var(--text-1)", fontFamily: "var(--font-body)", fontWeight: 500, fontSize: 13 }}
+        >
+          ← Back to colleges
+        </button>
+      </div>
+    </header>
+  );
 }
 
 function SignupHeader() {
